@@ -1,0 +1,117 @@
+{
+  "nav": {
+    "tours": "Tours",
+    "how": "How it works",
+    "included": "What's included",
+    "faq": "FAQ",
+    "book": "Book now"
+  },
+  "hero": {
+    "title": "Let's paddle together",
+    "lead": "Kayak trips and river expeditions. We handle the route, gear and safety — you just paddle and enjoy the view.",
+    "cta_primary": "Pick dates",
+    "cta_secondary": "See tours"
+  },
+  "tours": {
+    "title": "Tours",
+    "subtitle": "We'll match a trip to your experience: from a calm day on the water to several days on the route.",
+    "price_label": "Price",
+    "price_on_request": "on request",
+    "more": "Book this tour"
+  },
+  "how": {
+    "title": "How a trip works",
+    "subtitle": "Step by step, no surprises.",
+    "steps": [
+      {
+        "title": "Request",
+        "text": "Send us your dates, group size and experience. We'll suggest a fitting route."
+      },
+      {
+        "title": "Prep",
+        "text": "We send a packing list and a briefing on what to bring and wear."
+      },
+      {
+        "title": "Safety briefing",
+        "text": "Before the start we cover seating, paddling and water safety rules."
+      },
+      {
+        "title": "On the route",
+        "text": "We go with an experienced guide, with stops to rest and take photos."
+      }
+    ]
+  },
+  "included": {
+    "title": "What's included",
+    "items": [
+      "Kayaks, paddles and life jackets",
+      "Experienced guide",
+      "Safety briefing",
+      "First-aid kit and communication on the route"
+    ]
+  },
+  "bring": {
+    "title": "What to bring",
+    "items": [
+      "A change of clothes in a waterproof bag",
+      "A hat and sunscreen",
+      "Shoes you don't mind getting wet",
+      "Personal medication and documents"
+    ]
+  },
+  "about": {
+    "title": "About us",
+    "subtitle": "Our team of guides and the agency's story."
+  },
+  "reviews": {
+    "title": "Reviews",
+    "subtitle": "What people say after paddling with us."
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "subtitle": "If your question isn't here, message us on Instagram.",
+    "items": [
+      {
+        "q": "Do I need experience?",
+        "a": "No. We have calm routes for beginners, and we run a safety briefing before every trip."
+      },
+      {
+        "q": "What if the weather turns bad?",
+        "a": "We track the forecast and water conditions. If it's unsafe, we'll offer another date or route."
+      },
+      {
+        "q": "Can I bring kids?",
+        "a": "Yes, on some routes. Tell us the children's age and we'll suggest a suitable option."
+      },
+      {
+        "q": "How do I pay?",
+        "a": "Payment terms and deposit are confirmed when we confirm your booking."
+      }
+    ]
+  },
+  "book": {
+    "title": "Book your trip",
+    "subtitle": "Leave your details. The form prepares a message, you send it however is easiest for you.",
+    "name": "Name",
+    "contact": "Phone or @handle",
+    "people": "People in the group",
+    "tour": "Tour",
+    "date": "Preferred date",
+    "note": "Comment",
+    "note_placeholder": "Paddling experience, questions, requests",
+    "submit": "Prepare request",
+    "tour_help": "Need help choosing",
+    "error_required": "Please fill in your name and contact.",
+    "status_copied": "Request text copied. Opening Instagram — paste it into a message.",
+    "status_fallback": "Open Instagram and send us your details."
+  },
+  "contacts": {
+    "title": "Contacts",
+    "instagram": "Instagram",
+    "phone": "Phone",
+    "address": "Address"
+  },
+  "footer": {
+    "rights": "All rights reserved"
+  }
+}
