@@ -1,0 +1,116 @@
+$text: #1d2421;
+$muted: #9aa19d;
+$accent: #f27a2c;
+
+.destinations {
+  width: 1040px;
+  margin: auto;
+  max-width: 100%;
+  overflow: hidden;
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: $text;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__all {
+    font-size: 11px;
+    color: $muted;
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover {
+      color: $text;
+    }
+  }
+
+  // ---------- кнопки прокрутки ----------
+  &__nav {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: $text;
+    background: #fff;
+    border: 1px solid #e3e7e4;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s, border-color 0.25s,
+      transform 0.2s, opacity 0.25s;
+
+    .chevron {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+
+      &--prev {
+        transform: scaleX(-1);
+      }
+    }
+
+    &:hover:not(:disabled) {
+      color: #fff;
+      background: $accent;
+      border-color: $accent;
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.92);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $accent;
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+  }
+
+  // даём тени и подъёму карточек место, чтобы их не обрезало
+  &__slider {
+    margin: -12px;
+    padding: 12px 12px 28px;
+  }
+
+  &__slide {
+    // 'auto' берёт ширину слайда из CSS
+    width: 240px;
+    height: auto;
+  }
+
+  // на телефонах достаточно свайпа
+  @media (max-width: 767px) {
+    &__nav {
+      display: none;
+    }
+  }
+}
