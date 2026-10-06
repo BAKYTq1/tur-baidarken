@@ -1,0 +1,179 @@
+$bg: #1f4a3d;
+$orange: #f28a1e;
+$orange-hover: #ff9a35;
+$ease: cubic-bezier(0.22, 0.8, 0.3, 1);
+
+.picker {
+  margin-top: 50px;
+  padding: 56px 24px;
+  background: $bg;
+
+  &__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 48px;
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+
+  // ---------- текст ----------
+  &__label {
+    display: block;
+    margin-bottom: 14px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: $orange;
+  }
+
+  &__title {
+    max-width: 420px;
+    margin: 0 0 14px;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  &__text {
+    max-width: 420px;
+    margin: 0 0 24px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    background: $orange;
+    border-radius: 999px;
+    transition: background 0.25s, transform 0.2s, box-shadow 0.3s;
+
+    svg {
+      width: 15px;
+      height: 15px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.3s $ease;
+    }
+
+    &:hover {
+      background: $orange-hover;
+      box-shadow: 0 10px 24px rgba(242, 138, 30, 0.35);
+
+      svg {
+        transform: translateX(3px);
+      }
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
+  }
+
+  // ---------- шаги ----------
+  &__steps {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 20px;
+    list-style: none;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 22px;
+  }
+
+  &__step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 10px 12px;
+    font: inherit;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: left;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    border-radius: 14px;
+    transition: background 0.35s, color 0.35s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $orange;
+      outline-offset: 2px;
+    }
+
+    &.is-active {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  &__num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 50%;
+    transition: background 0.35s, transform 0.4s $ease;
+  }
+
+  &__step.is-active &__num {
+    background: $orange;
+    transform: scale(1.12);
+  }
+
+  &__step-text {
+    font-size: 13px;
+  }
+
+  // ---------- адаптив ----------
+  @media (max-width: 800px) {
+    padding: 40px 20px;
+
+    &__inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    &__title {
+      font-size: 26px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__step,
+    &__num,
+    &__btn,
+    &__btn svg {
+      transition: none;
+    }
+  }
+}

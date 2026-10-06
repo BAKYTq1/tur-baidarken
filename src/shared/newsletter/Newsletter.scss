@@ -1,0 +1,245 @@
+$bg: #1b4538;
+$orange: #f28a1e;
+$orange-hover: #ff9a35;
+$ease: cubic-bezier(0.22, 0.8, 0.3, 1);
+
+.newsletter {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 40px;
+  max-width: 1040px;
+  margin: 50px auto 0;
+  padding: 40px 44px;
+  overflow: hidden;
+  background: $bg;
+  border-radius: 26px;
+
+  // ---------- декоративный круг справа ----------
+  &__circle {
+    position: absolute;
+    top: -30px;
+    right: -110px;
+    width: 340px;
+    height: 340px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: circle-drift 12s ease-in-out infinite;
+  }
+
+  &__info,
+  &__side {
+    position: relative;
+    z-index: 1;
+  }
+
+  // ---------- текст ----------
+  &__label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: $orange;
+  }
+
+  &__title {
+    max-width: 360px;
+    margin: 0 0 12px;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  &__text {
+    max-width: 320px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  // ---------- форма ----------
+  &__form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px;
+    background: #fff;
+    border-radius: 999px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+    transition: box-shadow 0.25s;
+
+    &:focus-within {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18), 0 0 0 3px rgba($orange, 0.55);
+    }
+
+    &.is-error {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18), 0 0 0 3px rgba(229, 72, 77, 0.7);
+      animation: shake 0.4s;
+    }
+  }
+
+  &__input {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 6px 10px 16px;
+    font: inherit;
+    font-size: 13px;
+    color: #1d2421;
+    background: transparent;
+    border: 0;
+    outline: 0;
+
+    &::placeholder {
+      color: #9aa19d;
+    }
+  }
+
+  &__btn {
+    flex-shrink: 0;
+    padding: 11px 22px;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    background: $orange;
+    border: 0;
+    border-radius: 999px;
+    transition: background 0.25s, transform 0.2s, box-shadow 0.3s;
+
+    &:hover:not(:disabled) {
+      background: $orange-hover;
+      box-shadow: 0 6px 16px rgba(242, 138, 30, 0.4);
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.96);
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: progress;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #1b4538;
+      outline-offset: 2px;
+    }
+  }
+
+  &__error {
+    margin: 10px 0 0 18px;
+    font-size: 11px;
+    color: #ffb4b0;
+  }
+
+  // ---------- успех ----------
+  &__done {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    animation: pop-in 0.5s $ease both;
+  }
+
+  &__check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: $orange;
+    border-radius: 50%;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 24;
+      stroke-dashoffset: 24;
+      animation: draw 0.5s 0.2s ease forwards;
+    }
+  }
+
+  // ---------- адаптив ----------
+  @media (max-width: 800px) {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 32px 24px;
+
+    &__title {
+      font-size: 24px;
+    }
+  }
+
+  @media (max-width: 420px) {
+    &__form {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 8px;
+      border-radius: 24px;
+    }
+
+    &__input {
+      padding: 10px 12px;
+    }
+
+    &__btn {
+      padding: 12px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__circle,
+    &__form.is-error,
+    &__done,
+    &__check svg {
+      animation: none;
+    }
+
+    &__check svg {
+      stroke-dashoffset: 0;
+    }
+
+    &__btn {
+      transition: none;
+    }
+  }
+}
+
+@keyframes circle-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-14px, 10px) scale(1.05); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-6px); }
+  75%      { transform: translateX(6px); }
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}

@@ -1,0 +1,292 @@
+$accent: #f27a2c;
+$accent-soft: #fdeadb;
+$text: #1d2421;
+$muted: #8a928e;
+$radius: 22px;
+$ease: cubic-bezier(0.22, 0.8, 0.3, 1);
+
+.tour-card {
+  width: 100%;
+  max-width: 240px;
+  overflow: hidden;
+  background: #fff;
+  border-radius: $radius;
+  box-shadow: 0 4px 20px rgba(29, 36, 33, 0.08);
+  transition: transform 0.4s $ease, box-shadow 0.4s $ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(29, 36, 33, 0.16);
+  }
+
+  // ---------- изображение ----------
+  &__media {
+    position: relative;
+    height: 170px;
+    overflow: hidden;
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s $ease;
+  }
+
+  &:hover &__img {
+    transform: scale(1.08);
+  }
+
+  // ---------- рейтинг ----------
+  &__rating {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 11px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(20, 28, 25, 0.72);
+    backdrop-filter: blur(6px);
+    border-radius: 10px;
+
+    svg {
+      width: 11px;
+      height: 11px;
+      fill: #fff;
+    }
+  }
+
+  // ---------- лайк ----------
+  &__like {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    color: $text;
+    background: #fff;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.25s $ease, color 0.25s;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      fill: transparent;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linejoin: round;
+      transition: fill 0.25s, stroke 0.25s;
+    }
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.92);
+    }
+
+    &.is-active {
+      animation: like-pop 0.45s $ease;
+
+      svg {
+        fill: #e5484d;
+        stroke: #e5484d;
+      }
+    }
+  }
+
+  // ---------- текст ----------
+  &__body {
+    padding: 16px 16px 14px;
+  }
+
+  &__location {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: $accent;
+  }
+
+  &__title {
+    margin: 8px 0 4px;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: $text;
+  }
+
+  &__meta {
+    margin: 0;
+    font-size: 12px;
+    color: $muted;
+  }
+
+  // ---------- низ карточки ----------
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+  }
+
+  &__price {
+    font-size: 15px;
+    font-weight: 700;
+    color: $text;
+  }
+
+  &__go {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    color: $accent;
+    background: $accent-soft;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s, transform 0.3s $ease;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.3s $ease;
+    }
+  }
+
+  // при наведении на карточку/кнопку — стрелка заливается и «улетает» вверх-вправо
+  &:hover &__go,
+  &__go:focus-visible {
+    color: #fff;
+    background: $accent;
+  }
+
+  &__go:hover svg {
+    transform: translate(2px, -2px);
+  }
+
+  &__go:active {
+    transform: scale(0.92);
+  }
+
+  &__like:focus-visible,
+  &__go:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &,
+    &__img,
+    &__go,
+    &__like {
+      transition: none;
+      animation: none;
+    }
+  }
+}
+
+@keyframes like-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.3); }
+  70%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+// =====================================================
+// Вариант overlay — компактная карточка для карусели
+// =====================================================
+.tour-card--overlay {
+  position: relative;
+  max-width: none;
+  aspect-ratio: 3 / 4;
+  border-radius: 16px;
+  cursor: pointer;
+  background: #1d2421;
+
+  .tour-card__img {
+    position: absolute;
+    inset: 0;
+  }
+
+  .tour-card__rating {
+    top: 8px;
+    left: 8px;
+    padding: 4px 8px;
+    font-size: 10px;
+    background: #1f4a36;
+    backdrop-filter: none;
+    border-radius: 8px;
+
+    svg {
+      width: 9px;
+      height: 9px;
+    }
+  }
+
+  .tour-card__shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.78) 100%);
+    pointer-events: none;
+  }
+
+  .tour-card__caption {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 12px;
+    transition: transform 0.4s $ease;
+  }
+
+  .tour-card__title {
+    margin: 0 0 3px;
+    font-size: 13px;
+    color: #fff;
+  }
+
+  .tour-card__meta {
+    font-size: 9px;
+    line-height: 1.3;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .tour-card__price {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-size: 15px;
+    color: $accent;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+  }
+
+  &:hover .tour-card__caption {
+    transform: translateY(-3px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 3px;
+  }
+}

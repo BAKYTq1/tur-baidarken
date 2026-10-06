@@ -1,0 +1,214 @@
+$bg: #eef3fa;
+$text: #1d2421;
+$muted: #6f7a75;
+$green: #1f4a3d;
+$green-hover: #2c6553;
+$ease: cubic-bezier(0.22, 0.8, 0.3, 1);
+
+.stories {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  align-items: center;
+  gap: 32px;
+  max-width: 1040px;
+  margin: 0 auto;
+  margin-top: 40px;
+  padding: 28px 70px 28px 32px;
+//   overflow: hidden;
+  background: $bg;
+  border-radius: 28px;
+
+  // ---------- текст слева ----------
+  &__kicker {
+    margin: 0 0 14px;
+    font-size: 13px;
+    color: $muted;
+  }
+
+  &__title {
+    margin: 0 0 12px;
+    font-size: 15px;
+    font-weight: 700;
+    color: $text;
+  }
+
+  &__text {
+    margin: 0 0 18px;
+    max-width: 260px;
+    font-size: 12px;
+    line-height: 1.55;
+    color: $muted;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    background: $green;
+    border-radius: 999px;
+    transition: background 0.25s, transform 0.2s;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.3s $ease;
+    }
+
+    &:hover {
+      background: $green-hover;
+
+      svg {
+        transform: translateX(3px);
+      }
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $green;
+      outline-offset: 3px;
+    }
+  }
+
+  // ---------- карточки справа ----------
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 2px 12px rgba(31, 74, 61, 0.06);
+    transition: transform 0.4s $ease, box-shadow 0.4s $ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 30px rgba(31, 74, 61, 0.14);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $green;
+      outline-offset: 3px;
+    }
+  }
+
+  &__photo {
+    height: 130px;
+    overflow: hidden;
+    background: #d9e2ec; // заглушка, пока нет фото
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s $ease;
+    }
+  }
+
+  &__card:hover &__photo img {
+    transform: scale(1.08);
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 14px 14px;
+  }
+
+  &__card-title {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: $text;
+  }
+
+  &__time {
+    font-size: 10px;
+    color: $muted;
+  }
+
+  // ---------- листья ----------
+  &__leaves {
+    position: absolute;
+    right: -5px;
+    z-index: 2;
+    bottom: 0;
+    width: 130px;      // подберите под свою картинку
+    height: auto;
+    pointer-events: none;
+    transform-origin: 50% 100%;
+    animation: leaf-sway 6s ease-in-out infinite;
+  }
+
+  &__leaf {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+  }
+
+  &__leaf--back  { animation: leaf-sway 6s ease-in-out infinite; }
+  &__leaf--front { animation: leaf-sway 7s ease-in-out -2s infinite; }
+  &__leaf--small { animation: leaf-sway 5s ease-in-out -1s infinite; }
+
+  // ---------- адаптив ----------
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    padding: 28px 24px 56px;
+
+    &__text {
+      max-width: 420px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    &__list {
+      grid-template-columns: 1fr;
+    }
+
+    &__photo {
+      height: 140px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+     &__leaves {
+      animation: none;
+    }
+
+    &__card,
+    &__photo img,
+    &__btn,
+    &__btn svg {
+      transition: none;
+    }
+  }
+}
+
+@keyframes leaf-sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50%      { transform: rotate(3deg); }
+}
