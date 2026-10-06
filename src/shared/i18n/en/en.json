@@ -1,6 +1,30 @@
 {
+  "banner": {
+    "title": "Discover nature. Find your getaway.",
+    "subtitle": "EXPLORE THE WORLD",
+    "button": "Explore now",
+    "destination": "Destination",
+    "any_destination": "Any destination",
+    "kyrgyzstan": "Kyrgyzstan",
+    "issyk_kul": "Issyk-Kul",
+    "date_from": "Date from",
+    "date_to": "Date to",
+    "travelers": "Travelers",
+    "travelers_count": "{count} travelers",
+    "search": "Search"
+  },
   "nav": {
+    "home": "Home",
+    "about": "About us",
     "tours": "Tours",
+    "reviews": "Reviews",
+    "blog": "Blog",
+    "contacts": "Contacts",
+    "search": "Search...",
+    "search_open": "Open search",
+    "search_close": "Close search",
+    "language": "Language",
+    "aria_label": "Main navigation",
     "how": "How it works",
     "included": "What's included",
     "faq": "FAQ",
@@ -112,6 +136,19 @@
     "address": "Address"
   },
   "footer": {
-    "rights": "All rights reserved"
+    "rights": "All rights reserved",
+    "description": "We share the amazing places of Kyrgyzstan and the world with care, honesty, and respect.",
+    "company": "Company",
+    "travel": "Travel",
+    "help": "Help",
+    "choose_tour": "Find a tour",
+    "terms": "Terms",
+    "payment": "Payment",
+    "copyright": "© 2026 Байдаркен. All rights reserved",
+    "social": {
+      "whatsapp": "Baidarken on WhatsApp",
+      "instagram": "Baidarken on Instagram",
+      "facebook": "Baidarken on Facebook"
+    }
   }
 }

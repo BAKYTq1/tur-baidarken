@@ -1,8 +1,9 @@
 import ru from "./ru/ru.json";
 import en from "./en/en.json";
 import kg from "./kg/kg.json";
+import ja from "./ja/ja.json";
 
-const dictionaries = { ru, en, kg };
+const dictionaries = { ru, en, kg, ja };
 export const SUPPORTED_LANGS = Object.keys(dictionaries);
 const DEFAULT_LANG = "ru";
 const STORAGE_KEY = "lang";
