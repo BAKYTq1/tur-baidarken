@@ -5,7 +5,12 @@ import PopularDestinations from "../../shared/populardestinations/Populardestina
 import TravelStories from "../../shared/travelstories/Travelstories";
 import PromoBanner from "../../shared/promobanner/PromoBanner";
 import Reviews from "../../shared/reviews/Reviews";
+import Banner from '../../widgets/banner/Banner'
+import { useI18n } from '../../shared/i18n'
+
 export function Home() {
+  const { t } = useI18n()
+
   return (
  <>
     <Features/>
@@ -14,5 +19,12 @@ export function Home() {
     <PromoBanner/>
     <Reviews/>
  </>
+    <main>
+      <Banner
+        title={t('banner.title')}
+        subtitle={t('banner.subtitle')}
+        buttonText={t('banner.button')}
+      />
+    </main>
   );
 }
