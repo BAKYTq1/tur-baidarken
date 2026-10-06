@@ -13,12 +13,6 @@ export function Home() {
 
   return (
  <>
-    <Features/>
-    <PopularDestinations/>
-    <TravelStories/>
-    <PromoBanner/>
-    <Reviews/>
- </>
     <main>
       <Banner
         title={t('banner.title')}
@@ -26,5 +20,11 @@ export function Home() {
         buttonText={t('banner.button')}
       />
     </main>
+    <Features/>
+    <PopularDestinations/>
+    <TravelStories/>
+    <PromoBanner/>
+    <Reviews/>
+ </>
   );
 }
