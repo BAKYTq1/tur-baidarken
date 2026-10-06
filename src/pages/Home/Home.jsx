@@ -1,10 +1,16 @@
-// pages/Home/Home.jsx
-import  "react";
+import Banner from '../../widgets/banner/Banner'
+import { useI18n } from '../../shared/i18n'
 
 export function Home() {
+  const { t } = useI18n()
+
   return (
- <>
-    <h1>Home</h1>
- </>
+    <main>
+      <Banner
+        title={t('banner.title')}
+        subtitle={t('banner.subtitle')}
+        buttonText={t('banner.button')}
+      />
+    </main>
   );
 }

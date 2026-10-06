@@ -1,0 +1,183 @@
+.header {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 16px 24px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  max-width: 1040px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin: 0 auto;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: inherit;
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.logoIcon {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  border-radius: 50%;
+  mix-blend-mode: multiply;
+  flex-shrink: 0;
+}
+
+.logoText {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: normal;
+}
+
+.navList {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  list-style: none;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+
+.navLink {
+  text-decoration: none;
+  font-size: 16px;
+  color: #374151;
+  font-weight: 500;
+  transition: color 150ms ease;
+}
+
+.navLink:hover,
+.activeLink {
+  color: #f97316;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #111827;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  transition: color 150ms ease;
+}
+
+.iconButton:hover {
+  color: #f97316;
+}
+
+.searchField {
+  flex: 0 0 auto;
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    width 220ms ease,
+    opacity 160ms ease,
+    visibility 0s linear 220ms;
+}
+
+.searchFieldOpen {
+  width: 200px;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    width 220ms ease,
+    opacity 160ms ease,
+    visibility 0s;
+}
+
+.searchInput {
+  box-sizing: border-box;
+  width: 200px;
+  padding: 6px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+.searchInput:focus {
+  border-color: #f97316;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .searchField,
+  .searchFieldOpen {
+    transition: none;
+  }
+}
+
+.actionIcon {
+  width: 22px;
+  height: 22px;
+}
+
+.languageSelector {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.languageSelect {
+  appearance: none;
+  padding: 4px 20px 4px 0;
+  border: none;
+  background: transparent;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.languageSelect:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.languageChevron {
+  position: absolute;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  color: #111827;
+  pointer-events: none;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

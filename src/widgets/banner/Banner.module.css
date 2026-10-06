@@ -1,0 +1,224 @@
+.banner {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  width: 100%;
+  min-height: max(560px, calc(100vh - 93px));
+  min-height: max(560px, calc(100svh - 93px));
+  flex-direction: column;
+  justify-content: center;
+  gap: 48px;
+  box-sizing: border-box;
+  padding: 64px;
+  background-color: #425d59;
+  background-position: center;
+  background-size: cover;
+  color: #172b24;
+}
+
+.banner::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(248, 249, 246, 0.9) 0%,
+      rgba(248, 249, 246, 0.78) 25%,
+      rgba(248, 249, 246, 0.48) 45%,
+      rgba(248, 249, 246, 0.12) 68%,
+      transparent 84%
+    ),
+    radial-gradient(
+      ellipse at 18% 78%,
+      rgba(255, 255, 255, 0.62) 0%,
+      rgba(255, 255, 255, 0.28) 34%,
+      transparent 67%
+    );
+  content: '';
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  color: #172b24;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  max-width: 1040px;
+  flex-direction: column;
+  gap: 48px;
+  margin: 0 auto;
+}
+
+.subtitle {
+  margin: 0 0 16px;
+  color: #52645b;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.title {
+  max-width: 650px;
+  margin: 0;
+  font-size: clamp(32px, 4vw, 40px);
+  font-weight: 700;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.ctaButton {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 28px;
+  padding: 0 24px;
+  border-radius: 8px;
+  background-color: #f97316;
+  color: #172b24;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 150ms ease;
+}
+
+.ctaButton:hover {
+  background-color: #ea650b;
+}
+
+.searchForm {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1.1fr auto;
+  align-items: center;
+  gap: 20px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 50px;
+  background-color: #ffffff;
+  box-shadow: 0 12px 36px rgba(17, 24, 39, 0.2);
+  color: #111827;
+}
+
+.searchField {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 8px;
+  border-right: 1px solid #e5e7eb;
+}
+
+.searchField span {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.searchField input,
+.searchField select {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #111827;
+  font: inherit;
+  font-size: 14px;
+}
+
+.searchField input:focus-visible,
+.searchField select:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 3px;
+}
+
+.searchButton {
+  min-height: 48px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 25px;
+  background-color: #1e3a34;
+  color: #ffffff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.searchButton:hover {
+  background-color: #28534a;
+}
+
+@media (max-width: 900px) {
+  .banner {
+    min-height: max(600px, calc(100vh - 93px));
+    min-height: max(600px, calc(100svh - 93px));
+    padding: 48px 32px;
+  }
+
+  .searchForm {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-radius: 24px;
+  }
+
+  .searchField:nth-child(2) {
+    border-right: 0;
+  }
+
+  .searchButton {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .banner {
+    min-height: max(680px, calc(100vh - 93px));
+    min-height: max(680px, calc(100svh - 93px));
+    justify-content: flex-start;
+    padding: 64px 20px 32px;
+    background-position: 60% center;
+  }
+
+  .container {
+    gap: 36px;
+  }
+
+  .title {
+    font-size: 34px;
+  }
+
+  .searchForm {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 20px;
+  }
+
+  .searchField {
+    padding: 0 0 12px;
+    border-right: 0;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .searchButton {
+    grid-column: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ctaButton,
+  .searchButton {
+    transition: none;
+  }
+}
