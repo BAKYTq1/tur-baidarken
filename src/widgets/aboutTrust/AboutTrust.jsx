@@ -23,9 +23,9 @@ function AboutTrust() {
         <div className={styles.trustCard}>
           <h2 className={styles.trustTitle}>{t('about.trust.title')}</h2>
           <ul className={styles.trustList}>
-            {trustItems.map((item) => (
+            {trustItems.map((item, index) => (
               <li className={styles.trustItem} key={item}>
-                <span className={styles.trustMark} aria-hidden="true" />
+                <span className={styles.trustMark}>{index + 1}</span>
                 <span>{t(`about.trust.items.${item}`)}</span>
               </li>
             ))}

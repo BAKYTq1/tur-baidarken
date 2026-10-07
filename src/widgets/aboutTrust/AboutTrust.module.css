@@ -54,12 +54,20 @@
 }
 
 .trustTitle {
-  margin: 0 0 22px;
+  margin: 0 0 12px;
   color: #f97316;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.trustNumber {
+  margin: 0 0 16px;
+  color: #173f36;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .trustList {
@@ -80,11 +88,17 @@
 }
 
 .trustMark {
+  display: flex;
   width: 44px;
   height: 44px;
   flex: 0 0 44px;
+  align-items: center;
+  justify-content: center;
   border-radius: 50%;
   background-color: #e8f0ed;
+  color: #173f36;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 @media (max-width: 700px) {

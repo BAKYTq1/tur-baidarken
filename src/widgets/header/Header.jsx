@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import logo from '../assets/logo-mark.jpeg'
 import { useI18n } from '../../shared/i18n'
 import styles from './Header.module.css'
@@ -80,57 +80,51 @@ function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.container} ref={headerRef}>
-        <a href="/" className={styles.logo} aria-label="Байдаркен — главная">
+        <Link to="/" className={styles.logo} aria-label="Байдаркен — главная">
           <img src={logo} alt="Байдаркен" className={styles.logoIcon} />
           <span className={styles.logoText}>Байдаркен</span>
-        </a>
+        </Link>
 
-        <nav
-          className={`${styles.desktopNav} ${isSearchOpen ? styles.navHidden : ''}`}
-          aria-label={t('nav.aria_label')}
-          aria-hidden={isSearchOpen}
-        >
-          <ul className={styles.navList}>
-            <li><Link to="/" className={`${styles.navLink} ${styles.activeLink}`} aria-current="page">{t('nav.home')}</Link></li>
-            <li><a href="#about" className={styles.navLink}>{t('nav.about')}</a></li>
-            <li><Link to="/tours" className={styles.navLink}>{t('nav.tours')}</Link></li>
-            <li><a href="#reviews" className={styles.navLink}>{t('nav.reviews')}</a></li>
-            <li><Link to="/blog" className={styles.navLink}>{t('nav.blog')}</Link></li>
-            <li><a href="#contacts" className={styles.navLink}>{t('nav.contacts')}</a></li>
-          </ul>
-        </nav>
+        {!isSearchOpen && (
+          <nav className={styles.desktopNav} aria-label={t('nav.aria_label')}>
+            <ul className={styles.navList}>
+              <li><NavLink to="/" className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}>{t('nav.home')}</NavLink></li>
+              <li><NavLink to="/about" className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}>{t('nav.about')}</NavLink></li>
+              <li><NavLink to="/tours" className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}>{t('nav.tours')}</NavLink></li>
+              <li><NavLink to="/reviews" className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}>{t('nav.reviews')}</NavLink></li>
+              <li><NavLink to="/blog" className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}>{t('nav.blog')}</NavLink></li>
+              <li><NavLink to="/contacts" className={({ isActive }) => `${styles.navItem} ${isActive ? styles.active : ''}`}>{t('nav.contacts')}</NavLink></li>
+            </ul>
+          </nav>
+        )}
 
-        <div
-          ref={searchContainerRef}
-          className={`${styles.searchContainer} ${
-            isSearchOpen ? styles.searchContainerActive : ''
-          }`}
-        >
-          {isSearchOpen ? (
-            <>
-              <input
-                ref={searchInputRef}
-                type="search"
-                placeholder={t('nav.search')}
-                aria-label={t('nav.search')}
-                className={styles.searchInput}
-              />
-              <button
-                ref={burgerRef}
-                type="button"
-                aria-label={t('nav.search_close')}
-                className={styles.closeButton}
-                onClick={closeSearch}
-              >
-                <span aria-hidden="true">✕</span>
-              </button>
-            </>
-          ) : (
+        {isSearchOpen && (
+          <div ref={searchContainerRef} className={styles.expandedSearch}>
+            <input
+              ref={searchInputRef}
+              type="search"
+              placeholder={t('nav.search')}
+              aria-label={t('nav.search')}
+              className={styles.searchInput}
+            />
+            <button
+              type="button"
+              aria-label={t('nav.search_close')}
+              className={styles.closeButton}
+              onClick={closeSearch}
+            >
+              <span aria-hidden="true">✕</span>
+            </button>
+          </div>
+        )}
+
+        <div className={styles.actions}>
+          {!isSearchOpen && (
             <button
               ref={searchToggleRef}
               type="button"
               aria-label={t('nav.search_open')}
-              aria-expanded={false}
+              aria-expanded={isSearchOpen}
               className={styles.iconButton}
               onClick={() => setIsSearchOpen(true)}
             >
@@ -140,9 +134,6 @@ function Header() {
               </svg>
             </button>
           )}
-        </div>
-
-        <div className={styles.actions}>
           <button type="button" aria-label="Избранное" className={styles.iconButton}>
             <svg aria-hidden="true" className={styles.actionIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path
