@@ -1,0 +1,150 @@
+.valuesSection {
+  padding: 68px 20px 72px;
+  background-color: #f7f8f6;
+}
+
+.valuesInner {
+  width: min(100%, 960px);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: #f97316;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  color: #173f36;
+  font-size: clamp(28px, 3vw, 34px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.intro {
+  margin: 12px 0 36px;
+  color: #7a8580;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  text-align: left;
+}
+
+.card {
+  min-height: 218px;
+  padding: 24px;
+  border: 1px solid #e2e7e4;
+  border-radius: 18px;
+  background-color: #ffffff;
+}
+
+.icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  margin-bottom: 16px;
+  border-radius: 50%;
+  background-color: #fff0e1;
+  color: #f97316;
+}
+
+.icon svg {
+  width: 23px;
+  height: 23px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.cardTitle {
+  margin: 0 0 14px;
+  color: #173f36;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.cardText {
+  margin: 0;
+  color: #7a8580;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.statsSection {
+  padding: 48px 20px;
+  background-color: #173f36;
+}
+
+.statsInner {
+  display: grid;
+  width: min(100%, 1200px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0 auto;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.statValue {
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.statLabel {
+  color: #a9c0b9;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@media (max-width: 700px) {
+  .valuesSection {
+    padding: 48px 20px;
+  }
+
+  .intro {
+    margin-bottom: 28px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .card {
+    min-height: 0;
+  }
+
+  .statsSection {
+    padding: 36px 20px;
+  }
+
+  .statsInner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 16px;
+  }
+
+  .statValue {
+    font-size: 26px;
+  }
+}
