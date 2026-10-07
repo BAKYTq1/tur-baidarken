@@ -23,6 +23,8 @@
     "search": "Search...",
     "search_open": "Open search",
     "search_close": "Close search",
+    "menu_open": "Open menu",
+    "menu_close": "Close menu",
     "language": "Language",
     "aria_label": "Main navigation",
     "how": "How it works",
@@ -85,7 +87,184 @@
   },
   "about": {
     "title": "About us",
-    "subtitle": "Our team of guides and the agency's story."
+    "subtitle": "Our team of guides and the agency's story.",
+    "banner_subtitle": "TRAVEL WITH A HUMAN TOUCH",
+    "banner_title": "We discover the world with care",
+    "banner_description": "Baidarken was born out of love for mountains, small groups, and stories that stay with us for a long time.",
+    "banner_button": "Get to know us better →",
+    "story_year": "2016",
+    "story_year_text": "first route",
+    "story_tag": "OUR STORY",
+    "story_title": "It started with one trail",
+    "story_p1": "In 2016, a small group of friends set out for Sary-Chelek. We wanted to share places we loved with people close to us — and that became our first route.",
+    "story_p2": "Today, 42 guides work with us. They know the mountain trails, look after every guest, and help travelers experience the real Kyrgyzstan.",
+    "story_btn": "Read our story",
+    "story_image_alt": "A wooden cabin by a mountain lake, where the first trips began",
+    "values_eyebrow": "WHAT WE BELIEVE",
+    "values_title": "Our compass: simple values",
+    "values_description": "They guide our choices of routes, partners, and everyday decisions.",
+    "values": {
+      "nature": {
+        "title": "Care for nature",
+        "description": "We choose local partners, reduce our footprint, and support protected areas."
+      },
+      "people": {
+        "title": "People first",
+        "description": "Small groups, honest conversations, and respect for every traveler's pace."
+      },
+      "curiosity": {
+        "title": "Stay curious",
+        "description": "We look beyond map pins for living stories, crafts, flavors, and real encounters."
+      }
+    },
+    "stats": {
+      "label": "Baidarken in numbers",
+      "years": "years on the road",
+      "travelers": "travelers",
+      "guides": "guides on the team",
+      "rating": "average rating"
+    },
+    "team_eyebrow": "THE PEOPLE OF BAIDARKEN",
+    "team_title": "The people who know the way",
+    "team_description": "Route planners, guides, and our care team — travelers by nature.",
+    "team": {
+      "aidana": {
+        "name": "Aidana Mamytova",
+        "role": "Founder and route planner"
+      },
+      "ilya": {
+        "name": "Ilya Kozlov",
+        "role": "Expedition leader"
+      },
+      "zarina": {
+        "name": "Zarina Abdieva",
+        "role": "Traveler support"
+      }
+    },
+    "trust": {
+      "label": "Reviews and trust",
+      "rating_aria": "Rated 4.9 out of 5, five stars",
+      "rating": "4.9 out of 5",
+      "quote": "A rare case where everything is thoughtfully planned, yet the journey still feels alive and real",
+      "attribution": "— Maria, joined five of our tours",
+      "title": "Trusted by travelers",
+      "items": {
+        "award": "Travel Awards 2025",
+        "nature": "Leave No Trace",
+        "guides": "Guides Association"
+      }
+    }
+  },
+  "blog": {
+    "subtitle": "BAIDARKEN JOURNAL",
+    "title": "Stories that call you to the road",
+    "description": "Routes, people, helpful tips, and honest notes from our team around the world.",
+    "button": "Read the latest issue →",
+    "categories": {
+      "label": "Article categories",
+      "all": "All stories",
+      "routes": "Routes",
+      "practice": "Practical tips",
+      "people": "People",
+      "food": "Food",
+      "photography": "Photography"
+    },
+    "featured": {
+      "eyebrow": "EDITOR'S PICK",
+      "title": "The big story of the month",
+      "badge": "SPECIAL PROJECT",
+      "meta": "EXPEDITION · TIAN SHAN",
+      "article_title": "Where the silence begins",
+      "description": "Five days along glaciers, conversations around the campfire, and a path to a lake that doesn't appear on tourist maps.",
+      "image_alt": "A mountain lake among the Tian Shan peaks",
+      "author": "Aidana Mamytova",
+      "read_time": "12 min read"
+    },
+    "articles": {
+      "eyebrow": "LATEST STORIES",
+      "title": "Read at your own pace",
+      "description": "Practical guides, in-depth features, and short notes from the road.",
+      "load_more": "Show more stories →",
+      "items": [
+        {
+          "title": "Seven lakes in Kyrgyzstan worth seeing",
+          "description": "From easy walks to challenging high-altitude trails.",
+          "read_time": "8 min",
+          "date": "September 24",
+          "image_alt": "An alpine lake surrounded by mountains"
+        },
+        {
+          "title": "How to prepare for your first hike",
+          "description": "Gear, clothing, and simple tips for a confident start.",
+          "read_time": "6 min",
+          "date": "September 18",
+          "image_alt": "A mountain peak at sunrise"
+        },
+        {
+          "title": "The guide who knows every trail",
+          "description": "A guide's story about people, mountains, and favorite routes.",
+          "read_time": "10 min",
+          "date": "September 12",
+          "image_alt": "Mountain scenery at sunset"
+        },
+        {
+          "title": "What to cook by a mountain campfire",
+          "description": "Simple, hearty meals that taste best after a long hike.",
+          "read_time": "5 min",
+          "date": "September 6",
+          "image_alt": "A mountain lake and forest"
+        },
+        {
+          "title": "How to photograph mountains and enjoy the hike",
+          "description": "A few techniques for expressive photos along the trail.",
+          "read_time": "7 min",
+          "date": "August 29",
+          "image_alt": "Mountains in the morning light"
+        },
+        {
+          "title": "A weekend trail to a mountain lake",
+          "description": "A trip plan with beautiful views and time to unwind.",
+          "read_time": "9 min",
+          "date": "August 21",
+          "image_alt": "A valley with an alpine lake"
+        },
+        {
+          "title": "What to pack for a day hike",
+          "description": "A short list of essentials for a day outdoors.",
+          "read_time": "4 min",
+          "date": "August 15",
+          "image_alt": "A mountain trail"
+        },
+        {
+          "title": "The people you meet along the trail",
+          "description": "Encounters and conversations that make a journey.",
+          "read_time": "8 min",
+          "date": "August 8",
+          "image_alt": "Mountain peaks in the evening light"
+        },
+        {
+          "title": "A warm meal after a long day outdoors",
+          "description": "How to make a delicious meal outside without a fuss.",
+          "read_time": "5 min",
+          "date": "August 2",
+          "image_alt": "Forest beside an alpine lake"
+        },
+        {
+          "title": "Golden hour in the mountains: finding the light",
+          "description": "Tips for landscape photography at sunrise and sunset.",
+          "read_time": "6 min",
+          "date": "July 26",
+          "image_alt": "Sunlight falling on mountain peaks"
+        }
+      ]
+    },
+    "guide": {
+      "eyebrow": "FREE TRAVEL GUIDE",
+      "title": "48 places for your first trip to Kyrgyzstan",
+      "description": "Routes, map pins, seasonal tips, and advice from our team — all in one guide.",
+      "button": "Get the guide",
+      "image_alt": "A notebook and camera on a table overlooking the mountains"
+    }
   },
   "reviews": {
     "title": "Reviews",

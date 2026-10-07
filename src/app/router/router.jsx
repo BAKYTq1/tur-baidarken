@@ -9,6 +9,7 @@ import AdminTours from "../../pages/admin/AdminTours";
 import AdminBookings from "../../pages/admin/AdminBookings";
 import AdminReviews from "../../pages/admin/AdminReviews";
 import AdminLogin from "../../pages/admin/AdminLogin";
+import Blog from "../../pages/Blog/Blog";
 
 export const router = createBrowserRouter([
     {
@@ -30,6 +31,8 @@ export const router = createBrowserRouter([
             {
                 path: "/reviews",
                 element: <Reviews/>
+                path: "/blog",
+                element: <Blog/>
             },
         ]
     },

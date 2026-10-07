@@ -1,64 +1,148 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import logo from '../assets/logo-mark.jpeg'
 import { useI18n } from '../../shared/i18n'
 import styles from './Header.module.css'
 
 function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const searchInputRef = useRef(null)
+  const mobileSearchInputRef = useRef(null)
+  const searchContainerRef = useRef(null)
+  const mobileSearchContainerRef = useRef(null)
+  const searchToggleRef = useRef(null)
+  const mobileSearchToggleRef = useRef(null)
+  const burgerRef = useRef(null)
+  const headerRef = useRef(null)
   const { t, lang, setLang, SUPPORTED_LANGS } = useI18n()
 
   useEffect(() => {
     if (isSearchOpen) {
-      searchInputRef.current?.focus()
+      if (window.matchMedia('(max-width: 768px)').matches && isMobileMenuOpen) {
+        mobileSearchInputRef.current?.focus()
+      } else {
+        searchInputRef.current?.focus()
+      }
     }
-  }, [isSearchOpen])
+  }, [isSearchOpen, isMobileMenuOpen])
+
+  useEffect(() => {
+    if (!isSearchOpen && !isMobileMenuOpen) return undefined
+
+    function handlePointerDown(event) {
+      const clickedInsideSearch = searchContainerRef.current?.contains(event.target)
+        || mobileSearchContainerRef.current?.contains(event.target)
+      if (isSearchOpen && !clickedInsideSearch) {
+        setIsSearchOpen(false)
+      }
+      if (isMobileMenuOpen && !headerRef.current?.contains(event.target)) {
+        setIsMobileMenuOpen(false)
+        setIsSearchOpen(false)
+      }
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === 'Escape') {
+        setIsSearchOpen(false)
+        setIsMobileMenuOpen(false)
+        if (window.matchMedia('(max-width: 768px)').matches) {
+          burgerRef.current?.focus()
+        } else {
+          searchToggleRef.current?.focus()
+        }
+      }
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown)
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isSearchOpen, isMobileMenuOpen])
+
+  function closeSearch() {
+    setIsSearchOpen(false)
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      mobileSearchToggleRef.current?.focus()
+    } else {
+      searchToggleRef.current?.focus()
+    }
+  }
+
+  function closeMobileMenu() {
+    setIsMobileMenuOpen(false)
+    setIsSearchOpen(false)
+  }
 
   return (
     <header className={styles.header}>
-      <div className={styles.container}>
+      <div className={styles.container} ref={headerRef}>
         <a href="/" className={styles.logo} aria-label="Байдаркен — главная">
           <img src={logo} alt="Байдаркен" className={styles.logoIcon} />
           <span className={styles.logoText}>Байдаркен</span>
         </a>
 
-        <nav aria-label={t('nav.aria_label')}>
+        <nav
+          className={`${styles.desktopNav} ${isSearchOpen ? styles.navHidden : ''}`}
+          aria-label={t('nav.aria_label')}
+          aria-hidden={isSearchOpen}
+        >
           <ul className={styles.navList}>
-            <li><a href="#home" className={`${styles.navLink} ${styles.activeLink}`} aria-current="page">{t('nav.home')}</a></li>
+            <li><Link to="/" className={`${styles.navLink} ${styles.activeLink}`} aria-current="page">{t('nav.home')}</Link></li>
             <li><a href="#about" className={styles.navLink}>{t('nav.about')}</a></li>
-            <li><a href="#tours" className={styles.navLink}>{t('nav.tours')}</a></li>
+            <li><Link to="/tours" className={styles.navLink}>{t('nav.tours')}</Link></li>
             <li><a href="#reviews" className={styles.navLink}>{t('nav.reviews')}</a></li>
-            <li><a href="#blog" className={styles.navLink}>{t('nav.blog')}</a></li>
+            <li><Link to="/blog" className={styles.navLink}>{t('nav.blog')}</Link></li>
             <li><a href="#contacts" className={styles.navLink}>{t('nav.contacts')}</a></li>
           </ul>
         </nav>
 
+        <div
+          ref={searchContainerRef}
+          className={`${styles.searchContainer} ${
+            isSearchOpen ? styles.searchContainerActive : ''
+          }`}
+        >
+          {isSearchOpen ? (
+            <>
+              <input
+                ref={searchInputRef}
+                type="search"
+                placeholder={t('nav.search')}
+                aria-label={t('nav.search')}
+                className={styles.searchInput}
+              />
+              <button
+                ref={burgerRef}
+                type="button"
+                aria-label={t('nav.search_close')}
+                className={styles.closeButton}
+                onClick={closeSearch}
+              >
+                <span aria-hidden="true">✕</span>
+              </button>
+            </>
+          ) : (
+            <button
+              ref={searchToggleRef}
+              type="button"
+              aria-label={t('nav.search_open')}
+              aria-expanded={false}
+              className={styles.iconButton}
+              onClick={() => setIsSearchOpen(true)}
+            >
+              <svg aria-hidden="true" className={styles.actionIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="7" />
+                <path d="m20 20-4-4" strokeLinecap="round" />
+              </svg>
+            </button>
+          )}
+        </div>
+
         <div className={styles.actions}>
-          <div
-            className={`${styles.searchField} ${isSearchOpen ? styles.searchFieldOpen : ''}`}
-            aria-hidden={!isSearchOpen}
-          >
-            <input
-              ref={searchInputRef}
-              tabIndex={isSearchOpen ? 0 : -1}
-              type="text"
-              placeholder={t('nav.search')}
-              aria-label={t('nav.search')}
-              className={styles.searchInput}
-            />
-          </div>
-          <button
-            type="button"
-            aria-label={t(isSearchOpen ? 'nav.search_close' : 'nav.search_open')}
-            aria-expanded={isSearchOpen}
-            className={styles.iconButton}
-            onClick={() => setIsSearchOpen((open) => !open)}
-          >
-            <svg aria-hidden="true" className={styles.actionIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20 20-4-4" strokeLinecap="round" />
-            </svg>
-          </button>
           <button type="button" aria-label="Избранное" className={styles.iconButton}>
             <svg aria-hidden="true" className={styles.actionIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path
@@ -84,6 +168,91 @@ function Header() {
             </svg>
           </label>
         </div>
+
+        <button
+          type="button"
+          className={styles.burgerBtn}
+          aria-label={t(isMobileMenuOpen ? 'nav.menu_close' : 'nav.menu_open')}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-navigation"
+          onClick={() => {
+            setIsMobileMenuOpen((open) => !open)
+            setIsSearchOpen(false)
+          }}
+        >
+          <span aria-hidden="true">{isMobileMenuOpen ? '✕' : '☰'}</span>
+        </button>
+
+        {isMobileMenuOpen && (
+          <nav
+            className={styles.mobileMenu}
+            id="mobile-navigation"
+            aria-label={t('nav.aria_label')}
+          >
+            <ul className={styles.mobileNavLinks}>
+              <li><Link to="/" className={styles.navLink} onClick={closeMobileMenu}>{t('nav.home')}</Link></li>
+              <li><a href="#about" className={styles.navLink} onClick={closeMobileMenu}>{t('nav.about')}</a></li>
+              <li><Link to="/tours" className={styles.navLink} onClick={closeMobileMenu}>{t('nav.tours')}</Link></li>
+              <li><a href="#reviews" className={styles.navLink} onClick={closeMobileMenu}>{t('nav.reviews')}</a></li>
+              <li><Link to="/blog" className={styles.navLink} onClick={closeMobileMenu}>{t('nav.blog')}</Link></li>
+              <li><a href="#contacts" className={styles.navLink} onClick={closeMobileMenu}>{t('nav.contacts')}</a></li>
+            </ul>
+            <div className={styles.mobileMenuControls}>
+              <label className={styles.languageSelector}>
+                <span className={styles.visuallyHidden}>{t('nav.language')}</span>
+                <select
+                  value={lang}
+                  onChange={(event) => setLang(event.target.value)}
+                  className={styles.languageSelect}
+                >
+                  {SUPPORTED_LANGS.map((code) => (
+                    <option key={code} value={code}>{code.toUpperCase()}</option>
+                  ))}
+                </select>
+                <svg aria-hidden="true" className={styles.languageChevron} viewBox="0 0 16 16" fill="none">
+                  <path d="m4 6 4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </label>
+              <div
+                ref={mobileSearchContainerRef}
+                className={styles.mobileSearchContainer}
+              >
+                {isSearchOpen ? (
+                  <>
+                    <input
+                      ref={mobileSearchInputRef}
+                      type="search"
+                      placeholder={t('nav.search')}
+                      aria-label={t('nav.search')}
+                      className={styles.searchInput}
+                    />
+                    <button
+                      type="button"
+                      aria-label={t('nav.search_close')}
+                      className={styles.closeButton}
+                      onClick={closeSearch}
+                    >
+                      <span aria-hidden="true">✕</span>
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    ref={mobileSearchToggleRef}
+                    type="button"
+                    className={styles.mobileSearchButton}
+                    onClick={() => setIsSearchOpen(true)}
+                  >
+                    <svg aria-hidden="true" className={styles.actionIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="11" cy="11" r="7" />
+                      <path d="m20 20-4-4" strokeLinecap="round" />
+                    </svg>
+                    {t('nav.search')}
+                  </button>
+                )}
+              </div>
+            </div>
+          </nav>
+        )}
       </div>
     </header>
   )
