@@ -1,0 +1,202 @@
+$text: #1d2421;
+$muted: #8a928e;
+$orange: #f28a1e;
+$orange-soft: #fdeadb;
+$green: #1f4a3d;
+$track: #edf0ee;
+$ease: cubic-bezier(0.22, 0.8, 0.3, 1);
+
+.summary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 40px;
+  max-width: 1040px;
+  margin: 50px auto 0;
+  padding: 8px 0;
+
+  // ---------- карточка с оценкой ----------
+  &__score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 160px;
+    height: 160px;
+    background: $green;
+    border-radius: 24px;
+  }
+
+  &__rating {
+    font-size: 46px;
+    font-weight: 800;
+    line-height: 1;
+    color: #fff;
+  }
+
+  &__stars {
+    display: flex;
+    gap: 3px;
+
+    svg {
+      width: 13px;
+      height: 13px;
+      fill: $orange;
+    }
+  }
+
+  &__count {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  // ---------- статистика ----------
+  &__title {
+    margin: 0 0 6px;
+    font-size: 17px;
+    font-weight: 700;
+    color: $text;
+  }
+
+  &__sub {
+    margin: 0 0 16px;
+    font-size: 11px;
+    color: $muted;
+  }
+
+  &__bars {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 440px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    svg {
+      flex-shrink: 0;
+      width: 11px;
+      height: 11px;
+      fill: $muted;
+    }
+  }
+
+  &__label {
+    width: 8px;
+    font-size: 11px;
+    color: $muted;
+    text-align: right;
+  }
+
+  &__track {
+    flex: 1;
+    height: 6px;
+    overflow: hidden;
+    background: $track;
+    border-radius: 999px;
+  }
+
+  &__fill {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: $orange;
+    border-radius: inherit;
+    transition: width 1s $ease;
+    transition-delay: calc(var(--i) * 90ms);
+  }
+
+  &.is-visible &__fill {
+    width: var(--w);
+  }
+
+  &__percent {
+    width: 32px;
+    font-size: 11px;
+    color: $muted;
+    text-align: right;
+  }
+
+  // ---------- значок «Выбор путешественников» ----------
+  &__badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 120px;
+    text-align: center;
+  }
+
+  &__medal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    background: $orange-soft;
+    border: 2px solid $orange;
+    border-radius: 50%;
+    animation: medal-float 4s ease-in-out infinite;
+
+    svg {
+      width: 30px;
+      height: 30px;
+      fill: none;
+      stroke: $orange;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  }
+
+  &__badge-text {
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #5a6560;
+  }
+
+  // ---------- адаптив ----------
+  @media (max-width: 800px) {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 24px;
+
+    &__badge {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      width: auto;
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 520px) {
+    grid-template-columns: 1fr;
+    justify-items: center;
+
+    &__stats {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__medal {
+      animation: none;
+    }
+
+    &__fill {
+      transition: none;
+    }
+  }
+}
+
+@keyframes medal-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}

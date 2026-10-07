@@ -59,6 +59,15 @@
 .subtitle {
   margin: 0 0 16px;
   color: #52645b;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.subtitle2 {
+  margin: 0 0 16px;
+  margin-top: 20px;
+  color: #52645b;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 1.5px;

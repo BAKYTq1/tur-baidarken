@@ -1,0 +1,261 @@
+$text: #1d2421;
+$muted: #6f7a75;
+$accent: #f28a1e;
+$green: #1f4a3d;
+$ease: cubic-bezier(0.22, 0.8, 0.3, 1);
+
+.gallery {
+  max-width: 1040px;
+  margin: 50px auto 0;
+
+  // ---------- заголовок ----------
+  &__head {
+    margin-bottom: 20px;
+  }
+
+  &__kicker {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: $accent;
+  }
+
+  &__title {
+    margin: 0 0 8px;
+    font-size: 26px;
+    font-weight: 700;
+    color: $text;
+  }
+
+  &__subtitle {
+    margin: 0;
+    font-size: 13px;
+    color: $muted;
+  }
+
+  // ---------- мозаика ----------
+  &__grid {
+    display: grid;
+    grid-template-columns: 2.1fr 1fr 1fr;
+    grid-template-rows: repeat(2, 170px);
+    gap: 14px;
+  }
+
+  &__tile {
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    cursor: zoom-in;
+    background: #d9e2dd; // заглушка, пока нет фото
+    border: 0;
+    border-radius: 20px;
+    transition: transform 0.4s $ease, box-shadow 0.4s $ease;
+
+    &.is-large {
+      grid-row: span 2;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.9s $ease;
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 30px rgba(29, 36, 33, 0.18);
+
+      img {
+        transform: scale(1.07);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid $green;
+      outline-offset: 3px;
+    }
+  }
+
+  // разные оттенки заглушек
+  &__tile--2 { background: #cfdbd5; }
+  &__tile--3 { background: #e5d6c4; }
+  &__tile--4 { background: #d8cdbf; }
+  &__tile--5 { background: #cdd5df; }
+
+  // ---------- подпись ----------
+  &__caption {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-width: calc(100% - 24px);
+    padding: 7px 12px;
+    text-align: left;
+    background: rgba(24, 56, 46, 0.78);
+    backdrop-filter: blur(6px);
+    border-radius: 12px;
+    transition: transform 0.4s $ease;
+  }
+
+  &__tile:hover &__caption {
+    transform: translateY(-3px);
+  }
+
+  &__caption-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  &__caption-author {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  // ---------- просмотр фото ----------
+  &__lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 24px;
+    background: rgba(12, 22, 18, 0.88);
+    animation: lb-fade 0.25s ease both;
+  }
+
+  &__figure {
+    max-width: min(900px, 100%);
+    margin: 0;
+    animation: lb-pop 0.35s $ease both;
+
+    figcaption {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #fff;
+      text-align: center;
+
+      span {
+        color: rgba(255, 255, 255, 0.65);
+      }
+    }
+  }
+
+  &__frame {
+    overflow: hidden;
+    border-radius: 18px;
+
+    img{
+      display: block;
+      max-width: 100% ;
+      max-height: 80vh;
+      margin: 0 auto;
+    }
+  }
+
+  &__placeholder {
+    width: min(800px, 80vw);
+    height: 50vh;
+    background: #3a6b5b;
+  }
+
+  &__lb-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    color: #fff;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.12);
+    border: 0;
+    border-radius: 50%;
+    transition: background 0.25s, transform 0.2s;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.24);
+    }
+
+    &:active {
+      transform: scale(0.92);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $accent;
+      outline-offset: 2px;
+    }
+  }
+
+  &__lb-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  // ---------- адаптив ----------
+  @media (max-width: 800px) {
+    &__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: 240px repeat(2, 150px);
+    }
+
+    &__tile.is-large {
+      grid-column: 1 / -1;
+      grid-row: auto;
+    }
+
+    &__lb-prev,
+    &__lb-next {
+      position: absolute;
+      bottom: 24px;
+    }
+
+    &__lb-prev { left: calc(50% - 56px); }
+    &__lb-next { right: calc(50% - 56px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__tile,
+    &__tile img,
+    &__caption,
+    &__lb-btn {
+      transition: none;
+    }
+
+    &__lightbox,
+    &__figure {
+      animation: none;
+    }
+  }
+}
+
+@keyframes lb-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes lb-pop {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: none; }
+}

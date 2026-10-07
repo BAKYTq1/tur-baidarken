@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&display=swap');
+
+// ===== Переменные =====
+$bg: #f4f3ee;
+$surface: #fff;
+$ink: #1b2b2a;
+$muted: #5b6b69;
+$border: #e6e3da;
+$border-strong: #c9c5ba;
+$primary: #0f766e;
+$primary-dark: #0b5f58;
+$sidebar: #12302d;
+$sidebar-active: #1f4a45;
+$danger: #7a1f14;
+$success-bg: #d9f0e6;
+$success-ink: #0b4a38;
+
+$radius: 12px;
+$radius-sm: 8px;
+$sidebar-width: 240px;
+$control-h: 44px;
+$font: 'Onest', system-ui, -apple-system, 'Segoe UI', sans-serif;
+$shadow: 0 1px 2px rgba($ink, 0.04), 0 4px 16px rgba($ink, 0.04);
+$bp-md: 800px;
+
+// ===== Миксины =====
+@mixin md {
+  @media (max-width: $bp-md) { @content; }
+}
+
+@mixin focus-ring {
+  outline: none;
+  border-color: $primary;
+  box-shadow: 0 0 0 3px rgba($primary, 0.2);
+}
+
+@mixin control {
+  min-height: $control-h;
+  padding: 0 14px;
+  border: 1px solid $border-strong;
+  border-radius: $radius-sm;
+  background: $surface;
+  font: inherit;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  &:focus-visible { @include focus-ring; }
+}
+
+// ===== Стили =====
+.adm {
+  display: flex;
+  min-height: 100vh;
+  background: $bg;
+  color: $ink;
+  font: 15px/1.5 $font;
+
+  &, & * { box-sizing: border-box; }
+
+  h1 { margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -0.01em; }
+
+  @include md { flex-direction: column; }
+
+  // Сайдбар
+  &-side {
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    width: $sidebar-width;
+    height: 100vh;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 24px 16px;
+    background: $sidebar;
+    color: #e8f0ee;
+
+    b { padding: 0 12px 24px; font-size: 18px; letter-spacing: -0.01em; }
+
+    a, button {
+      all: unset;
+      display: flex;
+      align-items: center;
+      min-height: $control-h;
+      padding: 0 12px;
+      border-radius: $radius-sm;
+      cursor: pointer;
+      transition: background 0.15s;
+      &:hover { background: rgba(#fff, 0.07); }
+      &:focus-visible { box-shadow: 0 0 0 2px #7fd3c9; }
+    }
+    a.on { background: $sidebar-active; font-weight: 500; }
+    button { margin-top: auto; color: rgba(#e8f0ee, 0.7); }
+
+    @include md {
+      position: static;
+      width: auto;
+      height: auto;
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding: 12px;
+      b { width: 100%; padding: 4px 12px 8px; }
+      button { margin-top: 0; margin-left: auto; }
+    }
+  }
+
+  &-main {
+    flex: 1;
+    min-width: 0;
+    padding: 36px 44px;
+    @include md { padding: 20px; }
+  }
+
+  &-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  // Таблица
+  &-card {
+    overflow-x: auto;
+    background: $surface;
+    border: 1px solid $border;
+    border-radius: $radius;
+    box-shadow: $shadow;
+  }
+
+  table { width: 100%; min-width: 720px; border-collapse: collapse; }
+
+  th, td { padding: 14px 16px; text-align: left; vertical-align: middle; }
+
+  th {
+    background: #faf9f6;
+    border-bottom: 1px solid $border;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: $muted;
+  }
+
+  td { border-bottom: 1px solid #efede6; }
+  tbody tr {
+    transition: background 0.12s;
+    &:hover { background: #fbfaf7; }
+    &:last-child td { border-bottom: 0; }
+  }
+
+  // Контролы
+  .b, select, textarea, input:not([type='checkbox']):not([type='file']) { @include control; }
+  textarea { padding: 10px 14px; min-height: 88px; resize: vertical; }
+  input[type='checkbox'] { width: 18px; height: 18px; accent-color: $primary; vertical-align: -3px; }
+  input[type='file'] { font: inherit; }
+
+  .b {
+    cursor: pointer;
+    font-weight: 500;
+    &:hover { background: #f7f6f2; border-color: $ink; }
+    &:active { transform: translateY(1px); }
+  }
+  .p {
+    background: $primary;
+    border-color: $primary;
+    color: #fff;
+    &:hover { background: $primary-dark; border-color: $primary-dark; }
+  }
+
+  // Статус
+  &-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 99px;
+    background: $border;
+    font-size: 13px;
+    font-weight: 500;
+    &.ok { background: $success-bg; color: $success-ink; }
+  }
+
+  // Формы
+  &-form {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding: 24px;
+    background: $surface;
+    border: 1px solid $border;
+    border-radius: $radius;
+    box-shadow: $shadow;
+
+    label { display: grid; gap: 6px; font-size: 13px; font-weight: 500; color: $muted; }
+  }
+
+  &-g3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    @include md { grid-template-columns: 1fr; }
+  }
+
+  &-err {
+    margin: 0 0 16px;
+    padding: 10px 14px;
+    border-radius: $radius-sm;
+    background: #fbe9e6;
+    color: $danger;
+  }
+
+  // Вход
+  &-login {
+    width: 100%;
+    max-width: 380px;
+    margin: 16vh auto 0;
+    padding: 32px;
+    h1 { margin-bottom: 8px; }
+  }
+}

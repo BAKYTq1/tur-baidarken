@@ -1,0 +1,181 @@
+$text: #1d2421;
+$muted: #6f7a75;
+$accent: #f28a1e;
+$green: #1f4a3d;
+$green-hover: #2c6553;
+$border: #dfe5e2;
+$ease: cubic-bezier(0.22, 0.8, 0.3, 1);
+
+.feed {
+  max-width: 1040px;
+  margin: 50px auto 0;
+
+  // ---------- заголовок ----------
+  &__head {
+    margin-bottom: 18px;
+  }
+
+  &__kicker {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: $accent;
+  }
+
+  &__title {
+    margin: 0 0 8px;
+    font-size: 26px;
+    font-weight: 700;
+    color: $text;
+  }
+
+  &__subtitle {
+    margin: 0;
+    font-size: 13px;
+    color: $muted;
+  }
+
+  // ---------- чипсы ----------
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+
+  &__chip {
+    padding: 8px 16px;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    color: $text;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid $border;
+    border-radius: 999px;
+    transition: background 0.25s, color 0.25s, border-color 0.25s,
+      transform 0.2s;
+
+    &:hover:not(.is-active) {
+      border-color: $green;
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &.is-active {
+      color: #fff;
+      background: $green;
+      border-color: $green;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $green;
+      outline-offset: 2px;
+    }
+  }
+
+  // ---------- сетка ----------
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  &__item {
+    animation: feed-in 0.45s $ease both;
+
+    &:nth-child(2) { animation-delay: 60ms; }
+    &:nth-child(3) { animation-delay: 120ms; }
+    &:nth-child(4) { animation-delay: 180ms; }
+  }
+
+  // ---------- кнопка ----------
+  &__footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 28px;
+  }
+
+  &__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    background: $green;
+    border: 0;
+    border-radius: 999px;
+    transition: background 0.25s, transform 0.2s;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.3s $ease;
+    }
+
+    &:hover {
+      background: $green-hover;
+
+      svg {
+        transform: translateX(3px);
+      }
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $green;
+      outline-offset: 3px;
+    }
+  }
+
+  // ---------- адаптив ----------
+  @media (max-width: 720px) {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+
+    &__title {
+      font-size: 22px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__item {
+      animation: none;
+    }
+
+    &__chip,
+    &__more,
+    &__more svg {
+      transition: none;
+    }
+  }
+}
+
+@keyframes feed-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

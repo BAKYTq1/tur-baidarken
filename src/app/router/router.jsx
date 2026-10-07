@@ -1,8 +1,14 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import Layout from "../Layout/Layout";
 import { Home } from "../../pages/Home/Home";
 import Tours from "../../pages/Tours/Tours";
 import About from "../../pages/AboutUs/About";
+import Reviews from "../../pages/reviews/Reviews";
+import AdminLayout from "../Layout/AdminLayout";
+import AdminTours from "../../pages/admin/AdminTours";
+import AdminBookings from "../../pages/admin/AdminBookings";
+import AdminReviews from "../../pages/admin/AdminReviews";
+import AdminLogin from "../../pages/admin/AdminLogin";
 
 export const router = createBrowserRouter([
     {
@@ -21,6 +27,22 @@ export const router = createBrowserRouter([
                 path: "/about",
                 element: <About/>
             },
+            {
+                path: "/reviews",
+                element: <Reviews/>
+            },
         ]
-    }
+    },
+    { path: '/admin/login', element: <AdminLogin /> },
+    {
+   path: '/admin',
+   element: <AdminLayout />,
+   children: [
+    { index: true, element: <Navigate to="tours" replace /> },
+    { path: 'tours', element: <AdminTours /> },
+    { path: 'bookings', element: <AdminBookings /> },
+    { path: 'reviews', element: <AdminReviews/> },
+  ],
+},
+
 ])
