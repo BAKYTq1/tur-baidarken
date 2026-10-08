@@ -54,7 +54,7 @@ function Footer() {
               <h2 className={styles.columnTitle}>{t('footer.company')}</h2>
               <a href="#about">{t('nav.about')}</a>
               <a href="#reviews">{t('nav.reviews')}</a>
-              <a href="#contacts">{t('nav.contacts')}</a>
+              <a href="/contacts">{t('nav.contacts')}</a>
             </section>
 
             <section className={styles.linkColumn}>
@@ -66,7 +66,7 @@ function Footer() {
 
             <section className={styles.linkColumn}>
               <h2 className={styles.columnTitle}>{t('footer.help')}</h2>
-              <a href="#faq">{t('nav.faq')}</a>
+              <a href="/contacts#faq">{t('nav.faq')}</a>
               <a href="#terms">{t('footer.terms')}</a>
               <a href="#payment">{t('footer.payment')}</a>
             </section>

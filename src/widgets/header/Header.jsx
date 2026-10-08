@@ -24,12 +24,12 @@ function Header() {
 
         <nav aria-label={t('nav.aria_label')}>
           <ul className={styles.navList}>
-            <li><a href="#home" className={`${styles.navLink} ${styles.activeLink}`} aria-current="page">{t('nav.home')}</a></li>
+            <li><a href="/" className={`${styles.navLink} ${styles.activeLink}`} aria-current="page">{t('nav.home')}</a></li>
             <li><a href="#about" className={styles.navLink}>{t('nav.about')}</a></li>
             <li><a href="#tours" className={styles.navLink}>{t('nav.tours')}</a></li>
             <li><a href="#reviews" className={styles.navLink}>{t('nav.reviews')}</a></li>
             <li><a href="#blog" className={styles.navLink}>{t('nav.blog')}</a></li>
-            <li><a href="#contacts" className={styles.navLink}>{t('nav.contacts')}</a></li>
+            <li><a href="/contacts" className={styles.navLink}>{t('nav.contacts')}</a></li>
           </ul>
         </nav>
 
