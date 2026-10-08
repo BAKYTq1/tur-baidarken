@@ -19,7 +19,7 @@ export default function AdminLayout() {
         {links.map(([to, label]) => (
           <NavLink key={to} to={to} className={({ isActive }) => (isActive ? 'on' : '')}>{label}</NavLink>
         ))}
-        <button onClick={logout}>Выйти</button>
+        <button type="button" onClick={logout}>Выйти</button>
       </aside>
       <main className="adm-main"><Outlet /></main>
     </div>
