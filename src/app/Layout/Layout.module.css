@@ -1,0 +1,9 @@
+.headerSpacer {
+  height: 93px;
+}
+
+@media (max-width: 768px) {
+  .headerSpacer {
+    height: 77px;
+  }
+}
