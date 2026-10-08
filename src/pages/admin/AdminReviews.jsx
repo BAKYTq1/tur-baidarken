@@ -1,28 +1,75 @@
-import { adminApi, asList } from '../../shared/api/admin';
-import useLoad from '../../shared/hooks/useLoad';
+import { adminApi } from '../../shared/api/admin';
+import { useLoad } from '../../shared/hooks/useLoad';
 
-const text = (o) => (o && typeof o === 'object' ? o.ru || o.en || o.kg || '' : o || '');
-
+// ⚠️ Имена полей — предположение, сверьте с API
 export default function AdminReviews() {
-  const { data, error, loading, reload, setError } = useLoad(adminApi.reviews);
-  const toggle = async (r) => {
-    try { await adminApi.setReviewPublished(r.id, !r.is_published); reload(); } catch (e) { setError(e.message); }
+  const { items, loading, error, setError, reload } = useLoad(adminApi.reviews);
+
+  const toggle = async (review) => {
+    try {
+      setError('');
+      await adminApi.setReviewPublished(review.id, !review.is_published);
+      await reload();
+    } catch (e) {
+      setError(e.message);
+    }
   };
+
   return (
     <>
-      <div className="adm-bar"><h1>Отзывы</h1></div>
-      {error && <p className="adm-err">{error}</p>} 
-      {loading && !data ? 'Загрузка…' : (
-        <div className="adm-card"><table>
-          <thead><tr><th>Автор</th><th>Оценка</th><th>Текст</th><th>Публикация</th></tr></thead>
-          <tbody>{asList(data).map((r) => (
-            <tr key={r.id}>
-              <td><b>{r.author_name}</b></td><td>{r.rating}</td><td>{text(r.text).slice(0, 120)}</td>
-              <td><button className="b" onClick={() => toggle(r)}>{r.is_published ? 'Скрыть' : 'Опубликовать'}</button></td>
+      <div className="adm-bar">
+        <h1>Отзывы</h1>
+      </div>
+
+      {error && <p className="adm-err">{error}</p>}
+
+      <div className="adm-card">
+        <table>
+          <thead>
+            <tr>
+              <th>Автор</th>
+              <th>Оценка</th>
+              <th>Отзыв</th>
+              <th>На сайте</th>
             </tr>
-          ))}</tbody>
-        </table></div>
-      )}
+          </thead>
+          <tbody>
+            {loading && (
+              <tr><td colSpan={4}>Загрузка…</td></tr>
+            )}
+            {!loading && items.length === 0 && (
+              <tr><td colSpan={4}>Отзывов пока нет</td></tr>
+            )}
+            {items.map((r) => (
+              <tr key={r.id}>
+                <td>
+                  {r.author_name || r.name || '—'}
+                  {r.tour_title && (
+                    <div style={{ color: '#5b6b69', fontSize: 13 }}>{r.tour_title}</div>
+                  )}
+                </td>
+                <td>{r.rating ? `★ ${r.rating}` : '—'}</td>
+                <td style={{ maxWidth: 420 }}>
+                  {(r.text || r.comment || '').slice(0, 140)}
+                  {(r.text || r.comment || '').length > 140 ? '…' : ''}
+                </td>
+                <td>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
+                    <input
+                      type="checkbox"
+                      checked={!!r.is_published}
+                      onChange={() => toggle(r)}
+                    />
+                    <span className={`adm-tag ${r.is_published ? 'ok' : ''}`}>
+                      {r.is_published ? 'Опубликован' : 'Скрыт'}
+                    </span>
+                  </label>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }

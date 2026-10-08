@@ -1,15 +1,29 @@
 import { useCallback, useEffect, useState } from 'react';
+import { asList } from '../../shared/api/admin';
+import { flattenLoc } from './loc';
 
-export default function useLoad(fn) {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState('');
+// Загружает список и даёт перезагрузить его после изменений
+export function useLoad(fetcher) {
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
   const reload = useCallback(async () => {
     setLoading(true);
-    try { setData(await fn()); setError(''); }
-    catch (e) { setError(e.message); }
-    finally { setLoading(false); }
-  }, [fn]);
-  useEffect(() => { reload(); }, [reload]);
-  return { data, error, loading, reload, setError };
+    setError('');
+    try {
+      // переводимые поля { ru, en, kg } сразу превращаем в строки
+      setItems(flattenLoc(asList(await fetcher())));
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [fetcher]);
+
+  useEffect(() => {
+    reload();
+  }, [reload]);
+
+  return { items, loading, error, setError, reload };
 }
