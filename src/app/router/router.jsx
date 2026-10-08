@@ -3,6 +3,7 @@ import Layout from "../Layout/Layout";
 import { Home } from "../../pages/Home/Home";
 import Tours from "../../pages/Tours/Tours";
 import About from "../../pages/AboutUs/About";
+import Contact from "../../pages/Contact/Contact";
 import Reviews from "../../pages/reviews/Reviews";
 import AdminLayout from "../Layout/AdminLayout";
 import AdminTours from "../../pages/admin/AdminTours";
@@ -17,7 +18,7 @@ export const router = createBrowserRouter([
         element: <Layout />,
         children: [
             {
-                path: "/",
+                index: true,
                 element: <Home/>
             },
             {
@@ -29,6 +30,9 @@ export const router = createBrowserRouter([
                 element: <About/>
             },
             {
+                path: "/contacts",
+                element: <Contact/>
+            },
                 path: "/reviews",
                 element: <Reviews/>
             },

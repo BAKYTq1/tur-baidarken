@@ -1,12 +1,7 @@
-import React from 'react'
-
+import ContactsPage from '../../widgets/contacts/ContactsPage'
 
 function Contact() {
-  return (
-    <div>
-      
-    </div>
-  )
+  return <ContactsPage />
 }
 
 export default Contact
