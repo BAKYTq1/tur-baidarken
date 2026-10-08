@@ -6,6 +6,8 @@ import styles from './Banner.module.css'
 function Banner({
   title = 'Откройте природу. Найдите свой отдых.',
   subtitle = 'ИССЛЕДУЙТЕ МИР',
+  subtitle2 = 'Найдите свой идеальный тур и отправляйтесь в незабываемое приключение.',
+  description,
   bgImage = defaultBannerImage,
   buttonText = 'Откройте сейчас',
   showSearchForm = true,
@@ -27,8 +29,10 @@ function Banner({
         <div className={styles.content}>
           <p className={styles.subtitle}>{subtitle}</p>
           <h1 className={styles.title}>{title}</h1>
+          <p className={styles.subtitle2}>{subtitle2}</p>
+          {description && <p className={styles.description}>{description}</p>}
           <a className={styles.ctaButton} href="#tours">
-            {buttonText}
+            {buttonText} 
           </a>
         </div>
 
@@ -73,9 +77,11 @@ function Banner({
 Banner.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string,
+  description: PropTypes.string,
   bgImage: PropTypes.string,
   buttonText: PropTypes.string,
   showSearchForm: PropTypes.bool,
+  subtitle2: PropTypes.string,
 }
 
 export default Banner

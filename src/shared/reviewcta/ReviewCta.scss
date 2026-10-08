@@ -1,0 +1,247 @@
+$bg: #1f4a3d;
+$orange: #f28a1e;
+$orange-hover: #ff9a35;
+$text: #1d2421;
+$muted: #8a928e;
+$star-off: #e3e7e4;
+$ease: cubic-bezier(0.22, 0.8, 0.3, 1);
+
+.rcta {
+  margin-top: 50px;
+  padding: 56px 24px;
+  background: $bg;
+
+  &__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 48px;
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+
+  // ---------- текст ----------
+  &__label {
+    display: block;
+    margin-bottom: 14px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: $orange;
+  }
+
+  &__title {
+    max-width: 400px;
+    margin: 0 0 14px;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  &__text {
+    max-width: 380px;
+    margin: 0 0 24px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    background: $orange;
+    border: 0;
+    border-radius: 999px;
+    transition: background 0.25s, transform 0.2s, box-shadow 0.3s;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      transition: transform 0.35s $ease;
+    }
+
+    &:hover {
+      background: $orange-hover;
+      box-shadow: 0 10px 24px rgba($orange, 0.35);
+
+      svg {
+        transform: rotate(90deg);
+      }
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
+  }
+
+  // ---------- карточка оценки ----------
+  &__card {
+    padding: 22px 24px 20px;
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+
+    &.is-attempted {
+      animation: rcta-shake 0.4s;
+    }
+  }
+
+  &__card-title {
+    margin: 0 0 14px;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    color: $text;
+  }
+
+  &__stars {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 26px;
+  }
+
+  &__star {
+    display: flex;
+    padding: 2px;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    transition: transform 0.2s $ease;
+
+    svg {
+      width: 30px;
+      height: 30px;
+      fill: $star-off;
+      transition: fill 0.2s;
+    }
+
+    &.is-on svg {
+      fill: $orange;
+    }
+
+    &:hover {
+      transform: scale(1.18) rotate(-6deg);
+    }
+
+    &.is-picked {
+      animation: rcta-pop 0.45s $ease;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $orange;
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+  }
+
+  &__rating-label {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    right: 0;
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    color: $orange;
+  }
+
+  &__select {
+    width: 100%;
+    padding: 12px 38px 12px 16px;
+    font: inherit;
+    font-size: 13px;
+    color: $text;
+    cursor: pointer;
+    appearance: none;
+    background: #f4f6f5
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236f7a75' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")
+      no-repeat right 14px center / 14px;
+    border: 1px solid #e3e7e4;
+    border-radius: 12px;
+    outline: 0;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:invalid,
+    &:has(option[value='']:checked) {
+      color: $muted;
+    }
+
+    &:focus-visible {
+      border-color: $bg;
+      box-shadow: 0 0 0 3px rgba($bg, 0.12);
+    }
+  }
+
+  &__note {
+    margin: 12px 0 0;
+    font-size: 10px;
+    line-height: 1.5;
+    color: $muted;
+    text-align: center;
+  }
+
+  &__card.is-attempted &__note {
+    color: #d9443f;
+  }
+
+  // ---------- адаптив ----------
+  @media (max-width: 800px) {
+    padding: 40px 20px;
+
+    &__inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    &__title {
+      font-size: 26px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__card.is-attempted,
+    &__star.is-picked {
+      animation: none;
+    }
+
+    &__star,
+    &__star svg,
+    &__btn,
+    &__btn svg {
+      transition: none;
+    }
+  }
+}
+
+@keyframes rcta-pop {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+@keyframes rcta-shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-6px); }
+  75%      { transform: translateX(6px); }
+}

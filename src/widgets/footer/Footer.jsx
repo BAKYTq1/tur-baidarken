@@ -1,6 +1,7 @@
 import logo from '../assets/logo-mark.jpeg'
 import { useI18n } from '../../shared/i18n'
 import styles from './Footer.module.css'
+import { Link } from 'react-router-dom'
 
 const socialLinks = [
   {
@@ -42,33 +43,33 @@ function Footer() {
       <div className={styles.container}>
         <div className={styles.top}>
           <div className={styles.brand}>
-            <a href="/" className={styles.logo} aria-label="Байдаркен — главная">
+            <Link to="/" className={styles.logo} aria-label="Байдаркен — главная">
               <img src={logo} alt="" className={styles.logoIcon} />
               <span className={styles.logoText}>Байдаркен</span>
-            </a>
+            </Link>
             <p className={styles.description}>{t('footer.description')}</p>
           </div>
 
           <div className={styles.linkColumns}>
             <section className={styles.linkColumn}>
               <h2 className={styles.columnTitle}>{t('footer.company')}</h2>
-              <a href="#about">{t('nav.about')}</a>
-              <a href="#reviews">{t('nav.reviews')}</a>
-              <a href="/contacts">{t('nav.contacts')}</a>
+              <Link to="/about">{t('nav.about')}</Link>
+              <Link to="/reviews">{t('nav.reviews')}</Link>
+              <Link to="/contacts">{t('nav.contacts')}</Link>
             </section>
 
             <section className={styles.linkColumn}>
               <h2 className={styles.columnTitle}>{t('footer.travel')}</h2>
-              <a href="#tours">{t('nav.tours')}</a>
-              <a href="#blog">{t('nav.blog')}</a>
-              <a href="#book">{t('footer.choose_tour')}</a>
+              <Link to="/tours">{t('nav.tours')}</Link>
+              <Link to="/blog">{t('nav.blog')}</Link>
+              <Link to="/book">{t('footer.choose_tour')}</Link>
             </section>
 
             <section className={styles.linkColumn}>
               <h2 className={styles.columnTitle}>{t('footer.help')}</h2>
-              <a href="/contacts#faq">{t('nav.faq')}</a>
-              <a href="#terms">{t('footer.terms')}</a>
-              <a href="#payment">{t('footer.payment')}</a>
+              <Link to="/faq">{t('nav.faq')}</Link>
+              <Link to="/terms">{t('footer.terms')}</Link>
+              <Link to="/payment">{t('footer.payment')}</Link>
             </section>
           </div>
         </div>
