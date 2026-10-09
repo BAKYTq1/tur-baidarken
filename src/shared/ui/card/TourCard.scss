@@ -127,6 +127,10 @@ $ease: cubic-bezier(0.22, 0.8, 0.3, 1);
     font-weight: 700;
     line-height: 1.2;
     color: $text;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 
   &__meta {

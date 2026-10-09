@@ -1,0 +1,147 @@
+.page {
+  padding: 32px 24px 80px;
+  color: #1d2421;
+}
+
+.container {
+  width: min(100%, 1040px);
+  margin: 0 auto;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #f27a2c;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+  gap: 32px;
+  align-items: center;
+}
+
+.cover {
+  display: block;
+  width: 100%;
+  max-height: 520px;
+  aspect-ratio: 4 / 3;
+  border-radius: 24px;
+  object-fit: cover;
+}
+
+.heroContent h1 {
+  margin: 12px 0;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.1;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  color: #f27a2c;
+  font-weight: 700;
+  list-style: none;
+  text-transform: uppercase;
+}
+
+.subtitle,
+.meta,
+.section p {
+  color: #68736d;
+  line-height: 1.7;
+}
+
+.price {
+  margin: 24px 0 8px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.section {
+  margin-top: 48px;
+}
+
+.section h2 {
+  margin: 0 0 16px;
+  font-size: 28px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.gallery img {
+  width: 100%;
+  height: 220px;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.program,
+.list {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.program li + li,
+.list li + li {
+  margin-top: 16px;
+}
+
+.program h3 {
+  margin: 0;
+}
+
+.program p {
+  margin: 8px 0 0;
+}
+
+.state {
+  display: grid;
+  min-height: 45vh;
+  justify-items: center;
+  align-content: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+}
+
+.state button {
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 8px;
+  background: #f27a2c;
+  color: white;
+  cursor: pointer;
+}
+
+.state a {
+  color: #f27a2c;
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: 24px 16px 56px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .cover {
+    aspect-ratio: 16 / 10;
+  }
+
+  .section {
+    margin-top: 36px;
+  }
+}

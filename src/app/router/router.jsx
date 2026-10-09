@@ -10,6 +10,7 @@ import AdminBookings from "../../pages/admin/AdminBookings";
 import AdminReviews from "../../pages/admin/AdminReviews";
 import AdminLogin from "../../pages/admin/AdminLogin";
 import Blog from "../../pages/Blog/Blog";
+import TourDetails from "../../pages/Tours/TourDetails";
 
 export const router = createBrowserRouter([
     {
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
             {
                 path: "/",
                 element: <Home/>
+            },
+            {
+                path: "/tours/:tourId",
+                element: <TourDetails/>
             },
             {
                 path: "/tours",
