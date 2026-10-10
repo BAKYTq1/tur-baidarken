@@ -1,24 +1,26 @@
-// API отдаёт переводимые поля объектом { ru, en, kg }.
-// loc() достаёт из него строку (RU → EN → KG) и безопасно работает и с обычной строкой.
+// API отдаёт переводимые поля объектом { ru, en, kg, ja }.
+// loc() достаёт из него строку и безопасно работает и с обычной строкой.
 export const LANGS = [
   ['ru', 'RU'],
   ['en', 'EN'],
   ['kg', 'KG'],
+  ['ja', 'JA'],
 ];
 
 export const loc = (value, lang = 'ru') => {
   if (value == null) return '';
   if (typeof value === 'object') {
-    return value[lang] || value.ru || value.en || value.kg || '';
+    return value[lang] || value.ru || value.en || value.kg || value.ja || '';
   }
   return String(value);
 };
 
-// строка или объект → всегда { ru, en, kg } (для полей формы)
+// строка или объект → всегда содержит языки, поддерживаемые формой
 export const toLoc = (value) => ({
   ru: '',
   en: '',
   kg: '',
+  ja: '',
   ...(value && typeof value === 'object' ? value : { ru: value ?? '' }),
 });
 
@@ -32,7 +34,7 @@ const isLocObject = (v) =>
   Object.keys(v).length > 0 &&
   Object.keys(v).every((k) => LOC_KEYS.includes(k));
 
-// Рекурсивно заменяет все { ru, en, kg } в данных на строки.
+// Рекурсивно заменяет все объекты переводов в данных на строки.
 // Нужен для таблиц: так ни одно поле не сломает рендер.
 export const flattenLoc = (value, lang = 'ru') => {
   if (isLocObject(value)) return loc(value, lang);

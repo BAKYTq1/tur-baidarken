@@ -151,6 +151,10 @@ $radius: 28px;
     pointer-events: none;
     transform-origin: 70% 100%;
     animation: flowers-sway 7s ease-in-out infinite;
+    @media (max-width: 1050px) {
+       right: 0px;
+    bottom: -28px;
+    }
   }
 
   // ---------- адаптив ----------

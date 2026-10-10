@@ -45,3 +45,33 @@ export const adminApi = {
     return request('/admin/media/images', { method: 'POST', form });
   },
 };
+
+// ВСТАВЬТЕ В src/shared/api/admin.js — после функции request() и перед/после adminApi.
+// Эндпоинты взяты из вашего swagger.
+
+// 1) в объект adminApi добавьте:
+//    deleteReview: (id) => request(`/admin/reviews/${id}`, { method: 'DELETE' }),
+
+// 2) ниже adminApi добавьте:
+const crud = (base) => ({
+  list: () => request(base),
+  get: (id) => request(`${base}/${id}`),
+  create: (body) => request(base, { method: 'POST', body }),
+  replace: (id, body) => request(`${base}/${id}`, { method: 'PUT', body }),
+  remove: (id) => request(`${base}/${id}`, { method: 'DELETE' }),
+});
+
+export const guidesApi = crud('/admin/guides');
+export const faqApi = crud('/admin/faq');
+
+export const companyApi = {
+  get: () => request('/admin/company'),
+  save: (body) => request('/admin/company', { method: 'PUT', body }),
+};
+
+export const telegramApi = {
+  list: () => request('/admin/telegram/chats'),
+  // ⚠️ имя поля тела (chat_id) — предположение, сверьте со swagger
+  add: (chat_id) => request('/admin/telegram/chats', { method: 'POST', body: { chat_id } }),
+  remove: (chatId) => request(`/admin/telegram/chats/${chatId}`, { method: 'DELETE' }),
+};

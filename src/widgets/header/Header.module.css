@@ -12,12 +12,10 @@
 
 .container {
   display: flex;
-  width: 100%;
-  max-width: 1040px;
+  /* max-width: 1040px; */
   justify-content: space-between;
   align-items: center;
   gap: 24px;
-  min-width: 0;
   margin: 0 auto;
 }
 
@@ -233,7 +231,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .header {
     padding-right: 16px;
     padding-left: 16px;

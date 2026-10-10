@@ -93,23 +93,33 @@
 }
 
 .ctaButton {
-  display: inline-flex;
-  min-height: 48px;
-  align-items: center;
-  justify-content: center;
-  margin-top: 28px;
-  padding: 0 24px;
-  border-radius: 8px;
-  background-color: #f97316;
-  color: #172b24;
-  font-size: 15px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background-color 150ms ease;
-}
+ display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 13px 22px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    background: #f28a1e;
+    border-radius: 999px;
+    transition: background 0.25s, transform 0.2s, box-shadow 0.3s;
+  gap: 8px;
+    svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: all 0.3s ease;
+    }
+  }
 
 .ctaButton:hover {
-  background-color: #ea650b;
+ background: #ff9a35;
+  box-shadow: 0 8px 20px rgba(242, 138, 30, 0.35);
 }
 
 .searchForm {
