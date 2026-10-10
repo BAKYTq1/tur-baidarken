@@ -219,6 +219,11 @@ html {
       outline: 3px solid rgba(242, 138, 30, 0.35);
       outline-offset: 3px;
     }
+
+    &:disabled {
+      cursor: wait;
+      opacity: 0.7;
+    }
   }
 
   &__note {
@@ -582,6 +587,11 @@ html {
 
   &__item {
     border-bottom: 1px solid #e2e7e1;
+    transition: background-color 0.2s ease;
+  }
+
+  &__item.is-open {
+    background: rgba(242, 138, 30, 0.02);
   }
 
   &__item h3 {
@@ -605,6 +615,7 @@ html {
     font: inherit;
     font-size: 16px;
     font-weight: 600;
+    transition: color 0.2s ease;
 
     &:hover {
       color: #de7411;
@@ -617,23 +628,36 @@ html {
     }
   }
 
+  &__item.is-open &__question {
+    color: #f97316;
+  }
+
   &__toggle {
     display: grid;
-    flex: 0 0 30px;
-    width: 30px;
-    height: 30px;
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
     color: #df7b1a;
-    background: #fff;
+    background: #f3f4f6;
     border: 1px solid #e9e6de;
     border-radius: 50%;
     font-size: 21px;
     font-weight: 400;
     line-height: 1;
     place-items: center;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+
+  &__item.is-open &__toggle {
+    color: #fff;
+    background: #f28a1e;
   }
 
   &__answer {
+    max-height: 420px;
+    overflow: hidden;
     padding: 0 48px 20px 2px;
+    animation: faqFade 0.2s ease;
 
     p {
       margin: 0;
@@ -641,6 +665,25 @@ html {
       font-size: 14px;
       line-height: 1.75;
     }
+  }
+
+  &__state {
+    padding: 24px 0;
+    color: #75817c;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+}
+
+@keyframes faqFade {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

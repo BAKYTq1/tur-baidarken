@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import PropTypes from 'prop-types'
 import './ReviewCta.scss';
 import { getLang } from '../i18n/i18n'
@@ -30,6 +30,7 @@ const ReviewCta = ({
   const [authorName, setAuthorName] = useState('');
   const [text, setText] = useState('');
   const [attempted, setAttempted] = useState(false);
+  const submittingRef = useRef(false);
   const { data: tours = [], isLoading: isLoadingTours, isError: isToursError } = useTours();
   const { mutate, isPending } = useAddReview();
 
@@ -38,11 +39,13 @@ const ReviewCta = ({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (incomplete || isPending) {
+    if (incomplete) {
       setAttempted(true);
       return;
     }
+    if (isPending || submittingRef.current) return;
 
+    submittingRef.current = true;
     mutate({
       tourId: selectedTourId,
       reviewData: {
@@ -58,6 +61,9 @@ const ReviewCta = ({
         setAuthorName('')
         setText('')
         setAttempted(false)
+      },
+      onSettled: () => {
+        submittingRef.current = false
       },
     });
   };

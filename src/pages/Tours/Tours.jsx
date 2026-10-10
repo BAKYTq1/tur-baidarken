@@ -2,7 +2,6 @@ import 'react'
 import Features from '../../shared/features/Features'
 import Catalog from '../../shared/catalog/Catalog'
 import TourPicker from '../../shared/Tourpicker/Tourpicker'
-import Newsletter from '../../shared/newsletter/Newsletter'
 import Banner from '../../widgets/banner/Banner'
 import { useI18n } from '../../shared/i18n'
 import { usePageMeta } from '../../shared/hooks/usePageMeta'
@@ -79,7 +78,6 @@ function Tours() {
       <Features/>
       <Catalog/>
       <TourPicker/>
-      <Newsletter/>
     </div>
   )
 }

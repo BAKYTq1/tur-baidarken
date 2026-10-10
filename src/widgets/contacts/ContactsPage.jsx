@@ -1,29 +1,59 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useI18n } from '../../shared/i18n'
-import Newsletter from '../../shared/newsletter/Newsletter'
+import { getLang } from '../../shared/i18n/i18n'
+import { useCreateBooking } from '../../shared/api/useCreateBooking'
+import { useFaq } from '../../features/faq/model/useFaq'
 import ContactHero from './ContactHero'
 import './ContactsPage.scss'
 
 function Contact() {
   const { t } = useI18n()
   const [openQuestion, setOpenQuestion] = useState(null)
-  const questions = t.list('faq.items')
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+  const [note, setNote] = useState('')
+  const [isAgreed, setIsAgreed] = useState(false)
+  const submittingRef = useRef(false)
+  const { mutate, isPending } = useCreateBooking()
+  const { data, isLoading, isError } = useFaq()
+  const faqItems = data?.items || []
   const address = t('contactPage.address')
-  const phone = '+998 555 48 20 20'
+  const contactPhone = '+998 555 48 20 20'
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
 
   function handleContactSubmit(event) {
     event.preventDefault()
 
-    const formData = new FormData(event.currentTarget)
-    const body = [
-      `${t('contactPage.form.name')}: ${formData.get('name')}`,
-      `${t('contactPage.form.phone')}: ${formData.get('phone')}`,
-      `${t('contactPage.form.email')}: ${formData.get('email')}`,
-      `${t('contactPage.form.message')}: ${formData.get('message')}`,
-    ].join('\n')
+    if (!isAgreed) {
+      alert('Подтвердите согласие на обработку персональных данных')
+      return
+    }
 
-    window.location.href = `mailto:hello@baidarken.travel?subject=${encodeURIComponent(t('contactPage.form.mail_subject'))}&body=${encodeURIComponent(body)}`
+    const contact = phone.trim() || email.trim()
+    if (!contact || !name.trim() || !note.trim() || submittingRef.current) return
+
+    submittingRef.current = true
+    mutate({
+      name: name.trim(),
+      contact,
+      people_count: 1,
+      tour_id: null,
+      preferred_date: new Date().toISOString().split('T')[0],
+      note: note.trim(),
+      lang: getLang() || 'ru',
+    }, {
+      onSuccess: () => {
+        setName('')
+        setPhone('')
+        setEmail('')
+        setNote('')
+        setIsAgreed(false)
+      },
+      onSettled: () => {
+        submittingRef.current = false
+      },
+    })
   }
 
   return (
@@ -40,7 +70,7 @@ function Contact() {
             </span>
             <div className="contact-detail-card__content">
               <h2>{t('contactPage.call')}</h2>
-              <a className="contact-detail-card__primary" href="tel:+998555482020">{phone}</a>
+              <a className="contact-detail-card__primary" href="tel:+998555482020">{contactPhone}</a>
               <p>
                 <a href="https://wa.me/998555482020" target="_blank" rel="noreferrer">WhatsApp</a>
                 <span aria-hidden="true"> · </span>
@@ -92,31 +122,31 @@ function Contact() {
               <div className="contact-form__fields">
                 <label className="contact-form__field">
                   <span>{t('contactPage.form.name')}</span>
-                  <input name="name" type="text" autoComplete="name" placeholder={t('contactPage.form.name_placeholder')} required />
+                  <input name="name" type="text" autoComplete="name" placeholder={t('contactPage.form.name_placeholder')} value={name} onChange={(event) => setName(event.target.value)} required />
                 </label>
                 <label className="contact-form__field">
                   <span>{t('contactPage.form.phone')}</span>
-                  <input name="phone" type="tel" autoComplete="tel" placeholder="+998" required />
+                  <input name="phone" type="tel" autoComplete="tel" placeholder="+998" value={phone} onChange={(event) => setPhone(event.target.value)} required={!email.trim()} />
                 </label>
                 <label className="contact-form__field">
                   <span>{t('contactPage.form.email')}</span>
-                  <input name="email" type="email" autoComplete="email" placeholder="name@email.com" required />
+                  <input name="email" type="email" autoComplete="email" placeholder="name@email.com" value={email} onChange={(event) => setEmail(event.target.value)} required={!phone.trim()} />
                 </label>
                 <label className="contact-form__field contact-form__field--wide">
                   <span>{t('contactPage.form.message')}</span>
-                  <textarea name="message" rows="4" placeholder={t('contactPage.form.message_placeholder')} required />
+                  <textarea name="message" rows="4" placeholder={t('contactPage.form.message_placeholder')} value={note} onChange={(event) => setNote(event.target.value)} required />
                 </label>
               </div>
 
               <label className="contact-form__consent">
-                <input type="checkbox" required />
+                <input type="checkbox" checked={isAgreed} onChange={(event) => setIsAgreed(event.target.checked)} />
                 <span>{t('contactPage.form.consent')}</span>
               </label>
-              <button className="contact-form__submit" type="submit">
-                {t('contactPage.form.submit')}
+              <button className="contact-form__submit" type="submit" disabled={isPending}>
+                {isPending ? t('contactPage.form.sending') : t('contactPage.form.submit')}
                 <span aria-hidden="true">→</span>
               </button>
-              <p className="contact-form__note">{t('contactPage.form.mail_note')}</p>
+              <p className="contact-form__note">{t('contactPage.form.request_note')}</p>
             </form>
           </div>
 
@@ -206,43 +236,46 @@ function Contact() {
           </div>
 
           <div className="contact-faq__list">
-            {questions.map(({ q, a }, index) => {
-              const isOpen = openQuestion === index
-              const answerId = `contact-faq-answer-${index}`
+            {isLoading ? (
+              <div className="contact-faq__state">Загружаем частые вопросы...</div>
+            ) : isError ? (
+              <div className="contact-faq__state">Не удалось загрузить список вопросов</div>
+            ) : faqItems.length === 0 ? (
+              <div className="contact-faq__state">Пока нет вопросов</div>
+            ) : (
+              faqItems.map((item, index) => {
+                const isOpen = openQuestion === item.id
+                const answerId = `contact-faq-answer-${item.id || index}`
 
-              return (
-                <article className={`contact-faq__item${isOpen ? ' is-open' : ''}`} key={q}>
-                  <h3>
-                    <button
-                      className="contact-faq__question"
-                      type="button"
-                      aria-expanded={isOpen}
-                      aria-controls={answerId}
-                      onClick={() => setOpenQuestion(isOpen ? null : index)}
-                    >
-                      <span>{q}</span>
-                      <span className="contact-faq__toggle" aria-hidden="true">
-                        {isOpen ? '−' : '+'}
-                      </span>
-                    </button>
-                  </h3>
-                  <div className="contact-faq__answer" id={answerId} hidden={!isOpen}>
-                    <p>{a}</p>
-                  </div>
-                </article>
-              )
-            })}
+                return (
+                  <article className={`contact-faq__item${isOpen ? ' is-open' : ''}`} key={item.id || item.question || index}>
+                    <h3>
+                      <button
+                        className="contact-faq__question"
+                        type="button"
+                        aria-expanded={isOpen}
+                        aria-controls={answerId}
+                        onClick={() => setOpenQuestion(isOpen ? null : item.id)}
+                      >
+                        <span>{item.question}</span>
+                        <span className="contact-faq__toggle" aria-hidden="true">
+                          {isOpen ? '−' : '+'}
+                        </span>
+                      </button>
+                    </h3>
+                    {isOpen && (
+                      <div className="contact-faq__answer" id={answerId}>
+                        <p>{item.answer}</p>
+                      </div>
+                    )}
+                  </article>
+                )
+              })
+            )}
           </div>
         </div>
       </section>
 
-      <div className="contact-container contact-newsletter">
-        <Newsletter
-          label={t('contactPage.newsletter_label')}
-          title={t('contactPage.newsletter_title')}
-          text={t('contactPage.newsletter_text')}
-        />
-      </div>
     </main>
   )
 }
