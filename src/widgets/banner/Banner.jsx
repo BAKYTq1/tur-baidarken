@@ -3,6 +3,12 @@ import { useI18n } from '../../shared/i18n'
 import defaultBannerImage from '../assets/hero-img.png'
 import styles from './Banner.module.css'
 
+
+const ArrowIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M5 12h14M13 6l6 6-6 6" />
+  </svg>
+);
 function Banner({
   title = 'Откройте природу. Найдите свой отдых.',
   subtitle = 'ИССЛЕДУЙТЕ МИР',
@@ -32,7 +38,7 @@ function Banner({
           <p className={styles.subtitle2}>{subtitle2}</p>
           {description && <p className={styles.description}>{description}</p>}
           <a className={styles.ctaButton} href="#tours">
-            {buttonText} 
+            {buttonText}      <ArrowIcon />
           </a>
         </div>
 

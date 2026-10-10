@@ -12,7 +12,7 @@ export function useLoad(fetcher) {
     setLoading(true);
     setError('');
     try {
-      // переводимые поля { ru, en, kg } сразу превращаем в строки
+      // переводимые поля превращаем в строки активного языка для списка
       setItems(flattenLoc(asList(await fetcher())));
     } catch (e) {
       setError(e.message);

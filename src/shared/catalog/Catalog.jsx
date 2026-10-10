@@ -1,20 +1,8 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Catalog.scss';
 import TourCard from '../ui/card/Tourcard';
-import img from '../assets/gory_zakat_pejzazh_144200_300x188.jpg';
-
-// Вставьте свои фото в поле image: '/img/tour-1.jpg' (или импорт)
-const tours = [
-  { id: 1, image: img, rating: 4.8, popularity: 98, category: 'mountains', location: 'Банф, Канада', title: 'Альпийские озёра', duration: '8 дней', groupSize: 'до 12 человек', price: 69900 },
-  { id: 2, image: img, rating: 4.9, popularity: 95, category: 'lakes', location: 'Исландия', title: 'Тишина ледников', duration: '7 дней', groupSize: 'комфорт', price: 74900 },
-  { id: 3, image: img, rating: 4.9, popularity: 92, category: 'mountains', location: 'Хоккайдо, Япония', title: 'Высокогорная Япония', duration: '10 дней', groupSize: 'до 10 человек', price: 79900 },
-  { id: 4, image: img, rating: 4.7, popularity: 90, category: 'mountains', location: 'Кыргызстан', title: 'В сердце Тянь-Шаня', duration: '6 дней', groupSize: 'приключение', price: 42900 },
-  { id: 5, image: img, rating: 4.8, popularity: 88, category: 'expeditions', location: 'Россия', title: 'Дикий Алтай', duration: '9 дней', groupSize: 'экспедиция', price: 56900 },
-  { id: 6, image: img, rating: 4.7, popularity: 85, category: 'lakes', location: 'Турция', title: 'Южный берег', duration: '7 дней', groupSize: 'до 14 человек', price: 61900 },
-  { id: 7, image: img, rating: 4.6, popularity: 80, category: 'family', location: 'Иссык-Куль', title: 'Семейный отдых у озера', duration: '5 дней', groupSize: 'семейный', price: 38900 },
-  { id: 8, image: img, rating: 4.8, popularity: 78, category: 'weekend', location: 'Алматы, Казахстан', title: 'Горный уик-энд', duration: '3 дня', groupSize: 'до 8 человек', price: 24900 },
-  { id: 9, image: img, rating: 4.9, popularity: 75, category: 'mountains', location: 'Непал', title: 'Треккинг в Гималаях', duration: '12 дней', groupSize: 'экспедиция', price: 89900 },
-];
+import { tours } from '../data/tours';
 
 const categories = [
   { id: 'all', label: 'Все туры' },
@@ -59,6 +47,7 @@ const pluralTours = (n) => {
 };
 
 const Catalog = ({ onSelect }) => {
+  const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('all');
   const [sort, setSort] = useState('popular');
@@ -159,7 +148,10 @@ const Catalog = ({ onSelect }) => {
               <TourCard
                 {...tour}
                 price={formatPrice(price)}
-                onClick={() => onSelect?.(tour)}
+                onClick={() => {
+                  onSelect?.(tour);
+                  navigate(`/tours/${tour.slug || tour.id}`);
+                }}
               />
             </div>
           ))}
