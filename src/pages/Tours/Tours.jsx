@@ -2,7 +2,6 @@ import 'react'
 import Features from '../../shared/features/Features'
 import Catalog from '../../shared/catalog/Catalog'
 import TourPicker from '../../shared/Tourpicker/Tourpicker'
-import Newsletter from '../../shared/newsletter/Newsletter'
 import Banner from '../../widgets/banner/Banner'
 function Tours() {
   return (
@@ -17,7 +16,6 @@ function Tours() {
       <Features/>
       <Catalog/>
       <TourPicker/>
-      <Newsletter/>
     </div>
   )
 }

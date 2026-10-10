@@ -4,7 +4,6 @@ import ReviewsSummary from '../../shared/reviewssummary/Reviewssummary'
 import ReviewsFeed from '../../shared/reviewsfeed/Reviewsfeed'
 import Gallery from '../../shared/gallery/Gallery'
 import ReviewCta from '../../shared/reviewcta/Reviewcta'
-import Newsletter from '../../shared/newsletter/Newsletter'
 
 function Reviews() {
   return (
@@ -20,7 +19,6 @@ function Reviews() {
             <ReviewsFeed/>
             <Gallery/>
             <ReviewCta />
-            <Newsletter/>
     </div>
   )
 }

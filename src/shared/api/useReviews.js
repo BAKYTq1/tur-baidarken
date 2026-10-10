@@ -6,13 +6,18 @@ export function useAddReview() {
 
   return useMutation({
     mutationFn: postReview,
+    retry: false,
     onSuccess: () => {
       alert('Ваш отзыв успешно отправлен и находится на модерации!')
       queryClient.invalidateQueries({ queryKey: ['reviews'] })
     },
     onError: (error) => {
       console.error('Ошибка при отправке отзыва:', error)
-      alert(error?.response?.data?.error?.message || 'Не удалось отправить отзыв')
+      const message = error?.response?.data?.error?.message
+      const fallback = error?.response?.status === 429
+        ? 'Слишком много запросов. Подождите немного и попробуйте снова.'
+        : 'Не удалось отправить отзыв'
+      alert(message || fallback)
     },
   })
 }

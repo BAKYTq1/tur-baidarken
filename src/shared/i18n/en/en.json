@@ -359,7 +359,8 @@
       "message_placeholder": "Tell us what you need help with",
       "consent": "I agree to the processing of my personal data",
       "submit": "Send message",
-      "mail_note": "Your email app will open with your message ready to send.",
+      "request_note": "We will contact you after you submit your request.",
+      "sending": "Sending...",
       "mail_subject": "Website enquiry — Baidarken"
     }
   },

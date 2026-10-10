@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react'
 import Banner from '../../widgets/banner/Banner'
-import Newsletter from '../../shared/newsletter/Newsletter'
 import { useI18n } from '../../shared/i18n'
 import blogBannerImage from '../../shared/assets/горы.jpeg'
 import mountainImage from '../../widgets/assets/hero-img.png'
@@ -177,7 +176,6 @@ function Blog() {
           </div>
         </div>
       </section>
-      <Newsletter />
     </div>
   )
 }

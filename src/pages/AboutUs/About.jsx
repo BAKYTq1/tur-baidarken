@@ -1,9 +1,8 @@
 import Banner from '../../widgets/banner/Banner'
 import OurStory from '../../widgets/ourStory/OurStory'
 import AboutPrinciples from '../../widgets/aboutPrinciples/AboutPrinciples'
-import AboutTeam from '../../widgets/aboutTeam/AboutTeam'
+import GuidesSection from '../../widgets/aboutTeam/GuidesSection'
 import AboutTrust from '../../widgets/aboutTrust/AboutTrust'
-import Newsletter from '../../shared/newsletter/Newsletter'
 import { useI18n } from '../../shared/i18n'
 import aboutBannerImage from '../../shared/assets/about.png'
 
@@ -22,9 +21,8 @@ function About() {
       />
       <OurStory />
       <AboutPrinciples />
-      <AboutTeam />
+      <GuidesSection />
       <AboutTrust />
-      <Newsletter />
     </main>
   )
 }
