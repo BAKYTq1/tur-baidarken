@@ -167,6 +167,7 @@ $ease: cubic-bezier(0.22, 0.8, 0.3, 1);
   }
 
   &__select {
+    display: block;
     width: 100%;
     padding: 12px 38px 12px 16px;
     font: inherit;
@@ -191,6 +192,31 @@ $ease: cubic-bezier(0.22, 0.8, 0.3, 1);
       border-color: $bg;
       box-shadow: 0 0 0 3px rgba($bg, 0.12);
     }
+  }
+
+  &__input,
+  &__textarea {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px 16px;
+    border: 1px solid #e3e7e4;
+    border-radius: 12px;
+    background: #f4f6f5;
+    color: $text;
+    font: inherit;
+    font-size: 13px;
+    outline: 0;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus-visible {
+      border-color: $bg;
+      box-shadow: 0 0 0 3px rgba($bg, 0.12);
+    }
+  }
+
+  &__textarea {
+    resize: vertical;
   }
 
   &__note {

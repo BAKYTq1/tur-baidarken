@@ -1,14 +1,9 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types'
 import './ReviewCta.scss';
-
-const tours = [
-  'Альпийские озёра',
-  'Тишина ледников',
-  'Высокогорная Япония',
-  'В сердце Тянь-Шаня',
-  'Дикий Алтай',
-  'Южный берег',
-];
+import { getLang } from '../i18n/i18n'
+import { useTours } from '../api/useTours'
+import { useAddReview } from '../api/useReviews'
 
 const ratingLabels = ['', 'Плохо', 'Так себе', 'Нормально', 'Хорошо', 'Отлично!'];
 
@@ -27,35 +22,55 @@ const PlusIcon = () => (
 const ReviewCta = ({
   label = 'Уже путешествовали с нами?',
   title = 'Ваша история поможет другим решиться',
-  text = 'Поделитесь впечатлениями — это займёт около трёх минут.',
-  tourOptions = tours,
-  onSubmit, // ({ rating, tour }) => void
+  text: introText = 'Поделитесь впечатлениями — это займёт около трёх минут.',
 }) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
-  const [tour, setTour] = useState('');
+  const [selectedTourId, setSelectedTourId] = useState('');
+  const [authorName, setAuthorName] = useState('');
+  const [text, setText] = useState('');
   const [attempted, setAttempted] = useState(false);
+  const { data: tours = [], isLoading: isLoadingTours, isError: isToursError } = useTours();
+  const { mutate, isPending } = useAddReview();
 
   const shown = hover || rating;
-  const incomplete = !rating || !tour;
+  const incomplete = !selectedTourId || !rating || !authorName.trim() || !text.trim();
 
-  const handleSubmit = () => {
-    if (incomplete) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (incomplete || isPending) {
       setAttempted(true);
       return;
     }
-    onSubmit?.({ rating, tour });
+
+    mutate({
+      tourId: selectedTourId,
+      reviewData: {
+        author_name: authorName.trim(),
+        rating: Number(rating),
+        text: text.trim(),
+        lang: getLang() || 'ru',
+      },
+    }, {
+      onSuccess: () => {
+        setRating(0)
+        setSelectedTourId('')
+        setAuthorName('')
+        setText('')
+        setAttempted(false)
+      },
+    });
   };
 
   return (
     <section className="rcta">
-      <div className="rcta__inner">
+      <form className="rcta__inner" onSubmit={handleSubmit} noValidate>
         <div className="rcta__info">
           <span className="rcta__label">{label}</span>
           <h2 className="rcta__title">{title}</h2>
-          <p className="rcta__text">{text}</p>
-          <button type="button" className="rcta__btn" onClick={handleSubmit}>
-            Оставить отзыв
+          <p className="rcta__text">{introText}</p>
+          <button type="submit" className="rcta__btn" disabled={isPending || isLoadingTours}>
+            {isPending ? 'Отправка...' : 'Оставить отзыв'}
             <PlusIcon />
           </button>
         </div>
@@ -90,29 +105,59 @@ const ReviewCta = ({
 
           <select
             className="rcta__select"
-            value={tour}
-            onChange={(e) => setTour(e.target.value)}
+            value={selectedTourId}
+            onChange={(e) => setSelectedTourId(e.target.value)}
             aria-label="Выберите ваш тур"
+            required
+            disabled={isLoadingTours || isToursError || tours.length === 0}
           >
             <option value="" disabled>
-              Выберите ваш тур
+              {isLoadingTours ? 'Загрузка туров...' : 'Выберите ваш тур'}
             </option>
-            {tourOptions.map((t) => (
-              <option key={t} value={t}>
-                {t}
+            {tours.map((tour) => (
+              <option key={tour.id} value={tour.id}>
+                {tour.title}
               </option>
             ))}
           </select>
 
-          <p className="rcta__note">
-            {attempted && incomplete
-              ? 'Поставьте оценку и выберите тур, чтобы продолжить.'
-              : 'Затем откроется короткая форма: расскажите о маршруте и добавьте фото.'}
+          <input
+            className="rcta__input"
+            type="text"
+            value={authorName}
+            onChange={(event) => setAuthorName(event.target.value)}
+            placeholder="Ваше имя"
+            aria-label="Ваше имя"
+            autoComplete="name"
+            required
+          />
+          <textarea
+            className="rcta__textarea"
+            value={text}
+            onChange={(event) => setText(event.target.value)}
+            placeholder="Расскажите о путешествии"
+            aria-label="Текст отзыва"
+            rows={4}
+            required
+          />
+
+          <p className="rcta__note" role={isToursError ? 'alert' : undefined}>
+            {isToursError
+              ? 'Не удалось загрузить список туров.'
+              : attempted && incomplete
+                ? 'Заполните все поля и поставьте оценку, чтобы отправить отзыв.'
+                : 'Ваш отзыв будет отправлен на модерацию.'}
           </p>
         </div>
-      </div>
+      </form>
     </section>
   );
 };
+
+ReviewCta.propTypes = {
+  label: PropTypes.string,
+  title: PropTypes.string,
+  text: PropTypes.string,
+}
 
 export default ReviewCta;

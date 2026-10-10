@@ -45,10 +45,12 @@ const TourCard = ({
       >
         <img className="tour-card__img" src={image} alt={title} loading="lazy" />
 
-        <span className="tour-card__rating">
-          <StarIcon />
-          {String(rating).replace(',', '.')}
-        </span>
+        {rating != null && (
+          <span className="tour-card__rating">
+            <StarIcon />
+            {String(rating).replace(',', '.')}
+          </span>
+        )}
 
         <div className="tour-card__shade" />
 
@@ -66,10 +68,12 @@ const TourCard = ({
       <div className="tour-card__media">
         <img className="tour-card__img" src={image} alt={title} loading="lazy" />
 
-        <span className="tour-card__rating">
-          <StarIcon />
-          {String(rating).replace('.', ',')}
-        </span>
+        {rating != null && (
+          <span className="tour-card__rating">
+            <StarIcon />
+            {String(rating).replace('.', ',')}
+          </span>
+        )}
 
         <button
           type="button"
@@ -83,11 +87,13 @@ const TourCard = ({
       </div>
 
       <div className="tour-card__body">
-        <span className="tour-card__location">{location}</span>
+        {location && <span className="tour-card__location">{location}</span>}
         <h3 className="tour-card__title">{title}</h3>
-        <p className="tour-card__meta">
-          {duration} · {groupSize}
-        </p>
+        {(duration || groupSize) && (
+          <p className="tour-card__meta">
+            {duration}{duration && groupSize ? ' · ' : ''}{groupSize}
+          </p>
+        )}
 
         <div className="tour-card__footer">
           <span className="tour-card__price">{price}</span>

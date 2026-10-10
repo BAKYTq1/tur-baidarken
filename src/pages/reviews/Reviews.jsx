@@ -4,19 +4,9 @@ import ReviewsSummary from '../../shared/reviewssummary/Reviewssummary'
 import ReviewsFeed from '../../shared/reviewsfeed/Reviewsfeed'
 import Gallery from '../../shared/gallery/Gallery'
 import ReviewCta from '../../shared/reviewcta/Reviewcta'
-import { useState } from 'react'
-import { Navigate } from 'react-router-dom'
 import Newsletter from '../../shared/newsletter/Newsletter'
 
 function Reviews() {
-      const [draft, setDraft] = useState(null);
-
-  const openReviewForm = (rating, tour) => {
-    setDraft({ rating, tour });
-    // здесь откройте модалку или перейдите на форму:
-    Navigate(`/reviews/new?tour=${encodeURIComponent(tour)}&rating=${rating}`);
-  };
-
   return (
     <div>
         <Banner
@@ -29,7 +19,7 @@ function Reviews() {
             <ReviewsSummary/>
             <ReviewsFeed/>
             <Gallery/>
-            <ReviewCta onSubmit={({ rating, tour }) => openReviewForm(rating, tour)} />
+            <ReviewCta />
             <Newsletter/>
     </div>
   )

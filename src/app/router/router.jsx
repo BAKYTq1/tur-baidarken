@@ -18,6 +18,7 @@ import AdminCompany from "../../pages/admin/Admincompany";
 import AdminTelegram from "../../pages/admin/Admintelegram";
 import ResourceList from "../../pages/admin/Resourcelist";
 import ResourceForm from "../../pages/admin/Resourceform";
+import TourDetails from "../../pages/Tours/TourDetails";
 
 export const router = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 element: <Home/>
+            },
+            {
+                path: "/tours/:tourId",
+                element: <TourDetails/>
             },
             {
                 path: "/tours",
