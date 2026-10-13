@@ -1,24 +1,13 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Layout from "../Layout/Layout";
-import { Home } from "../../pages/Home/Home";
-import Tours from "../../pages/Tours/Tours";
-import About from "../../pages/AboutUs/About";
-import Contact from "../../pages/Contact/Contact";
-import Reviews from "../../pages/reviews/Reviews";
 import AdminLayout from "../Layout/AdminLayout";
-import AdminTours from "../../pages/admin/AdminTours";
-import AdminBookings from "../../pages/admin/AdminBookings";
-import AdminReviews from "../../pages/admin/AdminReviews";
-import AdminLogin from "../../pages/admin/AdminLogin";
-import Blog from "../../pages/Blog/Blog";
-import TourPage from "../../pages/Tours/TourPage";
-import AdminGuides from "../../pages/admin/Adminguides";
-import AdminFaq from "../../pages/admin/Adminfaq";
-import AdminCompany from "../../pages/admin/Admincompany";
-import AdminTelegram from "../../pages/admin/Admintelegram";
-import ResourceList from "../../pages/admin/Resourcelist";
-import ResourceForm from "../../pages/admin/Resourceform";
-import TourDetails from "../../pages/Tours/TourDetails";
+
+const lazyPage = (importPage, props) => async () => {
+    const { default: Component } = await importPage();
+    return {
+        Component: props ? () => <Component {...props} /> : Component,
+    };
+};
 
 export const router = createBrowserRouter([
     {
@@ -27,55 +16,55 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Home/>
+                lazy: lazyPage(() => import("../../pages/Home/Home"))
             },
             {
                 path: "/tours/:tourId",
-                element: <TourDetails/>
+                lazy: lazyPage(() => import("../../pages/Tours/TourDetails"))
             },
             {
                 path: "/tours",
-                element: <Tours/>
+                lazy: lazyPage(() => import("../../pages/Tours/Tours"))
             },
             {
                 path: "/tours/:slug",
-                element: <TourPage/>
+                lazy: lazyPage(() => import("../../pages/Tours/TourPage"))
             },
             {
                 path: "/about",
-                element: <About/>
+                lazy: lazyPage(() => import("../../pages/AboutUs/About"))
             },
             {
                 path: "/contacts",
-                element: <Contact/>
+                lazy: lazyPage(() => import("../../pages/Contact/Contact"))
             },
             {
                 path: "/reviews",
-                element: <Reviews/>
+                lazy: lazyPage(() => import("../../pages/reviews/Reviews"))
             },
             {
                 path: "/blog",
-                element: <Blog/>
+                lazy: lazyPage(() => import("../../pages/Blog/Blog"))
             }
         ]
     },
-    { path: '/admin/login', element: <AdminLogin /> },
+    { path: '/admin/login', lazy: lazyPage(() => import("../../pages/admin/AdminLogin")) },
     {
    path: '/admin',
    element: <AdminLayout />,
    children: [
     { index: true, element: <Navigate to="tours" replace /> },
-    { path: 'tours', element: <AdminTours /> },
-    { path: 'guides', element: <AdminGuides /> },
-    { path: 'tours', element: <ResourceList resource="tours" /> },
-{ path: 'tours/new', element: <ResourceForm resource="tours" /> },
-{ path: 'tours/:id', element: <ResourceForm resource="tours" /> },
-    { path: 'bookings', element: <AdminBookings /> },
-    { path: 'reviews', element: <AdminReviews/> },
-    { path: 'guides', element: <AdminGuides /> },
-{ path: 'faq', element: <AdminFaq /> },
-{ path: 'company', element: <AdminCompany /> },
-{ path: 'telegram', element: <AdminTelegram /> },
+    { path: 'tours', lazy: lazyPage(() => import("../../pages/admin/AdminTours")) },
+    { path: 'guides', lazy: lazyPage(() => import("../../pages/admin/Adminguides")) },
+    { path: 'tours', lazy: lazyPage(() => import("../../pages/admin/Resourcelist"), { resource: "tours" }) },
+{ path: 'tours/new', lazy: lazyPage(() => import("../../pages/admin/Resourceform"), { resource: "tours" }) },
+{ path: 'tours/:id', lazy: lazyPage(() => import("../../pages/admin/Resourceform"), { resource: "tours" }) },
+    { path: 'bookings', lazy: lazyPage(() => import("../../pages/admin/AdminBookings")) },
+    { path: 'reviews', lazy: lazyPage(() => import("../../pages/admin/AdminReviews")) },
+    { path: 'guides', lazy: lazyPage(() => import("../../pages/admin/Adminguides")) },
+{ path: 'faq', lazy: lazyPage(() => import("../../pages/admin/Adminfaq")) },
+{ path: 'company', lazy: lazyPage(() => import("../../pages/admin/Admincompany")) },
+{ path: 'telegram', lazy: lazyPage(() => import("../../pages/admin/Admintelegram")) },
   ],
 },
 
