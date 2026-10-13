@@ -62,14 +62,12 @@ function Footer() {
               <h2 className={styles.columnTitle}>{t('footer.travel')}</h2>
               <Link to="/tours">{t('nav.tours')}</Link>
               <Link to="/blog">{t('nav.blog')}</Link>
-              <Link to="/book">{t('footer.choose_tour')}</Link>
+              <Link to="/tours">{t('footer.choose_tour')}</Link>
             </section>
 
             <section className={styles.linkColumn}>
               <h2 className={styles.columnTitle}>{t('footer.help')}</h2>
-              <Link to="/faq">{t('nav.faq')}</Link>
-              <Link to="/terms">{t('footer.terms')}</Link>
-              <Link to="/payment">{t('footer.payment')}</Link>
+              <Link to="/contacts#faq">{t('nav.faq')}</Link>
             </section>
           </div>
         </div>
