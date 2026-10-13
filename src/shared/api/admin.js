@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_API_URL || 'https://baiderken.onrender.com/api/v1';
+const BASE = import.meta.env.VITE_API_URL || '/api/v1';
 const KEY = 'admin_token';
 export const token = {
   get: () => sessionStorage.getItem(KEY),
