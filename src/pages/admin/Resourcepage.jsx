@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLoad } from '../../shared/hooks/useLoad';
-import { FieldsForm, emptyFrom, hydrate, prepare } from './fields';
+import { FieldsForm, emptyFrom, hydrate, prepare } from './Fields';
 
 // Универсальная страница «список + форма» для любого раздела админки.
 //   api:      { list, get, create, replace, remove }

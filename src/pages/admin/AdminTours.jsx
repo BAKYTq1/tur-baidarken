@@ -1,4 +1,4 @@
-import ResourcePage from './ResourcePage';
+import ResourcePage from './Resourcepage';
 import { adminApi } from '../../shared/api/admin';
 
 // Схема из swagger: POST /admin/tours

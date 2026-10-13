@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { companyApi } from '../../shared/api/admin';
-import { FieldsForm, emptyFrom, hydrate, prepare } from './fields';
+import { FieldsForm, emptyFrom, hydrate, prepare } from './Fields';
 
 const FIELDS = [
   { key: 'phone', label: 'Телефон', type: 'text' },

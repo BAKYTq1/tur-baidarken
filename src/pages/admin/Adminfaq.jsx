@@ -1,4 +1,4 @@
-import ResourcePage from './ResourcePage';
+import ResourcePage from './Resourcepage';
 import { faqApi } from '../../shared/api/admin';
 
 const FIELDS = [

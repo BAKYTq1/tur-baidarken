@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { FieldsForm, emptyFrom, hydrate, prepare } from './fields';
+import { FieldsForm, emptyFrom, hydrate, prepare } from './Fields';
 import { resources } from './Resources';
 
 // Отдельная страница создания (/new) и редактирования (/:id)

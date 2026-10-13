@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { LANGS, toLoc } from '../../shared/hooks/loc';
-import { uploadPhoto } from '../../shared/hooks/upload';
+import { uploadPhoto } from '../../shared/hooks/Upload';
 
 // ---------- Поля RU / EN / KG / JA (с пометкой языка внутри поля) ----------
 export function LocInputs({ value, onChange, multiline, required, label }) {
