@@ -30,7 +30,7 @@ const seoMap = {
 };
 
 function Tours() {
-  const { lang } = useI18n();
+  const { lang, t } = useI18n();
   const seo = seoMap[lang] || seoMap.ru;
 
   const alternates = [
@@ -69,11 +69,11 @@ function Tours() {
   return (
     <div>
       <Banner
-      title="Туры, к которым хочется возвращаться"
-        subtitle = 'Путешествия, собранные с заботой'
-        subtitle2 = 'Небольшие группы, продуманные маршруты и проводники, которые знают каждую тропу.'
-        buttonText = 'Смотреть каталог'
-        showSearchForm = {false}
+        title={t('tours.banner_title')}
+        subtitle={t('tours.banner_subtitle')}
+        subtitle2={t('tours.banner_description')}
+        buttonText={t('tours.banner_button')}
+        showSearchForm={false}
       />
       <Features/>
       <Catalog/>

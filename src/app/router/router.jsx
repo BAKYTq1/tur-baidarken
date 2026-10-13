@@ -7,7 +7,6 @@ import Contact from "../../pages/Contact/Contact";
 import Reviews from "../../pages/reviews/Reviews";
 import AdminLayout from "../Layout/AdminLayout";
 import AdminTours from "../../pages/admin/AdminTours";
-import AdminGuides from "../../pages/admin/AdminGuides";
 import AdminBookings from "../../pages/admin/AdminBookings";
 import AdminReviews from "../../pages/admin/AdminReviews";
 import AdminLogin from "../../pages/admin/AdminLogin";

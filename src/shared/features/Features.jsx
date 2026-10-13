@@ -1,4 +1,5 @@
 import './Features.scss';
+import { useI18n } from '../i18n';
 
 const MapPinIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -26,22 +27,25 @@ const StarIcon = () => (
   </svg>
 );
 
-const items = [
-  { icon: <MapPinIcon />, text: '100+ маршрутов' },
-  { icon: <ShieldCheckIcon />, text: 'Безопасные туры' },
-  { icon: <HeadphonesIcon />, text: 'Поддержка 24/7' },
-  { icon: <StarIcon />, text: 'Рейтинг 4,9' },
-];
+const Features = () => {
+  const { t } = useI18n();
+  const items = [
+    { icon: <MapPinIcon />, text: t('publicUi.features.routes') },
+    { icon: <ShieldCheckIcon />, text: t('publicUi.features.safety') },
+    { icon: <HeadphonesIcon />, text: t('publicUi.features.support') },
+    { icon: <StarIcon />, text: t('publicUi.features.rating') },
+  ];
 
-const Features = () => (
-  <ul className="features">
-    {items.map(({ icon, text }) => (
+  return (
+    <ul className="features">
+      {items.map(({ icon, text }) => (
       <li className="features__item" key={text}>
         <span className="features__icon">{icon}</span>
         <span className="features__text">{text}</span>
       </li>
-    ))}
-  </ul>
-);
+      ))}
+    </ul>
+  );
+};
 
 export default Features;    

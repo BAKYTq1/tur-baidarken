@@ -7,4 +7,13 @@ export default defineConfig({
   optimizeDeps: {
     include: ['axios'],
   },
+  server: {
+    proxy: {
+      '/api/v1': {
+        target: 'https://baiderken.onrender.com',
+        changeOrigin: true,
+        secure: true,
+      },
+    },
+  },
 })

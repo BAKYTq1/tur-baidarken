@@ -4,14 +4,16 @@ $accent: #f27a2c;
 
 .destinations {
   width: 1040px;
-  margin: auto;
-  max-width: 100%;
+  margin: 32px auto 0;
+  padding-top: 8px;
+  max-width: calc(100% - 32px);
   overflow: hidden;
 
   &__head {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
     margin-bottom: 14px;
   }
 
@@ -26,6 +28,8 @@ $accent: #f27a2c;
     display: flex;
     align-items: center;
     gap: 16px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
 
   &__all {
@@ -107,10 +111,41 @@ $accent: #f27a2c;
     height: auto;
   }
 
-  // на телефонах достаточно свайпа
   @media (max-width: 767px) {
+    &__head {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    &__controls {
+      width: 100%;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    &__title {
+      font-size: 16px;
+    }
+
+    &__all {
+      font-size: 10px;
+    }
+
     &__nav {
-      display: none;
+      display: flex;
+      gap: 8px;
+    }
+
+    &__btn {
+      width: 32px;
+      height: 32px;
+    }
+
+    &__slider {
+      margin: 0;
+      padding: 6px 0 20px;
     }
   }
 }

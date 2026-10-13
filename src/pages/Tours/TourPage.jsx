@@ -2,15 +2,20 @@ import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { getTourBySlugOrId } from '../../shared/data/tours';
 import { usePageMeta } from '../../shared/hooks/usePageMeta';
+import { useI18n } from '../../shared/i18n';
 
-const formatPrice = (value) => `от ${Number(value || 0).toLocaleString('ru-RU')} ₽`;
+const formatPrice = (value, lang, t) => `${t('publicUi.catalog.from')} ${new Intl.NumberFormat(
+  { ru: 'ru-RU', en: 'en-US', kg: 'ky-KG', ja: 'ja-JP' }[lang] || 'ru-RU',
+  { style: 'currency', currency: 'RUB', maximumFractionDigits: 0 },
+).format(Number(value || 0))}`;
 
 export default function TourPage() {
+  const { t, lang } = useI18n();
   const { slug } = useParams();
   const tour = useMemo(() => getTourBySlugOrId(slug), [slug]);
 
-  const title = tour?.metaTitle || 'Тур';
-  const description = tour?.metaDescription || 'Тур';
+  const title = tour?.metaTitle || t('publicUi.catalog.tour_fallback');
+  const description = tour?.metaDescription || t('publicUi.catalog.tour_fallback');
   const keywords = tour?.seoKeywords || '';
   const canonical = tour ? `https://baidarken.com/tours/${tour.slug}` : 'https://baidarken.com/tours';
 
@@ -50,8 +55,8 @@ export default function TourPage() {
   if (!tour) {
     return (
       <main style={{ maxWidth: 900, margin: '48px auto', padding: '0 20px' }}>
-        <h1>Тур не найден</h1>
-        <p>Такого тура в каталоге больше нет или ссылка устарела.</p>
+        <h1>{t('publicUi.tourDetails.not_found')}</h1>
+        <p>{t('publicUi.tourDetails.stale_link')}</p>
       </main>
     );
   }
@@ -75,14 +80,13 @@ export default function TourPage() {
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 20 }}>
             <span style={{ background: '#eef4f2', padding: '8px 12px', borderRadius: 999 }}>{tour.duration}</span>
             <span style={{ background: '#eef4f2', padding: '8px 12px', borderRadius: 999 }}>{tour.groupSize}</span>
-            <span style={{ background: '#eef4f2', padding: '8px 12px', borderRadius: 999 }}>{formatPrice(tour.price)}</span>
+            <span style={{ background: '#eef4f2', padding: '8px 12px', borderRadius: 999 }}>{formatPrice(tour.price, lang, t)}</span>
           </div>
 
           <div style={{ marginTop: 32 }}>
-            <h2 style={{ fontSize: 22, marginBottom: 12 }}>О туре</h2>
+            <h2 style={{ fontSize: 22, marginBottom: 12 }}>{t('publicUi.tourDetails.about')}</h2>
             <p style={{ color: '#394841', lineHeight: 1.8 }}>
-              Этот маршрут создан для тех, кто хочет совместить комфорт, живописные локации и ощущение настоящего путешествия.
-              Программа рассчитана на небольшую группу, а логистика продумана так, чтобы каждое путешествие было максимально комфортным.
+              {tour.description || t('publicUi.tourDetails.static_description')}
             </p>
           </div>
         </div>

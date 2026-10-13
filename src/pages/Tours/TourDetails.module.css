@@ -63,6 +63,12 @@
   font-weight: 700;
 }
 
+.rating {
+  margin: 0 0 8px;
+  color: #d97706;
+  font-weight: 700;
+}
+
 .section {
   margin-top: 48px;
 }

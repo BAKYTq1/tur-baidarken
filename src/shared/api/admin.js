@@ -39,6 +39,7 @@ export const adminApi = {
   setBookingStatus: (id, status) => request(`/admin/bookings/${id}`, { method: 'PATCH', body: { status } }),
   reviews: () => request('/admin/reviews'),
   setReviewPublished: (id, is_published) => request(`/admin/reviews/${id}`, { method: 'PATCH', body: { is_published } }),
+  deleteReview: (id) => request(`/admin/reviews/${id}`, { method: 'DELETE' }),
   uploadImage: (file) => {
     const form = new FormData();
     form.append('file', file);

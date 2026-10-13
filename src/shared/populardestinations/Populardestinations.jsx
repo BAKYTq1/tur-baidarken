@@ -9,29 +9,32 @@ import 'swiper/css/free-mode';
 import './PopularDestinations.scss';
 import TourCard from '../ui/card/Tourcard';
 import { useTours } from '../api/useTours';
+import { useI18n } from '../i18n';
 
-const formatPrice = (price, currency) => {
-  if (price == null) return 'Цена уточняется'
+const formatPrice = (price, currency, lang, t) => {
+  if (price == null) return t('publicUi.catalog.price_on_request')
 
-  const formattedPrice = new Intl.NumberFormat('ru-RU', {
+  const locale = { ru: 'ru-RU', en: 'en-US', kg: 'ky-KG', ja: 'ja-JP' }[lang] || 'ru-RU'
+  const formattedPrice = new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: currency || 'KGS',
     maximumFractionDigits: 0,
   }).format(price)
 
-  return `от ${formattedPrice}`
+  return `${t('publicUi.catalog.from')} ${formattedPrice}`
 }
 
-const mapTourToCard = (tour) => ({
-  id: tour.id,
-  image: tour.cover_image,
-  rating: tour.reviews_count > 0 ? tour.rating_avg : null,
-  location: tour.location || tour.destination || tour.tags?.slice(0, 2).join(' · ') || 'Кыргызстан',
-  title: tour.title,
-  duration: tour.duration_days ? `${tour.duration_days} дн.` : tour.subtitle,
-  groupSize: null,
-  price: formatPrice(tour.price_from, tour.price_currency),
-})
+const mapTourToCard = (tour, lang, t) => {
+  return {
+    id: tour.id,
+    image: tour.cover_image,
+    location: tour.location || tour.destination || tour.tags?.slice(0, 2).join(' · ') || t('banner.kyrgyzstan'),
+    title: tour.title,
+    duration: tour.duration_days ? `${tour.duration_days} ${t('publicUi.catalog.days_short')}` : tour.subtitle,
+    groupSize: null,
+    price: formatPrice(tour.price_from, tour.price_currency, lang, t),
+  };
+}
 
 const ChevronIcon = ({ direction }) => (
   <svg viewBox="0 0 24 24" aria-hidden="true" className={`chevron chevron--${direction}`}>
@@ -49,6 +52,7 @@ const PopularDestinations = () => {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const { data: tours = [], isLoading, isError, refetch } = useTours();
+  const { t, lang } = useI18n();
 
   // обновляем состояние кнопок (активна / неактивна)
   const syncEdges = (s) => {
@@ -59,11 +63,11 @@ const PopularDestinations = () => {
   return (
     <section className="destinations">
       <header className="destinations__head">
-        <h2 className="destinations__title">Популярные направления</h2>
+        <h2 className="destinations__title">{t('publicUi.popular.title')}</h2>
 
         <div className="destinations__controls">
           <a className="destinations__all" href="/destinations">
-            Все направления
+            {t('publicUi.popular.all')}
           </a>
 
           <div className="destinations__nav">
@@ -72,7 +76,7 @@ const PopularDestinations = () => {
               className="destinations__btn"
               onClick={() => swiper?.slidePrev(500)}
               disabled={isBeginning}
-              aria-label="Прокрутить назад"
+              aria-label={t('publicUi.popular.previous')}
             >
               <ChevronIcon direction="prev" />
             </button>
@@ -81,7 +85,7 @@ const PopularDestinations = () => {
               className="destinations__btn"
               onClick={() => swiper?.slideNext(500)}
               disabled={isEnd}
-              aria-label="Прокрутить вперёд"
+              aria-label={t('publicUi.popular.next')}
             >
               <ChevronIcon direction="next" />
             </button>
@@ -105,23 +109,23 @@ const PopularDestinations = () => {
         onResize={syncEdges}
       >
         {tours.map((tour) => {
-          const item = mapTourToCard(tour)
+          const item = mapTourToCard(tour, lang, t)
 
           return (
             <SwiperSlide className="destinations__slide" key={item.id}>
-              <TourCard {...item} onClick={() => navigate(`/tours/${item.id}`)} />
+              <TourCard {...item} onClick={() => navigate(`/tours/${item.id || item.slug}`)} />
             </SwiperSlide>
           )
         })}
       </Swiper>
-      {isLoading && <p role="status">Загрузка туров...</p>}
+      {isLoading && <p role="status">{t('publicUi.catalog.loading')}</p>}
       {isError && (
         <div role="alert">
-          <p>Не удалось загрузить туры.</p>
-          <button type="button" onClick={() => refetch()}>Повторить</button>
+          <p>{t('publicUi.catalog.error')}</p>
+          <button type="button" onClick={() => refetch()}>{t('publicUi.retry')}</button>
         </div>
       )}
-      {!isLoading && !isError && tours.length === 0 && <p>Туры пока не найдены.</p>}
+      {!isLoading && !isError && tours.length === 0 && <p>{t('publicUi.popular.empty')}</p>}
     </section>
   );
 };

@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { useI18n } from '../../shared/i18n'
 import aidanaImage from '../../shared/assets/горы.jpg'
 import ilyaImage from '../../widgets/assets/hero-img.png'
@@ -12,9 +13,29 @@ const team = [
 
 function AboutTeam() {
   const { t } = useI18n()
+  const ref = useRef(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      setVisible(true)
+      return undefined
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setVisible(true)
+        observer.disconnect()
+      }
+    }, { threshold: 0.2 })
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <section className={styles.section} aria-labelledby="about-team-title">
+    <section className={`${styles.section} ${visible ? styles.isVisible : ''}`} ref={ref} aria-labelledby="about-team-title">
       <div className={styles.container}>
         <p className={styles.eyebrow}>{t('about.team_eyebrow')}</p>
         <h2 className={styles.title} id="about-team-title">

@@ -4,18 +4,23 @@ import ReviewsSummary from '../../shared/reviewssummary/Reviewssummary'
 import ReviewsFeed from '../../shared/reviewsfeed/Reviewsfeed'
 import Gallery from '../../shared/gallery/Gallery'
 import ReviewCta from '../../shared/reviewcta/Reviewcta'
+import { useI18n } from '../../shared/i18n'
+import { usePublishedReviews } from '../../shared/api/useReviews'
 
 function Reviews() {
+  const { t } = useI18n()
+  const { data: reviews = [] } = usePublishedReviews()
+
   return (
     <div>
         <Banner
-              title={'Впечатления, которые остаются'}
-              subtitle={'Голоса путешественников    '}
-              subtitle2={'Честные истории людей, которые уже прошли наши маршруты, встретили рассветы и нашли новых друзей.'}
-              buttonText={'Смотреть истории'}
+              title={t('reviews.page_title')}
+              subtitle={t('reviews.page_eyebrow')}
+              subtitle2={t('reviews.page_description')}
+              buttonText={t('reviews.page_button')}
               showSearchForm={false}
             />
-            <ReviewsSummary/>
+            <ReviewsSummary reviews={reviews} />
             <ReviewsFeed/>
             <Gallery/>
             <ReviewCta />

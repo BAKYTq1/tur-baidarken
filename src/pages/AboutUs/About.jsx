@@ -14,7 +14,7 @@ function About() {
       <Banner
         subtitle={t('about.banner_subtitle')}
         title={t('about.banner_title')}
-        description={t('about.banner_description')}
+        // description={t('about.banner_description')}
         buttonText={t('about.banner_button')}
         showSearchForm={false}
         bgImage={aboutBannerImage}

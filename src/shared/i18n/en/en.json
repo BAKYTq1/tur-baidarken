@@ -2,11 +2,15 @@
   "banner": {
     "title": "Discover nature. Find your getaway.",
     "subtitle": "EXPLORE THE WORLD",
+    "subtitle2": "Find your ideal tour and set off on an unforgettable adventure.",
     "button": "Explore now",
     "destination": "Destination",
     "any_destination": "Any destination",
     "kyrgyzstan": "Kyrgyzstan",
     "issyk_kul": "Issyk-Kul",
+    "almaty": "Almaty",
+    "pamir": "Pamir",
+    "aigul": "Aigul",
     "date_from": "Date from",
     "date_to": "Date to",
     "travelers": "Travelers",
@@ -23,6 +27,7 @@
     "search": "Search...",
     "search_open": "Open search",
     "search_close": "Close search",
+    "favorites": "Favorites",
     "menu_open": "Open menu",
     "menu_close": "Close menu",
     "language": "Language",
@@ -41,6 +46,10 @@
   "tours": {
     "title": "Tours",
     "subtitle": "We'll match a trip to your experience: from a calm day on the water to several days on the route.",
+    "banner_title": "Tours worth coming back for",
+    "banner_subtitle": "Thoughtful journeys, made with care",
+    "banner_description": "Small groups, carefully planned routes, and guides who know every trail.",
+    "banner_button": "Browse tours",
     "price_label": "Price",
     "price_on_request": "on request",
     "more": "Book this tour"
@@ -91,7 +100,7 @@
     "banner_subtitle": "TRAVEL WITH A HUMAN TOUCH",
     "banner_title": "We discover the world with care",
     "banner_description": "Baidarken was born out of love for mountains, small groups, and stories that stay with us for a long time.",
-    "banner_button": "Get to know us better →",
+    "banner_button": "Get to know us better",
     "story_year": "2016",
     "story_year_text": "first route",
     "story_tag": "OUR STORY",
@@ -145,6 +154,7 @@
       "label": "Reviews and trust",
       "rating_aria": "Rated 4.9 out of 5, five stars",
       "rating": "4.9 out of 5",
+      "rating_suffix": "out of 5",
       "quote": "A rare case where everything is thoughtfully planned, yet the journey still feels alive and real",
       "attribution": "— Maria, joined five of our tours",
       "title": "Trusted by travelers",
@@ -159,7 +169,7 @@
     "subtitle": "BAIDARKEN JOURNAL",
     "title": "Stories that call you to the road",
     "description": "Routes, people, helpful tips, and honest notes from our team around the world.",
-    "button": "Read the latest issue →",
+    "button": "Read the latest issue",
     "categories": {
       "label": "Article categories",
       "all": "All stories",
@@ -177,7 +187,7 @@
       "article_title": "Where the silence begins",
       "description": "Five days along glaciers, conversations around the campfire, and a path to a lake that doesn't appear on tourist maps.",
       "image_alt": "A mountain lake among the Tian Shan peaks",
-      "author": "Aidana Mamytova",
+      "author": "Editorial team",
       "read_time": "12 min read"
     },
     "articles": {
@@ -268,7 +278,94 @@
   },
   "reviews": {
     "title": "Reviews",
-    "subtitle": "What people say after paddling with us."
+    "subtitle": "What people say after paddling with us.",
+    "page_title": "Journeys that stay with you",
+    "page_eyebrow": "Travelers' stories",
+    "page_description": "Honest stories from people who traveled our routes, watched the sunrise, and made new friends along the way.",
+    "page_button": "Explore the stories"
+  },
+  "publicUi": {
+    "retry": "Try again",
+    "catalog": {
+      "kicker": "Find your next destination",
+      "title": "Explore our tours",
+      "subtitle": "Choose a mood, travel style, and season — we have the rest covered.",
+      "search_placeholder": "Country, region, or category",
+      "search_aria": "Search tours",
+      "sort_aria": "Sort tours",
+      "categories_aria": "Tour categories",
+      "categories": { "all": "All tours", "mountains": "Mountains", "lakes": "Lakes", "family": "Family", "expeditions": "Expeditions", "weekend": "Weekend" },
+      "sorts": { "popular": "Most popular", "price-asc": "Price: low to high", "price-desc": "Price: high to low", "rating": "Top rated" },
+      "loading": "Loading tours...",
+      "error": "We couldn't load the tours.",
+      "empty": "No tours match your search.",
+      "reset": "Reset filters",
+      "show_more": "Show more ({count})",
+      "tour_fallback": "Tour",
+      "days_short": "days",
+      "route_duration": "route-based",
+      "group_size": "up to {count} people",
+      "from": "From",
+      "price_on_request": "Price on request"
+    },
+    "tourDetails": {
+      "loading": "Loading tour details...",
+      "error": "We couldn't load the tour details.",
+      "back": "Back to tours",
+      "not_found": "Tour not found.",
+      "stale_link": "This tour is no longer in the catalog, or the link has expired.",
+      "static_description": "This route is designed for travelers who want comfort, beautiful locations, and the feeling of a true journey. The itinerary is planned for a small group, with logistics designed to make the trip comfortable.",
+      "all_tours": "All tours",
+      "price_unknown": "Price on request",
+      "days": "{count} days",
+      "difficulty": "Difficulty",
+      "about": "About this tour",
+      "gallery": "Gallery",
+      "photo": "photo",
+      "program": "Tour itinerary",
+      "day": "Day {day}",
+      "included": "Included in the price",
+      "to_bring": "What to bring"
+    },
+    "guides": { "loading": "Loading guides...", "error": "We couldn't load the guides.", "empty": "There are no guides to show yet." },
+    "popular": { "title": "Popular destinations", "all": "All destinations", "previous": "Scroll back", "next": "Scroll forward", "empty": "No tours found yet." },
+    "newsletter": { "label": "Letters from the road", "title": "A little inspiration every two weeks", "text": "New routes, stories, and hidden places, without the noise.", "success": "Thank you! Your first letter is on its way.", "email": "Your email", "sending": "Sending...", "submit": "Subscribe", "error": "Check your address; it should look like name@mail.com" },
+    "stories": { "kicker": "Need a little inspiration?", "title": "Travel stories and guides", "text": "Travel tips, destination guides, and inspiring stories from around the world.", "button": "Read the stories", "story_one": "10 hidden gems of Kyrgyzstan", "story_one_time": "5 min read", "story_two": "Essentials for your trip", "story_two_time": "For every journey" },
+    "reviewFeed": {
+      "kicker": "First-hand stories", "title": "Journeys in detail", "subtitle": "Every review is published with its author's permission and linked to a real tour.",
+      "categories_aria": "Review categories", "show_more": "Show more reviews", "loading": "Loading reviews...", "error": "We couldn't load the reviews.", "empty": "There are no published reviews yet.", "recent_review": "Recent review", "guest": "Guest", "tour_guest": "Tour guest", "empty_text": "We loved the trip and the thoughtful, personal planning.", "confirmed": "verified trip", "customer": "customer review",
+      "samples": [
+        { "role": "Tien Shan · 9 days", "text": "We saw incredible places, but most of all we felt like part of the team. Our guide Beket knew when to share a story and when to let us enjoy the mountains in silence.", "date": "August 2025", "note": "verified trip" },
+        { "role": "Iceland · 7 days", "text": "Our guide brought a group of strangers together so well that a week later we said goodbye as friends. Everything was well organized, with room to enjoy the journey at our own pace.", "date": "May 2025", "note": "verified trip" },
+        { "role": "Issyk-Kul · family trip", "text": "Our first big trip with the children, and the parents got to relax too. The route was wonderful, the food was great, and the kids still remember every stop.", "date": "July 2025", "note": "verified trip" }
+      ],
+      "categories": { "all": "All", "mountains": "Mountains", "lakes": "Lakes", "family": "Family", "expeditions": "Expeditions", "weekend": "Weekend" }
+    },
+    "reviewSummary": {
+      "count": { "one": "{count} review", "few": "{count} reviews", "many": "{count} reviews", "other": "{count} reviews" },
+      "recommend": "{percent}% recommend {brand}", "subtitle": "Ratings from trips over the past 12 months."
+    },
+    "gallery": {
+      "kicker": "Moments from the road", "title": "Captured by travelers", "subtitle": "No staging or filters — just moments worth keeping.",
+      "open_photo": "Open photo", "close": "Close", "previous": "Previous photo", "next": "Next photo",
+      "photos": { "ala_kul": "Ala-Kul Pass", "photo_credit": "Photo by @name_gr", "son_kul": "Song-Kul Lake", "sunrise": "Sunrise on the trail", "tea_yurt": "Tea in a mountain yurt", "lake_trail": "Trail to the lake" }
+    },
+    "features": { "routes": "100+ routes", "safety": "Safety-first tours", "support": "24/7 support", "rating": "4.9 rating" },
+    "tour_rating_aria": "Rated {rating} out of 5 from {count} reviews",
+    "picker": {
+      "label": "Haven't found the right trip?", "title": "A journey that fits your pace", "text": "Answer five quick questions and our expert will suggest three routes within one business day.", "button": "Find my tour",
+      "steps": ["Tell us what you dream of", "Get a tailored shortlist", "Set off on your journey"]
+    },
+    "reviewCta": {
+      "label": "Traveled with us?", "title": "Your story can inspire someone else", "intro": "Share your experience — it takes about three minutes.",
+      "sending": "Sending...", "submit": "Leave a review", "rate_title": "Rate your trip", "rating_aria": "Trip rating",
+      "rating_labels": ["", "Poor", "Fair", "Good", "Very good", "Excellent!"],
+      "tour_aria": "Choose your tour", "tour_placeholder": "Choose your tour", "name_placeholder": "Your name", "name_aria": "Your name",
+      "text_placeholder": "Tell us about your trip", "text_aria": "Review text", "tours_error": "We couldn't load the tour list.",
+      "required": "Complete every field and select a rating to submit your review.", "moderation": "Your review will be sent for moderation.",
+      "success": "Your review has been submitted and is awaiting moderation!", "rate_limit": "Too many requests. Please wait a moment and try again.", "submit_error": "We couldn't submit your review."
+    },
+    "booking": { "success": "Thank you! Your request has been sent. We'll be in touch soon.", "error": "Please check the form fields", "error_title": "Error" }
   },
   "faq": {
     "title": "Frequently asked questions",
@@ -347,6 +444,9 @@
     "street_label": "Isanova St",
     "map_link": "Open map",
     "faq_eyebrow": "HERE TO HELP",
+    "faq_loading": "Loading frequently asked questions...",
+    "faq_error": "Unable to load the list of questions",
+    "faq_empty": "There are no questions yet",
     "newsletter_label": "TRAVEL LETTERS",
     "newsletter_title": "A little inspiration every week",
     "newsletter_text": "New routes, stories, and places in Kyrgyzstan — in one email.",
@@ -358,6 +458,7 @@
       "message": "How can we help?",
       "message_placeholder": "Tell us what you need help with",
       "consent": "I agree to the processing of my personal data",
+      "agreement_required": "Please confirm your consent to the processing of personal data",
       "submit": "Send message",
       "request_note": "We will contact you after you submit your request.",
       "sending": "Sending...",

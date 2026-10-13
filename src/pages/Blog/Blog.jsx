@@ -89,16 +89,10 @@ function Blog() {
                 {t('blog.featured.description')}
               </p>
               <div className={styles.featuredAuthor}>
-                <span className={styles.authorAvatar} aria-hidden="true">АМ</span>
                 <div className={styles.authorInfo}>
                   <span className={styles.authorName}>{t('blog.featured.author')}</span>
                   <span className={styles.readTime}>{t('blog.featured.read_time')}</span>
                 </div>
-                <span className={styles.articleArrow} aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M6 18 18 6M7 6h11v11" />
-                  </svg>
-                </span>
               </div>
             </div>
           </article>
@@ -164,9 +158,7 @@ function Blog() {
             <p className={styles.guideDescription}>{t('blog.guide.description')}</p>
             <a
               className={styles.guideButton}
-              href="https://www.instagram.com/turgon_baidarka/"
-              target="_blank"
-              rel="noreferrer"
+              href="/tours"
             >
               {t('blog.guide.button')}
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">

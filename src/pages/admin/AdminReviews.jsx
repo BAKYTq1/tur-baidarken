@@ -6,6 +6,16 @@ import { loc } from '../../shared/hooks/loc';
 export default function AdminReviews() {
   const { items, loading, error, setError, reload } = useLoad(adminApi.reviews);
 
+  const normalizeReviewText = (value) => {
+    if (value == null) return '';
+    if (typeof value === 'string') return value.replace(/\s*(Показывается|Скрыт)\s*$/i, '').trim();
+    if (typeof value === 'object') {
+      const nested = value.text ?? value.comment ?? value.review ?? value.ru ?? value.en ?? value.kg ?? value.ja ?? '';
+      return normalizeReviewText(nested);
+    }
+    return String(value).replace(/\s*(Показывается|Скрыт)\s*$/i, '').trim();
+  };
+
   const toggle = async (review) => {
     try {
       setError('');
@@ -54,7 +64,7 @@ export default function AdminReviews() {
               <tr className="adm-empty"><td colSpan={5}>Отзывов пока нет</td></tr>
             )}
             {items.map((r) => {
-              const text = loc(r.text || r.comment);
+              const text = normalizeReviewText(r.text ?? r.comment ?? r.review ?? '') || '—';
               return (
                 <tr key={r.id}>
                   <td data-label="Автор">
@@ -72,9 +82,10 @@ export default function AdminReviews() {
                         type="checkbox"
                         checked={!!r.is_published}
                         onChange={() => toggle(r)}
+                        aria-label={r.is_published ? 'Снять с публикации' : 'Опубликовать'}
                       />
                       <span className={`adm-tag ${r.is_published ? 'ok' : ''}`}>
-                        {r.is_published ? 'Опубликован' : 'Скрыт'}
+                        {r.is_published ? 'Показывается' : 'Скрыт'}
                       </span>
                     </label>
                   </td>

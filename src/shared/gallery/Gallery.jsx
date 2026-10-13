@@ -2,13 +2,14 @@ import { useCallback, useEffect, useState } from 'react';
 import './Gallery.scss';
 import img from '../assets/gory_zakat_pejzazh_144200_300x188.jpg';
 import img2 from '../assets/горы.jpg';
+import { useI18n } from '../i18n';
 // Вставьте свои фото: image: '/img/photo-1.jpg' (или импорт)
 const photos = [
-  { id: 1, image: img, title: 'Перевал Ала-Куль', author: 'фото @name_gr', large: true },
-  { id: 2, image: img2, title: 'Сон-Куль, весь' },
-  { id: 3, image: img, title: 'Рассвет в пути' },
-  { id: 4, image: img2, title: 'Чай в юрте перевала' },
-  { id: 5, image: img, title: 'Тропа к озеру' },
+  { id: 1, image: img, title: 'ala_kul', author: 'photo_credit', large: true },
+  { id: 2, image: img2, title: 'son_kul' },
+  { id: 3, image: img, title: 'sunrise' },
+  { id: 4, image: img2, title: 'tea_yurt' },
+  { id: 5, image: img, title: 'lake_trail' },
 ];
 
 const CloseIcon = () => (
@@ -24,6 +25,7 @@ const ChevronIcon = ({ flip }) => (
 );
 
 const Gallery = () => {
+  const { t } = useI18n();
   const [current, setCurrent] = useState(null); // индекс открытого фото
 
   const close = useCallback(() => setCurrent(null), []);
@@ -52,14 +54,15 @@ const Gallery = () => {
   }, [current, close, step]);
 
   const active = current !== null ? photos[current] : null;
+  const getTitle = (photo) => t(`publicUi.gallery.photos.${photo.title}`);
 
   return (
     <section className="gallery">
       <header className="gallery__head">
-        <span className="gallery__kicker">Моменты из поездок</span>
-        <h2 className="gallery__title">Снято путешественниками</h2>
+        <span className="gallery__kicker">{t('publicUi.gallery.kicker')}</span>
+        <h2 className="gallery__title">{t('publicUi.gallery.title')}</h2>
         <p className="gallery__subtitle">
-          Без постановки и фильтров — только то, что хочется сохранить.
+          {t('publicUi.gallery.subtitle')}
         </p>
       </header>
 
@@ -70,13 +73,13 @@ const Gallery = () => {
             type="button"
             className={`gallery__tile gallery__tile--${i + 1} ${photo.large ? 'is-large' : ''}`}
             onClick={() => setCurrent(i)}
-            aria-label={`Открыть фото: ${photo.title}`}
+            aria-label={`${t('publicUi.gallery.open_photo')}: ${getTitle(photo)}`}
           >
-            {photo.image && <img src={photo.image} alt={photo.title} loading="lazy" />}
+            {photo.image && <img src={photo.image} alt={getTitle(photo)} loading="lazy" />}
             <span className="gallery__caption">
-              <span className="gallery__caption-title">{photo.title}</span>
+              <span className="gallery__caption-title">{getTitle(photo)}</span>
               {photo.author && (
-                <span className="gallery__caption-author">{photo.author}</span>
+                <span className="gallery__caption-author">{t(`publicUi.gallery.photos.${photo.author}`)}</span>
               )}
             </span>
           </button>
@@ -88,14 +91,14 @@ const Gallery = () => {
           className="gallery__lightbox"
           role="dialog"
           aria-modal="true"
-          aria-label={active.title}
+          aria-label={getTitle(active)}
           onClick={close}
         >
           <button
             type="button"
             className="gallery__lb-btn gallery__lb-close"
             onClick={close}
-            aria-label="Закрыть"
+            aria-label={t('publicUi.gallery.close')}
           >
             <CloseIcon />
           </button>
@@ -107,7 +110,7 @@ const Gallery = () => {
               e.stopPropagation();
               step(-1);
             }}
-            aria-label="Предыдущее фото"
+            aria-label={t('publicUi.gallery.previous')}
           >
             <ChevronIcon flip />
           </button>
@@ -115,14 +118,14 @@ const Gallery = () => {
           <figure className="gallery__figure" onClick={(e) => e.stopPropagation()}>
             <div className="gallery__frame">
               {active.image ? (
-                <img src={active.image} alt={active.title} />
+                <img src={active.image} alt={getTitle(active)} />
               ) : (
                 <div className="gallery__placeholder" />
               )}
             </div>
             <figcaption>
-              {active.title}
-              {active.author && <span> · {active.author}</span>}
+              {getTitle(active)}
+              {active.author && <span> · {t(`publicUi.gallery.photos.${active.author}`)}</span>}
             </figcaption>
           </figure>
 
@@ -133,7 +136,7 @@ const Gallery = () => {
               e.stopPropagation();
               step(1);
             }}
-            aria-label="Следующее фото"
+            aria-label={t('publicUi.gallery.next')}
           >
             <ChevronIcon />
           </button>

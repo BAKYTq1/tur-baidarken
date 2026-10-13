@@ -6,6 +6,8 @@ $radius: 22px;
 $ease: cubic-bezier(0.22, 0.8, 0.3, 1);
 
 .tour-card {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 240px;
   overflow: hidden;
@@ -109,6 +111,9 @@ $ease: cubic-bezier(0.22, 0.8, 0.3, 1);
 
   // ---------- текст ----------
   &__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
     padding: 16px 16px 14px;
   }
 
@@ -144,6 +149,7 @@ $ease: cubic-bezier(0.22, 0.8, 0.3, 1);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: auto;
     margin-top: 18px;
   }
 

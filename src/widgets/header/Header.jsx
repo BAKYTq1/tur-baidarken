@@ -1,21 +1,64 @@
-import { useEffect, useRef, useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import logo from '../assets/logo-mark.jpeg'
 import { useI18n } from '../../shared/i18n'
+import { useTours } from '../../shared/api/useTours'
 import styles from './Header.module.css'
+
+const FAVORITES_KEY = 'baidarken_favorites'
+
+function readFavorites() {
+  if (typeof window === 'undefined') return []
+
+  try {
+    const raw = window.localStorage.getItem(FAVORITES_KEY)
+    const parsed = raw ? JSON.parse(raw) : []
+    return Array.isArray(parsed) ? parsed : []
+  } catch {
+    return []
+  }
+}
 
 function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isFavoritesOpen, setIsFavoritesOpen] = useState(false)
+  const [favoritesVersion, setFavoritesVersion] = useState(0)
+  const [headerSearch, setHeaderSearch] = useState('')
   const searchInputRef = useRef(null)
   const mobileSearchInputRef = useRef(null)
   const searchContainerRef = useRef(null)
   const mobileSearchContainerRef = useRef(null)
+  const favoritesRef = useRef(null)
   const searchToggleRef = useRef(null)
   const mobileSearchToggleRef = useRef(null)
   const burgerRef = useRef(null)
   const headerRef = useRef(null)
+  const navigate = useNavigate()
   const { t, lang, setLang, SUPPORTED_LANGS } = useI18n()
+  const { data: tours = [] } = useTours()
+
+  const getTourImage = (tour) => (
+    tour?.image
+    || tour?.cover
+    || tour?.photo
+    || tour?.thumbnail
+    || tour?.images?.[0]
+    || tour?.gallery?.[0]
+    || 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80'
+  )
+
+  useEffect(() => {
+    const syncFavorites = () => setFavoritesVersion((value) => value + 1)
+    window.addEventListener('baidarken-favorites-change', syncFavorites)
+    return () => window.removeEventListener('baidarken-favorites-change', syncFavorites)
+  }, [])
+
+  const favoriteIds = useMemo(() => readFavorites(), [favoritesVersion, tours.length])
+  const favoriteTours = useMemo(
+    () => tours.filter((tour) => favoriteIds.includes(String(tour.id || tour.slug))),
+    [favoriteIds, tours],
+  )
 
   useEffect(() => {
     if (isSearchOpen) {
@@ -28,23 +71,30 @@ function Header() {
   }, [isSearchOpen, isMobileMenuOpen])
 
   useEffect(() => {
-    if (!isSearchOpen && !isMobileMenuOpen) return undefined
+    if (!isSearchOpen && !isMobileMenuOpen && !isFavoritesOpen) return undefined
 
     function handlePointerDown(event) {
       const clickedInsideSearch = searchContainerRef.current?.contains(event.target)
         || mobileSearchContainerRef.current?.contains(event.target)
+      const clickedInsideFavorites = favoritesRef.current?.contains(event.target)
+
       if (isSearchOpen && !clickedInsideSearch) {
         setIsSearchOpen(false)
+      }
+      if (isFavoritesOpen && !clickedInsideFavorites) {
+        setIsFavoritesOpen(false)
       }
       if (isMobileMenuOpen && !headerRef.current?.contains(event.target)) {
         setIsMobileMenuOpen(false)
         setIsSearchOpen(false)
+        setIsFavoritesOpen(false)
       }
     }
 
     function handleKeyDown(event) {
       if (event.key === 'Escape') {
         setIsSearchOpen(false)
+        setIsFavoritesOpen(false)
         setIsMobileMenuOpen(false)
         if (window.matchMedia('(max-width: 768px)').matches) {
           burgerRef.current?.focus()
@@ -61,10 +111,25 @@ function Header() {
       document.removeEventListener('pointerdown', handlePointerDown)
       document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isSearchOpen, isMobileMenuOpen])
+  }, [isSearchOpen, isMobileMenuOpen, isFavoritesOpen])
+
+  function submitHeaderSearch(nextValue = headerSearch) {
+    const query = String(nextValue || '').trim()
+    const params = new URLSearchParams()
+
+    if (query) {
+      params.set('destination', query)
+      params.set('q', query)
+    }
+
+    setIsSearchOpen(false)
+    setHeaderSearch('')
+    navigate(`/tours${params.toString() ? `?${params.toString()}` : ''}`)
+  }
 
   function closeSearch() {
     setIsSearchOpen(false)
+    setHeaderSearch('')
     if (window.matchMedia('(max-width: 768px)').matches) {
       mobileSearchToggleRef.current?.focus()
     } else {
@@ -75,12 +140,13 @@ function Header() {
   function closeMobileMenu() {
     setIsMobileMenuOpen(false)
     setIsSearchOpen(false)
+    setIsFavoritesOpen(false)
   }
 
   return (
     <header className={styles.header}>
       <div className={styles.container} ref={headerRef}>
-        <Link to="/" className={styles.logo} aria-label="Байдаркен — главная">
+        <Link to="/" className={styles.logo} aria-label={`Baidarken — ${t('nav.home')}`}>
           <img src={logo} alt="Байдаркен" className={styles.logoIcon} />
           <span className={styles.logoText}>Байдаркен</span>
         </Link>
@@ -98,11 +164,19 @@ function Header() {
           </nav>
         )}
 
-        {isSearchOpen && (
+        {isSearchOpen && !isMobileMenuOpen && (
           <div ref={searchContainerRef} className={styles.expandedSearch}>
             <input
               ref={searchInputRef}
-              type="search"
+              type="text"
+              value={headerSearch}
+              onChange={(event) => setHeaderSearch(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  event.preventDefault()
+                  submitHeaderSearch(event.target.value)
+                }
+              }}
               placeholder={t('nav.search')}
               aria-label={t('nav.search')}
               className={styles.searchInput}
@@ -134,15 +208,59 @@ function Header() {
               </svg>
             </button>
           )}
-          <button type="button" aria-label="Избранное" className={styles.iconButton}>
-            <svg aria-hidden="true" className={styles.actionIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path
-                d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+          <div ref={favoritesRef} className={styles.favoritesWrap}>
+            <button
+              type="button"
+              aria-label={t('nav.favorites')}
+              className={styles.iconButton}
+              onClick={() => setIsFavoritesOpen((open) => !open)}
+            >
+              <svg aria-hidden="true" className={styles.actionIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path
+                  d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              {favoriteTours.length > 0 && (
+                <span className={styles.favoriteBadge}>{favoriteTours.length > 99 ? '99+' : favoriteTours.length}</span>
+              )}
+            </button>
+            {isFavoritesOpen && (
+              <div className={styles.favoritesModal} role="dialog" aria-label={t('nav.favorites')}>
+                <div className={styles.favoritesHeader}>
+                  <strong>{t('nav.favorites')}</strong>
+                  <span>{favoriteTours.length}</span>
+                </div>
+
+                {favoriteTours.length === 0 ? (
+                  <p className={styles.favoritesEmpty}>{t('publicUi.catalog.empty')}</p>
+                ) : (
+                  <ul className={styles.favoritesList}>
+                    {favoriteTours.map((tour) => (
+                      <li key={tour.id || tour.slug}>
+                        <button
+                          type="button"
+                          className={styles.favoriteItem}
+                          onClick={() => {
+                            setIsFavoritesOpen(false)
+                            navigate(`/tours/${tour.slug || tour.id}`)
+                          }}
+                        >
+                          <img
+                            className={styles.favoriteItemImage}
+                            src={getTourImage(tour)}
+                            alt={tour.title || tour.name || 'Tour'}
+                          />
+                          <span className={styles.favoriteItemText}>{tour.title || tour.name || 'Tour'}</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+          </div>
           <label className={styles.languageSelector}>
             <span className={styles.visuallyHidden}>{t('nav.language')}</span>
             <select
@@ -182,11 +300,11 @@ function Header() {
           >
             <ul className={styles.mobileNavLinks}>
               <li><Link to="/" className={styles.navLink} onClick={closeMobileMenu}>{t('nav.home')}</Link></li>
-              <li><a href="#about" className={styles.navLink} onClick={closeMobileMenu}>{t('nav.about')}</a></li>
+              <li><Link to="/about" className={styles.navLink} onClick={closeMobileMenu}>{t('nav.about')}</Link></li>
               <li><Link to="/tours" className={styles.navLink} onClick={closeMobileMenu}>{t('nav.tours')}</Link></li>
-              <li><a href="#reviews" className={styles.navLink} onClick={closeMobileMenu}>{t('nav.reviews')}</a></li>
+              <li><Link to="/reviews" className={styles.navLink} onClick={closeMobileMenu}>{t('nav.reviews')}</Link></li>
               <li><Link to="/blog" className={styles.navLink} onClick={closeMobileMenu}>{t('nav.blog')}</Link></li>
-              <li><a href="#contacts" className={styles.navLink} onClick={closeMobileMenu}>{t('nav.contacts')}</a></li>
+              <li><Link to="/contacts" className={styles.navLink} onClick={closeMobileMenu}>{t('nav.contacts')}</Link></li>
             </ul>
             <div className={styles.mobileMenuControls}>
               <label className={styles.languageSelector}>
@@ -204,6 +322,58 @@ function Header() {
                   <path d="m4 6 4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </label>
+              <div ref={favoritesRef} className={styles.favoritesWrap}>
+                <button
+                  type="button"
+                  aria-label={t('nav.favorites')}
+                  className={styles.iconButton}
+                  onClick={() => setIsFavoritesOpen((open) => !open)}
+                >
+                  <svg aria-hidden="true" className={styles.actionIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path
+                      d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  {favoriteTours.length > 0 && (
+                    <span className={styles.favoriteBadge}>{favoriteTours.length > 99 ? '99+' : favoriteTours.length}</span>
+                  )}
+                </button>
+                {isFavoritesOpen && (
+                  <div className={styles.favoritesModal} role="dialog" aria-label={t('nav.favorites')}>
+                    <div className={styles.favoritesHeader}>
+                      <strong>{t('nav.favorites')}</strong>
+                      <span>{favoriteTours.length}</span>
+                    </div>
+                    {favoriteTours.length === 0 ? (
+                      <p className={styles.favoritesEmpty}>{t('publicUi.catalog.empty')}</p>
+                    ) : (
+                      <ul className={styles.favoritesList}>
+                        {favoriteTours.map((tour) => (
+                          <li key={tour.id || tour.slug}>
+                            <button
+                              type="button"
+                              className={styles.favoriteItem}
+                              onClick={() => {
+                                setIsFavoritesOpen(false)
+                                navigate(`/tours/${tour.slug || tour.id}`)
+                              }}
+                            >
+                              <img
+                                className={styles.favoriteItemImage}
+                                src={getTourImage(tour)}
+                                alt={tour.title || tour.name || 'Tour'}
+                              />
+                              <span className={styles.favoriteItemText}>{tour.title || tour.name || 'Tour'}</span>
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                )}
+              </div>
               <div
                 ref={mobileSearchContainerRef}
                 className={styles.mobileSearchContainer}
@@ -212,7 +382,15 @@ function Header() {
                   <>
                     <input
                       ref={mobileSearchInputRef}
-                      type="search"
+                      type="text"
+                      value={headerSearch}
+                      onChange={(event) => setHeaderSearch(event.target.value)}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                          event.preventDefault()
+                          submitHeaderSearch(event.target.value)
+                        }
+                      }}
                       placeholder={t('nav.search')}
                       aria-label={t('nav.search')}
                       className={styles.searchInput}

@@ -1,19 +1,20 @@
 import './TravelStories.scss';
 import img from '../assets/Акварельная_композиция_зелёных_листьев-removebg-preview 1.svg'
+import { useI18n } from '../i18n';
 // Вставьте свои фото: image: '/img/story-1.jpg' или импорт
 const stories = [
   {
     id: 1,
     image: '',
-    title: '10 скрытых жемчужин Кыргызстана',
-    readTime: '5 минут',
+    title: 'story_one',
+    readTime: 'story_one_time',
     href: '/stories/hidden-gems',
   },
   {
     id: 2,
     image: '',
-    title: 'Самое необходимое для поездки',
-    readTime: 'для каждой поездки',
+    title: 'story_two',
+    readTime: 'story_two_time',
     href: '/stories/essentials',
   },
 ];
@@ -28,17 +29,18 @@ const LeavesDecor = () => (
   <img className="stories__leaves" src={img} alt="" aria-hidden="true" />
 );
 
-const TravelStories = () => (
-  <section className="stories">
+const TravelStories = () => {
+  const { t } = useI18n();
+  return (
+    <section className="stories">
     <div className="stories__info">
-      <p className="stories__kicker">Нужно вдохновение?</p>
-      <h2 className="stories__title">Путешествия и гиды</h2>
+      <p className="stories__kicker">{t('publicUi.stories.kicker')}</p>
+      <h2 className="stories__title">{t('publicUi.stories.title')}</h2>
       <p className="stories__text">
-        Советы по путешествиям, гиды по направлениям и вдохновляющие истории со
-        всего мира
+        {t('publicUi.stories.text')}
       </p>
       <a className="stories__btn" href="/stories">
-        Читать истории
+        {t('publicUi.stories.button')}
         <ArrowIcon />
       </a>
     </div>
@@ -47,11 +49,11 @@ const TravelStories = () => (
       {stories.map(({ id, image, title, readTime, href }) => (
         <a className="stories__card" href={href} key={id}>
           <div className="stories__photo">
-            {image && <img src={image} alt={title} loading="lazy" />}
+            {image && <img src={image} alt={t(`publicUi.stories.${title}`)} loading="lazy" />}
           </div>
           <div className="stories__body">
-            <h3 className="stories__card-title">{title}</h3>
-            <span className="stories__time">{readTime}</span>
+            <h3 className="stories__card-title">{t(`publicUi.stories.${title}`)}</h3>
+            <span className="stories__time">{t(`publicUi.stories.${readTime}`)}</span>
           </div>
         </a>
       ))}
@@ -59,6 +61,7 @@ const TravelStories = () => (
 
     <LeavesDecor />
   </section>
-);
+  );
+};
 
 export default TravelStories;

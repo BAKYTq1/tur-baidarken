@@ -43,7 +43,7 @@ function Footer() {
       <div className={styles.container}>
         <div className={styles.top}>
           <div className={styles.brand}>
-            <Link to="/" className={styles.logo} aria-label="Байдаркен — главная">
+            <Link to="/" className={styles.logo} aria-label={`Baidarken — ${t('nav.home')}`}>
               <img src={logo} alt="" className={styles.logoIcon} />
               <span className={styles.logoText}>Байдаркен</span>
             </Link>

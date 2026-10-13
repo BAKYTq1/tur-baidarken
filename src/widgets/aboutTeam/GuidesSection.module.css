@@ -1,10 +1,18 @@
 .section {
   padding: 88px 20px 96px;
   background-color: #ffffff;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.isVisible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .container {
-  width: min(100%, 960px);
+  width: min(100%, 1040px);
   margin: 0 auto;
 }
 

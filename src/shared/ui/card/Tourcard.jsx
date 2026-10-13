@@ -1,11 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import './TourCard.scss';
 
-const StarIcon = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9L12 2.5Z" />
-  </svg>
-);
+const FAVORITES_KEY = 'baidarken_favorites';
+
+const readFavorites = () => {
+  if (typeof window === 'undefined') return [];
+
+  try {
+    const raw = window.localStorage.getItem(FAVORITES_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
+
+const writeFavorites = (ids) => {
+  if (typeof window === 'undefined') return;
+
+  window.localStorage.setItem(FAVORITES_KEY, JSON.stringify(ids));
+};
 
 const HeartIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -21,8 +36,8 @@ const ArrowIcon = () => (
 
 const TourCard = ({
   variant = 'default', // 'default' | 'overlay'
+  id,
   image,
-  rating = 4.8,
   location = 'Банф, Канада',
   title = 'Альпийские озёра',
   duration = '8 дней',
@@ -32,6 +47,31 @@ const TourCard = ({
   onClick,
 }) => {
   const [liked, setLiked] = useState(false);
+
+  useEffect(() => {
+    if (!id) {
+      setLiked(false);
+      return;
+    }
+
+    const favorites = readFavorites();
+    setLiked(favorites.includes(String(id)));
+  }, [id]);
+
+  const toggleLike = (event) => {
+    event.stopPropagation();
+    if (!id) return;
+
+    const nextFavorites = readFavorites();
+    const value = String(id);
+    const updated = nextFavorites.includes(value)
+      ? nextFavorites.filter((item) => item !== value)
+      : [...nextFavorites, value];
+
+    writeFavorites(updated);
+    setLiked(updated.includes(value));
+    window.dispatchEvent(new Event('baidarken-favorites-change'));
+  };
 
   // Компактная карточка для карусели: текст поверх фото
   if (variant === 'overlay') {
@@ -44,13 +84,6 @@ const TourCard = ({
         onKeyDown={(e) => e.key === 'Enter' && onClick?.()}
       >
         <img className="tour-card__img" src={image} alt={title} loading="lazy" />
-
-        {rating != null && (
-          <span className="tour-card__rating">
-            <StarIcon />
-            {String(rating).replace(',', '.')}
-          </span>
-        )}
 
         <div className="tour-card__shade" />
 
@@ -68,17 +101,10 @@ const TourCard = ({
       <div className="tour-card__media">
         <img className="tour-card__img" src={image} alt={title} loading="lazy" />
 
-        {rating != null && (
-          <span className="tour-card__rating">
-            <StarIcon />
-            {String(rating).replace('.', ',')}
-          </span>
-        )}
-
         <button
           type="button"
           className={`tour-card__like ${liked ? 'is-active' : ''}`}
-          onClick={() => setLiked((v) => !v)}
+          onClick={toggleLike}
           aria-pressed={liked}
           aria-label={liked ? 'Убрать из избранного' : 'Добавить в избранное'}
         >
@@ -109,6 +135,19 @@ const TourCard = ({
       </div>
     </article>
   );
+};
+
+TourCard.propTypes = {
+  variant: PropTypes.oneOf(['default', 'overlay']),
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  image: PropTypes.string,
+  location: PropTypes.string,
+  title: PropTypes.string,
+  duration: PropTypes.string,
+  groupSize: PropTypes.string,
+  price: PropTypes.string,
+  subtitle: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 export default TourCard;

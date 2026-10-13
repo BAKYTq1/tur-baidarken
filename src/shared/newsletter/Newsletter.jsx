@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './Newsletter.scss';
+import { useI18n } from '../i18n';
 
 const CheckIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -10,11 +11,12 @@ const CheckIcon = () => (
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const Newsletter = ({
-  label = 'Письма из путешествий',
-  title = 'Вдохновение — раз в две недели',
-  text = 'Новые маршруты, истории и секретные места без лишнего шума.',
+  label,
+  title,
+  text,
   onSubscribe, // (email) => Promise | void
 }) => {
+  const { t } = useI18n();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('idle'); // idle | error | loading | success
 
@@ -41,9 +43,9 @@ const Newsletter = ({
       <span className="newsletter__circle" aria-hidden="true" />
 
       <div className="newsletter__info">
-        <span className="newsletter__label">{label}</span>
-        <h2 className="newsletter__title">{title}</h2>
-        <p className="newsletter__text">{text}</p>
+        <span className="newsletter__label">{label || t('publicUi.newsletter.label')}</span>
+        <h2 className="newsletter__title">{title || t('publicUi.newsletter.title')}</h2>
+        <p className="newsletter__text">{text || t('publicUi.newsletter.text')}</p>
       </div>
 
       <div className="newsletter__side">
@@ -52,7 +54,7 @@ const Newsletter = ({
             <span className="newsletter__check">
               <CheckIcon />
             </span>
-            Спасибо! Первое письмо уже в пути.
+            {t('publicUi.newsletter.success')}
           </p>
         ) : (
           <form
@@ -68,8 +70,8 @@ const Newsletter = ({
                 setEmail(e.target.value);
                 if (status === 'error') setStatus('idle');
               }}
-              placeholder="Ваш email"
-              aria-label="Ваш email"
+              placeholder={t('publicUi.newsletter.email')}
+              aria-label={t('publicUi.newsletter.email')}
               aria-invalid={status === 'error'}
               autoComplete="email"
             />
@@ -78,14 +80,14 @@ const Newsletter = ({
               type="submit"
               disabled={status === 'loading'}
             >
-              {status === 'loading' ? 'Отправляем…' : 'Подписаться'}
+              {status === 'loading' ? t('publicUi.newsletter.sending') : t('publicUi.newsletter.submit')}
             </button>
           </form>
         )}
 
         {status === 'error' && (
           <p className="newsletter__error" role="alert">
-            Проверьте адрес — он должен выглядеть как name@mail.com
+            {t('publicUi.newsletter.error')}
           </p>
         )}
       </div>

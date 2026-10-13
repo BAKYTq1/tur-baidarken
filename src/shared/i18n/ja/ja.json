@@ -2,11 +2,15 @@
   "banner": {
     "title": "自然を見つけて、自分らしい休暇を。",
     "subtitle": "世界を探検しよう",
+    "subtitle2": "あなたにぴったりのツアーを見つけて、忘れられない冒険へ出かけましょう。",
     "button": "今すぐ見る",
     "destination": "目的地",
     "any_destination": "すべての目的地",
     "kyrgyzstan": "キルギス",
     "issyk_kul": "イシク・クル湖",
+    "almaty": "アルマトイ",
+    "pamir": "パミール",
+    "aigul": "アイグル",
     "date_from": "出発日",
     "date_to": "帰着日",
     "travelers": "旅行者",
@@ -23,6 +27,7 @@
     "search": "検索...",
     "search_open": "検索を開く",
     "search_close": "検索を閉じる",
+    "favorites": "お気に入り",
     "menu_open": "メニューを開く",
     "menu_close": "メニューを閉じる",
     "language": "言語",
@@ -41,6 +46,10 @@
   "tours": {
     "title": "ツアー",
     "subtitle": "穏やかな日帰りコースから数日間の旅まで、ご経験に合ったルートをご提案します。",
+    "banner_title": "また訪れたくなる旅へ",
+    "banner_subtitle": "心を込めて企画した旅",
+    "banner_description": "少人数のグループ、丁寧に計画されたルート、そして道を知り尽くしたガイドがご案内します。",
+    "banner_button": "ツアーを見る",
     "price_label": "料金",
     "price_on_request": "お問い合わせください",
     "more": "このルートを予約する"
@@ -91,7 +100,7 @@
     "banner_subtitle": "人の心に寄り添う旅",
     "banner_title": "思いやりを大切に、世界を巡る",
     "banner_description": "バイダルケンは、山や少人数の旅、そして心に長く残る物語への愛から生まれました。",
-    "banner_button": "私たちについて知る →",
+    "banner_button": "私たちについて知る",
     "story_year": "2016",
     "story_year_text": "最初のルート",
     "story_tag": "私たちのストーリー",
@@ -143,14 +152,14 @@
     },
     "trust": {
       "label": "お客様の声と信頼",
-      "rating_aria": "5点中4.9、星5つ",
-      "rating": "5点中4.9",
+      "rating_aria": "5点満点中4.9、星5つ",
+      "rating": "5点満点中4.9",
       "quote": "すべてが丁寧に計画されているのに、旅は生き生きとして本物らしい。そんな貴重な体験です",
       "attribution": "— 5回ツアーに参加したマリア",
       "title": "信頼されています",
       "items": {
-        "award": "Travel Awards 2025",
-        "nature": "Leave No Trace",
+        "award": "トラベルアワード 2025",
+        "nature": "自然に足跡を残さない",
         "guides": "ガイド協会"
       }
     }
@@ -159,7 +168,7 @@
     "subtitle": "バイダルケン・ジャーナル",
     "title": "旅へ誘う物語",
     "description": "世界各地のルートや人々、役立つヒント、そしてチームの率直な旅の記録をお届けします。",
-    "button": "最新号を読む →",
+    "button": "最新号を読む",
     "categories": {
       "label": "記事のカテゴリー",
       "all": "すべての記事",
@@ -177,7 +186,7 @@
       "article_title": "静寂が始まる場所",
       "description": "氷河沿いの5日間、焚き火を囲む語らい、そして観光地図には載っていない湖への道。",
       "image_alt": "天山山脈の峰々に囲まれた山上の湖",
-      "author": "アイダナ・マミトワ",
+      "author": "編集部",
       "read_time": "読了まで12分"
     },
     "articles": {
@@ -268,7 +277,94 @@
   },
   "reviews": {
     "title": "お客様の声",
-    "subtitle": "一緒に水上を旅した皆さまからの感想です。"
+    "subtitle": "一緒に水上を旅した皆さまからの感想です。",
+    "page_title": "心に残る旅の思い出",
+    "page_eyebrow": "旅人たちの声",
+    "page_description": "私たちのルートを旅し、朝日を迎え、新しい友人と出会った方々の率直なストーリーです。",
+    "page_button": "ストーリーを見る"
+  },
+  "publicUi": {
+    "retry": "もう一度試す",
+    "catalog": {
+      "kicker": "次の旅先を見つけましょう",
+      "title": "ツアー一覧",
+      "subtitle": "気分や旅のスタイル、季節を選んでください。あとは私たちにお任せください。",
+      "search_placeholder": "国、地域、カテゴリー",
+      "search_aria": "ツアーを検索",
+      "sort_aria": "ツアーを並べ替え",
+      "categories_aria": "ツアーカテゴリー",
+      "categories": { "all": "すべてのツアー", "mountains": "山", "lakes": "湖", "family": "家族旅行", "expeditions": "遠征", "weekend": "週末旅行" },
+      "sorts": { "popular": "人気順", "price-asc": "料金の安い順", "price-desc": "料金の高い順", "rating": "評価順" },
+      "loading": "ツアーを読み込み中...",
+      "error": "ツアーを読み込めませんでした。",
+      "empty": "条件に一致するツアーはありません。",
+      "reset": "絞り込みを解除",
+      "show_more": "さらに表示 ({count})",
+      "tour_fallback": "ツアー",
+      "days_short": "日",
+      "route_duration": "ルートにより異なります",
+      "group_size": "最大{count}名",
+      "from": "料金",
+      "price_on_request": "料金はお問い合わせください"
+    },
+    "tourDetails": {
+      "loading": "ツアー情報を読み込み中...",
+      "error": "ツアー情報を読み込めませんでした。",
+      "back": "ツアー一覧に戻る",
+      "not_found": "ツアーが見つかりません。",
+      "stale_link": "このツアーは掲載終了したか、リンクの有効期限が切れています。",
+      "static_description": "このルートは、快適さ、美しい景色、本格的な旅の体験を楽しみたい方のために企画されています。少人数向けの日程と、快適に過ごせるよう考えられた移動計画をご用意しています。",
+      "all_tours": "すべてのツアー",
+      "price_unknown": "料金はお問い合わせください",
+      "days": "{count}日間",
+      "difficulty": "難易度",
+      "about": "ツアーについて",
+      "gallery": "ギャラリー",
+      "photo": "写真",
+      "program": "ツアー日程",
+      "day": "{day}日目",
+      "included": "料金に含まれるもの",
+      "to_bring": "持ち物"
+    },
+    "guides": { "loading": "ガイド一覧を読み込み中...", "error": "ガイド一覧を読み込めませんでした。", "empty": "ガイド情報はまだありません。" },
+    "popular": { "title": "人気の旅行先", "all": "すべての旅行先", "previous": "前へスクロール", "next": "次へスクロール", "empty": "ツアーはまだありません。" },
+    "newsletter": { "label": "旅のおたより", "title": "2週間ごとに旅のインスピレーションを", "text": "新しいルートや物語、隠れた名所を厳選してお届けします。", "success": "ありがとうございます。最初のお便りをお送りします。", "email": "メールアドレス", "sending": "送信中...", "submit": "登録する", "error": "name@mail.com のような形式で入力してください" },
+    "stories": { "kicker": "旅のヒントをお探しですか？", "title": "旅のストーリーとガイド", "text": "旅のアドバイス、目的地ガイド、世界各地の心に響くストーリーをご紹介します。", "button": "ストーリーを読む", "story_one": "キルギスの隠れた名所10選", "story_one_time": "5分", "story_two": "旅に必要な持ち物", "story_two_time": "旅の必需品" },
+    "reviewFeed": {
+      "kicker": "旅人の生の声", "title": "旅の思い出を詳しく", "subtitle": "すべてのレビューは投稿者の許可を得て掲載し、実際のツアーに紐づけています。",
+      "categories_aria": "レビューのカテゴリー", "show_more": "レビューをもっと見る", "loading": "レビューを読み込み中...", "error": "レビューを読み込めませんでした。", "empty": "公開中のレビューはまだありません。", "recent_review": "最近のレビュー", "guest": "ゲスト", "tour_guest": "ツアー参加者", "empty_text": "旅と丁寧に計画されたルートにとても満足しました。", "confirmed": "参加確認済み", "customer": "お客様のレビュー",
+      "samples": [
+        { "role": "天山山脈 · 9日間", "text": "素晴らしい場所をたくさん見ましたが、何よりチームの一員になれたことが印象的でした。ガイドのベケトさんは、話を聞く時間と山の静けさを味わう時間を大切にしてくれました。", "date": "2025年8月", "note": "参加確認済み" },
+        { "role": "アイスランド · 7日間", "text": "ガイドのおかげで、初対面の参加者同士が一週間後には友人として別れを惜しむほどになりました。運営は行き届きながら、自分たちのペースで旅を楽しめました。", "date": "2025年5月", "note": "参加確認済み" },
+        { "role": "イシク・クル湖 · 家族旅行", "text": "子どもたちとの初めての大旅行でしたが、大人もゆっくり過ごせました。ルートも食事も素晴らしく、子どもたちは立ち寄った場所を今でも覚えています。", "date": "2025年7月", "note": "参加確認済み" }
+      ],
+      "categories": { "all": "すべて", "mountains": "山", "lakes": "湖", "family": "家族旅行", "expeditions": "遠征", "weekend": "週末旅行" }
+    },
+    "reviewSummary": {
+      "count": { "one": "レビュー{count}件", "few": "レビュー{count}件", "many": "レビュー{count}件", "other": "レビュー{count}件" },
+      "recommend": "{percent}%の方が{brand}をおすすめしています", "subtitle": "過去12か月の旅行後に寄せられた評価です。"
+    },
+    "gallery": {
+      "kicker": "旅のひとこま", "title": "旅人が撮影した風景", "subtitle": "演出やフィルターのない、心に残したい瞬間です。",
+      "open_photo": "写真を開く", "close": "閉じる", "previous": "前の写真", "next": "次の写真",
+      "photos": { "ala_kul": "アラ・クル峠", "photo_credit": "撮影：@name_gr", "son_kul": "ソンクル湖", "sunrise": "道中の朝日", "tea_yurt": "峠のユルトで飲むお茶", "lake_trail": "湖へ続く小道" }
+    },
+    "features": { "routes": "100以上のルート", "safety": "安全を重視したツアー", "support": "24時間年中無休のサポート", "rating": "評価 4.9" },
+    "tour_rating_aria": "{count}件のレビューに基づく5点満点中{rating}点",
+    "picker": {
+      "label": "ぴったりの旅が見つかりませんか？", "title": "あなたのペースに合う旅をご提案", "text": "5つの簡単な質問に答えると、担当者が1営業日以内に3つのルートをご提案します。", "button": "ツアーを探す",
+      "steps": ["旅の希望を教えてください", "おすすめプランを受け取る", "旅に出かけましょう"]
+    },
+    "reviewCta": {
+      "label": "一緒に旅をしたことがありますか？", "title": "あなたの体験が誰かの一歩になります", "intro": "旅の感想をお聞かせください。3分ほどで完了します。",
+      "sending": "送信中...", "submit": "レビューを投稿", "rate_title": "旅を評価する", "rating_aria": "旅の評価",
+      "rating_labels": ["", "低評価", "やや不満", "普通", "満足", "大満足！"],
+      "tour_aria": "参加したツアーを選択", "tour_placeholder": "ツアーを選択してください", "name_placeholder": "お名前", "name_aria": "お名前",
+      "text_placeholder": "旅の感想をお聞かせください", "text_aria": "レビュー本文", "tours_error": "ツアー一覧を読み込めませんでした。",
+      "required": "すべての項目を入力し、評価を選択してください。", "moderation": "レビューは確認後に掲載されます。",
+      "success": "レビューを受け付けました。確認後に掲載します！", "rate_limit": "リクエストが多すぎます。少し待ってから再度お試しください。", "submit_error": "レビューを送信できませんでした。"
+    },
+    "booking": { "success": "お申し込みありがとうございます。近日中にご連絡いたします。", "error": "フォームの入力内容をご確認ください", "error_title": "エラー" }
   },
   "faq": {
     "title": "よくある質問",
@@ -347,6 +443,9 @@
     "street_label": "イサノワ通り",
     "map_link": "地図を開く",
     "faq_eyebrow": "お気軽にご相談ください",
+    "faq_loading": "よくある質問を読み込み中...",
+    "faq_error": "質問一覧を読み込めませんでした",
+    "faq_empty": "まだ質問はありません",
     "newsletter_label": "旅のおたより",
     "newsletter_title": "毎週届く旅のインスピレーション",
     "newsletter_text": "キルギスの新しいルートや物語、スポットをメールでお届けします。",
@@ -358,6 +457,7 @@
       "message": "ご相談内容",
       "message_placeholder": "ご相談内容をお聞かせください",
       "consent": "個人情報の取り扱いに同意します",
+      "agreement_required": "個人情報の取り扱いに同意してください",
       "submit": "お問い合わせを送信",
       "request_note": "お申し込み後、担当者よりご連絡いたします。",
       "sending": "送信中...",

@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './TourPicker.scss';
-
-const steps = [
-  'Расскажите о мечте',
-  'Получите подборку',
-  'Отправляйтесь в путь',
-];
+import { useI18n } from '../i18n';
 
 const ArrowIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -14,14 +10,35 @@ const ArrowIcon = () => (
 );
 
 const TourPicker = ({
-  label = 'Не нашли идеальный вариант?',
-  title = 'Подберём путешествие под ваш ритм',
-  text = 'Ответьте на пять коротких вопросов — эксперт предложит 3 маршрута в течение рабочего дня.',
-  buttonText = 'Подобрать тур',
-  href = '/pick',
+  label,
+  title,
+  text,
+  buttonText,
+  href = '/tours#catalog',
 }) => {
+  const { t } = useI18n();
+  const navigate = useNavigate();
+  const steps = [
+    t('publicUi.picker.steps.0'),
+    t('publicUi.picker.steps.1'),
+    t('publicUi.picker.steps.2'),
+  ];
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+
+  const handlePrimaryClick = (event) => {
+    event.preventDefault();
+
+    if (window.location.pathname === '/tours') {
+      const catalog = document.getElementById('catalog');
+      if (catalog) {
+        catalog.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+    }
+
+    navigate(href);
+  };
 
   // шаги по очереди подсвечиваются, пока на панель не навели курсор
   useEffect(() => {
@@ -39,13 +56,13 @@ const TourPicker = ({
     <section className="picker">
       <div className="picker__inner">
         <div className="picker__info">
-          <span className="picker__label">{label}</span>
-          <h2 className="picker__title">{title}</h2>
-          <p className="picker__text">{text}</p>
-          <a className="picker__btn" href={href}>
-            {buttonText}
+          <span className="picker__label">{label || t('publicUi.picker.label')}</span>
+          <h2 className="picker__title">{title || t('publicUi.picker.title')}</h2>
+          <p className="picker__text">{text || t('publicUi.picker.text')}</p>
+          <button type="button" className="picker__btn" onClick={handlePrimaryClick}>
+            {buttonText || t('publicUi.picker.button')}
             <ArrowIcon />
-          </a>
+          </button>
         </div>
 
         <ol

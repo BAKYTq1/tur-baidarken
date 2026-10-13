@@ -5,6 +5,7 @@ import { useCreateBooking } from '../../shared/api/useCreateBooking'
 import { useFaq } from '../../features/faq/model/useFaq'
 import ContactHero from './ContactHero'
 import './ContactsPage.scss'
+import Banner from '../banner/Banner'
 
 function Contact() {
   const { t } = useI18n()
@@ -26,7 +27,7 @@ function Contact() {
     event.preventDefault()
 
     if (!isAgreed) {
-      alert('Подтвердите согласие на обработку персональных данных')
+      alert(t('contactPage.form.agreement_required'))
       return
     }
 
@@ -58,7 +59,8 @@ function Contact() {
 
   return (
     <main className="contact-page">
-      <ContactHero />
+      <Banner 
+       showSearchForm = {false}/>
 
       <section className="contact-details" aria-label={t('contacts.title')}>
         <div className="contact-container contact-details__grid">
@@ -204,7 +206,7 @@ function Contact() {
                 </svg>
               </span>
               <span className="contact-map__street-label contact-map__street-label--one">{t('contactPage.street_label')}</span>
-              <span className="contact-map__street-label contact-map__street-label--two">пр. Чуй</span>
+              <span className="contact-map__street-label contact-map__street-label--two">{t('contactPage.street_label')}</span>
             </div>
 
             <div className="contact-map__address">
@@ -237,11 +239,11 @@ function Contact() {
 
           <div className="contact-faq__list">
             {isLoading ? (
-              <div className="contact-faq__state">Загружаем частые вопросы...</div>
+              <div className="contact-faq__state">{t('contactPage.faq_loading')}</div>
             ) : isError ? (
-              <div className="contact-faq__state">Не удалось загрузить список вопросов</div>
+              <div className="contact-faq__state">{t('contactPage.faq_error')}</div>
             ) : faqItems.length === 0 ? (
-              <div className="contact-faq__state">Пока нет вопросов</div>
+              <div className="contact-faq__state">{t('contactPage.faq_empty')}</div>
             ) : (
               faqItems.map((item, index) => {
                 const isOpen = openQuestion === item.id

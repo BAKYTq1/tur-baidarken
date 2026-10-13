@@ -4,8 +4,7 @@ import './ReviewCta.scss';
 import { getLang } from '../i18n/i18n'
 import { useTours } from '../api/useTours'
 import { useAddReview } from '../api/useReviews'
-
-const ratingLabels = ['', 'Плохо', 'Так себе', 'Нормально', 'Хорошо', 'Отлично!'];
+import { useI18n } from '../i18n'
 
 const StarIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -20,10 +19,11 @@ const PlusIcon = () => (
 );
 
 const ReviewCta = ({
-  label = 'Уже путешествовали с нами?',
-  title = 'Ваша история поможет другим решиться',
-  text: introText = 'Поделитесь впечатлениями — это займёт около трёх минут.',
+  label,
+  title,
+  text: introText,
 }) => {
+  const { t } = useI18n();
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [selectedTourId, setSelectedTourId] = useState('');
@@ -72,22 +72,22 @@ const ReviewCta = ({
     <section className="rcta">
       <form className="rcta__inner" onSubmit={handleSubmit} noValidate>
         <div className="rcta__info">
-          <span className="rcta__label">{label}</span>
-          <h2 className="rcta__title">{title}</h2>
-          <p className="rcta__text">{introText}</p>
+          <span className="rcta__label">{label || t('publicUi.reviewCta.label')}</span>
+          <h2 className="rcta__title">{title || t('publicUi.reviewCta.title')}</h2>
+          <p className="rcta__text">{introText || t('publicUi.reviewCta.intro')}</p>
           <button type="submit" className="rcta__btn" disabled={isPending || isLoadingTours}>
-            {isPending ? 'Отправка...' : 'Оставить отзыв'}
+            {isPending ? t('publicUi.reviewCta.sending') : t('publicUi.reviewCta.submit')}
             <PlusIcon />
           </button>
         </div>
 
         <div className={`rcta__card ${attempted && incomplete ? 'is-attempted' : ''}`}>
-          <h3 className="rcta__card-title">Оцените путешествие</h3>
+          <h3 className="rcta__card-title">{t('publicUi.reviewCta.rate_title')}</h3>
 
           <div
             className="rcta__stars"
             role="radiogroup"
-            aria-label="Оценка путешествия"
+            aria-label={t('publicUi.reviewCta.rating_aria')}
             onMouseLeave={() => setHover(0)}
           >
             {[1, 2, 3, 4, 5].map((n) => (
@@ -105,7 +105,7 @@ const ReviewCta = ({
               </button>
             ))}
             <span className="rcta__rating-label" aria-live="polite">
-              {ratingLabels[shown]}
+              {shown ? t(`publicUi.reviewCta.rating_labels.${shown}`) : ''}
             </span>
           </div>
 
@@ -113,12 +113,12 @@ const ReviewCta = ({
             className="rcta__select"
             value={selectedTourId}
             onChange={(e) => setSelectedTourId(e.target.value)}
-            aria-label="Выберите ваш тур"
+            aria-label={t('publicUi.reviewCta.tour_aria')}
             required
             disabled={isLoadingTours || isToursError || tours.length === 0}
           >
             <option value="" disabled>
-              {isLoadingTours ? 'Загрузка туров...' : 'Выберите ваш тур'}
+              {isLoadingTours ? t('publicUi.catalog.loading') : t('publicUi.reviewCta.tour_placeholder')}
             </option>
             {tours.map((tour) => (
               <option key={tour.id} value={tour.id}>
@@ -132,8 +132,8 @@ const ReviewCta = ({
             type="text"
             value={authorName}
             onChange={(event) => setAuthorName(event.target.value)}
-            placeholder="Ваше имя"
-            aria-label="Ваше имя"
+            placeholder={t('publicUi.reviewCta.name_placeholder')}
+            aria-label={t('publicUi.reviewCta.name_aria')}
             autoComplete="name"
             required
           />
@@ -141,18 +141,18 @@ const ReviewCta = ({
             className="rcta__textarea"
             value={text}
             onChange={(event) => setText(event.target.value)}
-            placeholder="Расскажите о путешествии"
-            aria-label="Текст отзыва"
+            placeholder={t('publicUi.reviewCta.text_placeholder')}
+            aria-label={t('publicUi.reviewCta.text_aria')}
             rows={4}
             required
           />
 
           <p className="rcta__note" role={isToursError ? 'alert' : undefined}>
             {isToursError
-              ? 'Не удалось загрузить список туров.'
+              ? t('publicUi.reviewCta.tours_error')
               : attempted && incomplete
-                ? 'Заполните все поля и поставьте оценку, чтобы отправить отзыв.'
-                : 'Ваш отзыв будет отправлен на модерацию.'}
+                ? t('publicUi.reviewCta.required')
+                : t('publicUi.reviewCta.moderation')}
           </p>
         </div>
       </form>

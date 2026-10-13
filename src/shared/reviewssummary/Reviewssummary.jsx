@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import './ReviewsSummary.scss';
+import { useI18n } from '../i18n';
 
 const StarIcon = () => (
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -15,27 +16,40 @@ const MedalIcon = () => (
   </svg>
 );
 
-const pluralReviews = (n) => {
-  const m10 = n % 10;
-  const m100 = n % 100;
-  if (m10 === 1 && m100 !== 11) return 'отзыв';
-  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return 'отзыва';
-  return 'отзывов';
+const buildSummaryFromReviews = (reviews = []) => {
+  const validRatings = reviews
+    .map((review) => Number(review?.rating))
+    .filter((value) => Number.isFinite(value) && value >= 1 && value <= 5);
+
+  if (validRatings.length < 3) {
+    return null;
+  }
+
+  const total = validRatings.length;
+  const average = validRatings.reduce((sum, value) => sum + value, 0) / total;
+  const distribution = [5, 4, 3, 2, 1].map((star) => {
+    const count = validRatings.filter((value) => value === star).length;
+    return Math.round((count / total) * 100);
+  });
+  const recommend = Math.round((validRatings.filter((value) => value >= 4).length / total) * 100);
+
+  return {
+    rating: average,
+    total,
+    recommend,
+    distribution,
+  };
 };
 
-// процент оценок от 5 до 1 звезды
-const defaultDistribution = [89, 8, 2, 0, 1];
-
 const ReviewsSummary = ({
-  rating = 4.9,
-  total = 1284,
-  recommend = 98,
+  reviews = [],
   brand = 'Байдаркен',
-  distribution = defaultDistribution,
   badgeText = 'Выбор путешественников 2026',
 }) => {
+  const { t, lang } = useI18n();
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
+  const summary = useMemo(() => buildSummaryFromReviews(reviews), [reviews]);
 
   // полосы «вырастают», когда блок появляется на экране
   useEffect(() => {
@@ -57,6 +71,12 @@ const ReviewsSummary = ({
     return () => io.disconnect();
   }, []);
 
+  if (!summary) {
+    return null;
+  }
+
+  const { rating, total, recommend, distribution } = summary;
+
   return (
     <section className={`summary ${visible ? 'is-visible' : ''}`} ref={ref}>
       <div className="summary__score">
@@ -69,16 +89,16 @@ const ReviewsSummary = ({
           ))}
         </span>
         <span className="summary__count">
-          {total.toLocaleString('ru-RU')} {pluralReviews(total)}
+          {t(`publicUi.reviewSummary.count.${new Intl.PluralRules(lang).select(total)}`).replace('{count}', new Intl.NumberFormat(lang).format(total))}
         </span>
       </div>
 
       <div className="summary__stats">
         <h3 className="summary__title">
-          {recommend}% рекомендуют {brand}
+          {t('publicUi.reviewSummary.recommend').replace('{percent}', recommend).replace('{brand}', brand)}
         </h3>
         <p className="summary__sub">
-          Оценки после путешествий за последние 12 месяцев.
+          {t('publicUi.reviewSummary.subtitle')}
         </p>
 
         <ul className="summary__bars">
