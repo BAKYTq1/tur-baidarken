@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useLoad } from '../../shared/hooks/useLoad';
-import { resources } from './resources';
+import { resources } from './Resources';
 
 // Список раздела. Создание и редактирование — на отдельных страницах:
 //   /admin/<resource>/new  и  /admin/<resource>/:id

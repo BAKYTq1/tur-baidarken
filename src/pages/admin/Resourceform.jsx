@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FieldsForm, emptyFrom, hydrate, prepare } from './fields';
-import { resources } from './resources';
+import { resources } from './Resources';
 
 // Отдельная страница создания (/new) и редактирования (/:id)
 export default function ResourceForm({ resource }) {

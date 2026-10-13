@@ -13,6 +13,7 @@ export const router = createBrowserRouter([
     {
         path: "/",
         element: <Layout />,
+        HydrateFallback: () => <div role="status" aria-label="Loading page" />,
         children: [
             {
                 index: true,
