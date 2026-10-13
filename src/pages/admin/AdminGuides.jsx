@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { adminApi } from '../../shared/api/admin'
+import { adminApi, guidesApi } from '../../shared/api/admin'
 import { toLoc } from '../../shared/hooks/loc'
 import { useLoad } from '../../shared/hooks/useLoad'
 
@@ -20,7 +20,7 @@ const EMPTY_GUIDE = {
 }
 
 export default function AdminGuides() {
-  const { items, loading, error, setError, reload } = useLoad(adminApi.guides)
+  const { items, loading, error, setError, reload } = useLoad(guidesApi.list)
   const [form, setForm] = useState(null)
   const [editingId, setEditingId] = useState(null)
   const [busy, setBusy] = useState(false)
@@ -45,7 +45,7 @@ export default function AdminGuides() {
   const openEdit = async (id) => {
     try {
       setError('')
-      const guide = await adminApi.guide(id)
+      const guide = await guidesApi.get(id)
       setEditingId(id)
       setForm({
         ...EMPTY_GUIDE,
@@ -84,6 +84,7 @@ export default function AdminGuides() {
     }
   }
 
+  
   const save = async (event) => {
     event.preventDefault()
     const body = {
@@ -98,8 +99,8 @@ export default function AdminGuides() {
     try {
       setBusy(true)
       setError('')
-      if (editingId) await adminApi.replaceGuide(editingId, body)
-      else await adminApi.createGuide(body)
+      if (editingId) await guidesApi.replace(editingId, body)
+      else await guidesApi.create(body)
       close()
       await reload()
     } catch (saveError) {
@@ -114,7 +115,7 @@ export default function AdminGuides() {
 
     try {
       setError('')
-      await adminApi.deleteGuide(guide.id)
+      await guidesApi.remove(guide.id)
       await reload()
     } catch (deleteError) {
       setError(deleteError.message)
