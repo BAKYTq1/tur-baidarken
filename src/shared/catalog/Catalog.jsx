@@ -1,9 +1,11 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import './Catalog.scss';
 import TourCard from '../ui/card/Tourcard';
 import { useTours } from '../api/useTours';
 import { useI18n } from '../i18n';
+import { loc } from '../hooks/loc';
 
 const PAGE_SIZE = 6;
 
@@ -33,15 +35,21 @@ const normalizeCategory = (value) => {
   return key;
 };
 
+const DESTINATION_KEYS = new Set(['kyrgyzstan', 'issyk_kul', 'almaty', 'pamir', 'aigul']);
+
+const getDestinationLabel = (destination, t) => (
+  DESTINATION_KEYS.has(destination) ? t(`banner.${destination}`) : destination
+);
+
 const mapTourToCard = (tour, t, lang) => {
   const id = tour.id ?? tour.slug ?? tour.title;
   const slug = tour.slug ?? String(id);
-  const tags = Array.isArray(tour.tags) ? tour.tags : [];
+  const tags = Array.isArray(tour.tags) ? tour.tags.map((tag) => loc(tag, lang)) : [];
   const category = normalizeCategory(tour.category || tags[0] || 'all');
-  const title = tour.title || tour.name || t('publicUi.catalog.tour_fallback');
-  const location = tour.location || tour.destination || tour.country || tags.join(' · ') || t('banner.kyrgyzstan');
+  const title = loc(tour.title || tour.name, lang) || t('publicUi.catalog.tour_fallback');
+  const location = loc(tour.location || tour.destination || tour.country, lang) || tags.join(' · ') || t('banner.kyrgyzstan');
   const priceValue = Number(tour.price_from ?? tour.price ?? 0);
-  const duration = tour.duration_days ? `${tour.duration_days} ${t('publicUi.catalog.days_short')}` : (tour.duration || tour.subtitle || t('publicUi.catalog.route_duration'));
+  const duration = tour.duration_days ? `${tour.duration_days} ${t('publicUi.catalog.days_short')}` : (loc(tour.duration || tour.subtitle, lang) || t('publicUi.catalog.route_duration'));
   const numberLocale = { ru: 'ru-RU', en: 'en-US', kg: 'ky-KG', ja: 'ja-JP' }[lang] || 'ru-RU';
   const price = priceValue > 0 && tour.price_currency
     ? new Intl.NumberFormat(numberLocale, { style: 'currency', currency: tour.price_currency, maximumFractionDigits: 0 }).format(priceValue)
@@ -55,12 +63,21 @@ const mapTourToCard = (tour, t, lang) => {
     category,
     image: tour.cover_image || tour.image || tour.photo || '',
     location,
+    searchText: [
+      tour.location,
+      tour.destination,
+      tour.country,
+      tour.title,
+      tour.name,
+      ...tags,
+    ].map((value) => loc(value, lang)).join(' ').toLowerCase(),
+    groupSizeLimit: Number.parseInt(tour.group_size ?? tour.max_group_size ?? tour.max_travelers, 10),
     title,
     duration,
     groupSize: tour.group_size ? t('publicUi.catalog.group_size').replace('{count}', tour.group_size) : null,
     price: priceValue > 0 ? `${t('publicUi.catalog.from')} ${price}` : price,
     popularity: Number(tour.popularity ?? tour.views ?? 0),
-    subtitle: tour.subtitle || tour.description || '',
+    subtitle: loc(tour.subtitle || tour.description, lang),
   };
 };
 
@@ -69,6 +86,7 @@ const Catalog = ({ onSelect }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { data: apiTours = [], isLoading, isError, refetch } = useTours();
   const { t, lang } = useI18n();
+  const didAutoScroll = useRef(false);
   const categories = ['all', 'mountains', 'lakes', 'family', 'expeditions', 'weekend'].map((id) => ({
     id,
     label: t(`publicUi.catalog.categories.${id}`),
@@ -77,16 +95,36 @@ const Catalog = ({ onSelect }) => {
     id,
     label: t(`publicUi.catalog.sorts.${id}`),
   }));
-  const initialQuery = searchParams.get('destination') || searchParams.get('q') || '';
+  const initialQuery = searchParams.get('q')
+    || getDestinationLabel(searchParams.get('destination'), t)
+    || searchParams.get('destination')
+    || '';
   const [query, setQuery] = useState(initialQuery);
+  const [travelers, setTravelers] = useState(Number(searchParams.get('travelers')) || 0);
   const [category, setCategory] = useState('all');
   const [sort, setSort] = useState('popular');
   const [visible, setVisible] = useState(PAGE_SIZE);
 
   useEffect(() => {
-    const nextQuery = searchParams.get('destination') || searchParams.get('q') || '';
+    const destination = searchParams.get('destination');
+    const nextQuery = searchParams.get('q') || getDestinationLabel(destination, t) || '';
     setQuery((prev) => (prev === nextQuery ? prev : nextQuery));
-  }, [searchParams]);
+    const nextTravelers = Number(searchParams.get('travelers')) || 0;
+    setTravelers((prev) => (prev === nextTravelers ? prev : nextTravelers));
+  }, [searchParams, lang, t]);
+
+  useEffect(() => {
+    if (didAutoScroll.current || (!query && !travelers)) return undefined;
+
+    didAutoScroll.current = true;
+    const firstFrame = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        document.getElementById('catalog-results')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    return () => window.cancelAnimationFrame(firstFrame);
+  }, [query, travelers]);
 
   const tours = useMemo(
     () => (Array.isArray(apiTours) ? apiTours.map((tour) => mapTourToCard(tour, t, lang)) : []),
@@ -116,8 +154,9 @@ const Catalog = ({ onSelect }) => {
     const list = tours.filter((t) => {
       const currentCategory = normalizeCategory(t.category);
       const byCategory = category === 'all' || currentCategory === category;
-      const bySearch = !q || `${t.location} ${t.title}`.toLowerCase().includes(q);
-      return byCategory && bySearch;
+      const bySearch = !q || t.searchText.includes(q);
+      const byTravelers = !travelers || !Number.isFinite(t.groupSizeLimit) || t.groupSizeLimit >= travelers;
+      return byCategory && bySearch && byTravelers;
     });
 
     const sorters = {
@@ -127,7 +166,7 @@ const Catalog = ({ onSelect }) => {
     };
 
     return [...list].sort(sorters[sort]);
-  }, [query, category, sort, tours]);
+  }, [query, category, sort, travelers, tours]);
 
   const shown = filtered.slice(0, visible);
   const rest = filtered.length - shown.length;
@@ -136,7 +175,9 @@ const Catalog = ({ onSelect }) => {
     setQuery('');
     setCategory('all');
     setSort('popular');
+    setTravelers(0);
     setVisible(PAGE_SIZE);
+    setSearchParams({}, { replace: true });
   };
 
   return (
@@ -194,41 +235,45 @@ const Catalog = ({ onSelect }) => {
         </div>
       </div>
 
-      {isLoading && <p role="status">{t('publicUi.catalog.loading')}</p>}
-      {isError && (
-        <div role="alert" className="catalog__empty">
-          <p>{t('publicUi.catalog.error')}</p>
-          <button type="button" className="catalog__more" onClick={() => refetch()}>
-            {t('publicUi.retry')}
-          </button>
-        </div>
-      )}
+      <div className="catalog__results" id="catalog-results">
+        {isLoading && <p role="status">{t('publicUi.catalog.loading')}</p>}
+        {isError && (
+          <div role="alert" className="catalog__empty">
+            <p>{t('publicUi.catalog.error')}</p>
+            <button type="button" className="catalog__more" onClick={() => refetch()}>
+              {t('publicUi.retry')}
+            </button>
+          </div>
+        )}
 
-      {!isLoading && !isError && shown.length > 0 ? (
-        <div className="catalog__grid">
-          {shown.map((tour) => (
-            <div className="catalog__item" key={tour.id}>
-              <TourCard
-                {...tour}
-                price={tour.price}
-                onClick={() => {
-                  onSelect?.(tour);
-                  navigate(`/tours/${tour.slug || tour.id}`);
-                }}
-              />
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="catalog__empty">
-          <p>{t('publicUi.catalog.empty')}</p>
-          <button type="button" className="catalog__more" onClick={reset}>
-            {t('publicUi.catalog.reset')}
-          </button>
-        </div>
-      )}
+        {!isLoading && !isError && shown.length > 0 && (
+          <div className="catalog__grid">
+            {shown.map((tour) => (
+              <div className="catalog__item" key={tour.id}>
+                <TourCard
+                  {...tour}
+                  price={tour.price}
+                  onClick={() => {
+                    onSelect?.(tour);
+                    navigate(`/tours/${tour.slug || tour.id}`);
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+        )}
 
-      {rest > 0 && (
+        {!isLoading && !isError && shown.length === 0 && (
+          <div className="catalog__empty">
+            <p>{t('publicUi.catalog.empty')}</p>
+            <button type="button" className="catalog__more" onClick={reset}>
+              {t('publicUi.catalog.reset')}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {!isLoading && !isError && rest > 0 && (
         <div className="catalog__footer">
           <button
             type="button"
@@ -242,6 +287,10 @@ const Catalog = ({ onSelect }) => {
       )}
     </section>
   );
+};
+
+Catalog.propTypes = {
+  onSelect: PropTypes.func,
 };
 
 export default Catalog;

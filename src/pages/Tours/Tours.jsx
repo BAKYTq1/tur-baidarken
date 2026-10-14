@@ -1,4 +1,5 @@
 import 'react'
+import { useSearchParams } from 'react-router-dom'
 import Features from '../../shared/features/Features'
 import Catalog from '../../shared/catalog/Catalog'
 import TourPicker from '../../shared/tourpicker/Tourpicker'
@@ -30,8 +31,10 @@ const seoMap = {
 };
 
 function Tours() {
+  const [searchParams] = useSearchParams()
   const { lang, t } = useI18n();
   const seo = seoMap[lang] || seoMap.ru;
+  const hasSearchFilters = ['destination', 'q', 'travelers'].some((key) => searchParams.has(key))
 
   const alternates = [
     { lang: 'ru', href: 'https://baidarken.com/tours' },
@@ -75,7 +78,7 @@ function Tours() {
         buttonText={t('tours.banner_button')}
         showSearchForm={false}
       />
-      <Features/>
+      {!hasSearchFilters && <Features />}
       <Catalog/>
       <TourPicker/>
     </div>

@@ -1,10 +1,16 @@
-import 'react'
-import { Outlet } from 'react-router-dom'
+import { useLayoutEffect } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
 import Header from '../../widgets/header/Header'
 import Footer from '../../widgets/footer/Footer'
 import styles from './Layout.module.css'
 
 function Layout() {
+  const { pathname } = useLocation()
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+
   return (
     <div>
       <Header />
